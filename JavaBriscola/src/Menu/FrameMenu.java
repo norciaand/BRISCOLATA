@@ -8,7 +8,7 @@ public abstract class FrameMenu extends JFrame {
         super(title);
         setResizable(false);
         setVisible(true);
-        setSize(1000,600);
+        setSize(800,500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
