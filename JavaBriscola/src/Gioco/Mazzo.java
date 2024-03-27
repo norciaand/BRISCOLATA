@@ -3,8 +3,8 @@ package Gioco;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Mazzo {
-    private ArrayList<Carta> data = new ArrayList<>();
+public class Mazzo extends ArrayList<Carta> {
+    private ArrayList<Carta> mazzo = new ArrayList<>();
 
     public static final int SEMI = 4;
     public static final int DECK = 10;
@@ -14,7 +14,7 @@ public class Mazzo {
 
     private void mischia()
     {
-        Collections.shuffle(data);
+        Collections.shuffle(mazzo);
     }
 
     public Mazzo()
@@ -25,19 +25,19 @@ public class Mazzo {
 
     private void riempi()
     {
-        data.clear();
+        mazzo.clear();
         for (int i = 0; i < SEMI; i++)
         {
             for (int j = 0; j < DECK; j++)
             {
-                data.add(new Carta(i, j));
+                mazzo.add(new Carta(i, j));
             }
         }
     }
 
     public int semeBriscola()
     {
-        return data.get(0).getSeme();
+        return mazzo.get(0).getSeme();
     }
 
     public String semeBriscolaToString()
@@ -47,11 +47,12 @@ public class Mazzo {
 
     public Carta pesca()
     {
-        Carta x = data.get(data.size()-1);
-        data.remove(data.size()-1);
+        Carta x = mazzo.get(mazzo.size()-1);
+        mazzo.remove(mazzo.size()-1);
         return x;
     }
 
+    /*
     @Override
     public String toString() {
         String s = "----------MAZZO---------\n";
@@ -62,5 +63,5 @@ public class Mazzo {
         s += "------------------------\n";
         return s;
     }
-
+    */
 }

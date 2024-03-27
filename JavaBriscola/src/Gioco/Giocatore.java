@@ -11,21 +11,9 @@ public class Giocatore {
         mano.clear();
     }
 
-    public void prendi(Carta x)
+    public void Prendi(Carta x)
     {
         mano.add(x);
-    }
-
-    @Override
-    public String toString()
-    {
-        String s = "-----MANO DI: " + nome +"----\n";
-        for(Carta x: mano)
-        {
-            s+=x.getNome() + "\n";
-        }
-        s+="------------------------\n";
-        return s;
     }
 
     public Carta getCarta(int index)
@@ -37,7 +25,7 @@ public class Giocatore {
         return mano.get(index);
     }
 
-    public Carta giocaCarta(int index)
+    public Carta GiocaCarta(int index)
     {
         if (index < 0 && index > 2)
         {
@@ -47,5 +35,18 @@ public class Giocatore {
         mano.remove(index);
         return x;
     }
+    /*
+    @Override
+    public String toString()
+    {
+        String s = "-----MANO DI: " + nome +"----\n";
+        for(Carta x: mano)
+        {
+            s+=x.getNome() + "\n";
+        }
+        s+="------------------------\n";
+        return s;
+    }
+    */
 
 }
