@@ -17,9 +17,10 @@ public abstract class Partita {
         else if (this.nPlayer == 3)
             nSquadre = 3;
 
-
+        /*
         for (int i = 0; i < nSquadre; i++) {
             squadre.add(new Squadra());
         }
+        */
     }
 }

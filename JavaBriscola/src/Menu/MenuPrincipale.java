@@ -11,7 +11,7 @@ public class MenuPrincipale extends FrameMenu {
         setLayout(new BorderLayout());
 
         JPanel centerPanel =  new JPanel();
-        centerPanel.setLayout(new GridLayout(3,0, 20,10));
+        centerPanel.setLayout(new GridLayout(5,0, 20,10));
 
         JPanel titlePanel = new JPanel();
         JLabel titleLabel = new JLabel("BRISCOLATA"); // passa a immagine
@@ -28,11 +28,55 @@ public class MenuPrincipale extends FrameMenu {
         JPanel mpPanel = new JPanel();
         mpPanel.add(mpButton);
         mpPanel.setLayout(new GridBagLayout());
-        
+
+        JButton opButton = new JButton("Opzioni");
+        JPanel opPanel = new JPanel();
+        opPanel.add(opButton);
+        opPanel.setLayout(new GridBagLayout());
+
+        JButton crButton = new JButton("Credit");
+        JPanel crPanel = new JPanel();
+        crPanel.add(crButton);
+        crPanel.setLayout(new GridBagLayout());
+
         centerPanel.add(titlePanel);
         centerPanel.add(spPanel);
         centerPanel.add(mpPanel);
-        
+        centerPanel.add(opPanel);
+        centerPanel.add(crPanel);
+
         add(centerPanel, BorderLayout.CENTER);
+
+        spButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuSP();
+                dispose();
+            }
+        });
+
+        mpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuMP();
+                dispose();
+            }
+        });
+
+        opButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuOpzioni();
+                dispose();
+            }
+        });
+
+        crButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuCrediti();
+                dispose();
+            }
+        });
     }
 }
