@@ -34,13 +34,13 @@ public class Carta {
         case 2:
             punti = 10;
             break;
-        case 9: //re
+        case 9: 
             punti = 4;
             break;
-        case 8: //cav
+        case 8: 
             punti = 3;
             break;
-        case 7: //fante
+        case 7: 
             punti = 2;
             break;
         default:

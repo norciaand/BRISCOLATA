@@ -1,5 +1,7 @@
 package Menu;
 
+import Gioco.PartitaMP;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,9 +9,9 @@ import java.awt.event.ActionListener;
 
 public class MenuMP extends MioFrame {
     public MenuMP() throws HeadlessException {
-        super("Menu multiplayer");
+        super("MP");
         setLayout(new BorderLayout());
-
+        
         JPanel centerPanel =  new JPanel();
         centerPanel.setLayout(new GridLayout(7,0, 20,10));
 
@@ -62,7 +64,8 @@ public class MenuMP extends MioFrame {
         m1v1_Button.addActionListener(new ActionListener() {           //Listener delle 1v1
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                new PartitaMP(0);
+                dispose();
             }
         });
 
@@ -94,8 +97,7 @@ public class MenuMP extends MioFrame {
         GTS_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MenuPrincipale();
-                dispose();
+                
             }
         });
 

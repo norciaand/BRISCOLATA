@@ -42,23 +42,10 @@ public class Mazzo {
         return semiOriginali[semeBriscola()];
     }
 
-    public Carta pesca() //ESTRAE E RIMUOVE LA CARTA
-    {
+    public Carta pesca() {          //ESTRAE E RIMUOVE LA CARTA
         Carta x = deck.get(deck.size()-1);
         deck.remove(deck.size()-1);
         return x;
     }
-
-    /*
-    @Override
-    public String toString() {
-        String s = "----------MAZZO---------\n";
-        for (Carta x: data)
-        {
-            s += x.getNome() + "\n";
-        }
-        s += "------------------------\n";
-        return s;
-    }
-    */
+    
 }
