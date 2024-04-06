@@ -1,10 +1,8 @@
 package Gioco;
 
 public class PartitaMP extends Partita{
-
-    Mazzo mazzo = new Mazzo();
-
-    public PartitaMP(int nPlayer) {
-        super(nPlayer);
+    
+    public PartitaMP(int tipoPartita) {
+        super(tipoPartita);
     }
 }

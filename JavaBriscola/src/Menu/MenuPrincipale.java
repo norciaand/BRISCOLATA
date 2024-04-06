@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuPrincipale extends FrameMenu {
+public class MenuPrincipale extends MioFrame {
     public MenuPrincipale() throws HeadlessException {
         super("MENU PRINCIPALE");
         setLayout(new BorderLayout());

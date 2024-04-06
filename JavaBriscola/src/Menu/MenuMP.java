@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuMP extends FrameMenu{
+public class MenuMP extends MioFrame {
     public MenuMP() throws HeadlessException {
         super("Menu multiplayer");
         setLayout(new BorderLayout());

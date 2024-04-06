@@ -1,10 +1,9 @@
 package Menu;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class MenuSP extends FrameMenu {
+public class MenuSP extends MioFrame {
     public MenuSP() throws HeadlessException {
-        super("Menu single player");
+        super("SPMENU");
     }
 }

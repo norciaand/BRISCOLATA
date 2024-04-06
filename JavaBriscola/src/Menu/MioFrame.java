@@ -3,8 +3,8 @@ package Menu;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class FrameMenu extends JFrame {
-    public FrameMenu(String title) throws HeadlessException {
+public abstract class MioFrame extends JFrame {
+    public MioFrame(String title) throws HeadlessException {
         super(title);
         setResizable(false);
         setVisible(true);

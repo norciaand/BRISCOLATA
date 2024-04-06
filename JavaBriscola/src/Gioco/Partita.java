@@ -1,45 +1,15 @@
 package Gioco;
-
 import java.util.ArrayList;
 
 public abstract class Partita {
-    private Mazzo mazzo1;
-    private int nPlayer; //NUMERO DI GIOCATORI DELLA PARTITA
-    private int nSquadre; //NUMERO DI SQUADRE
+    
+    private Mazzo mazzo1; //mazzo della partita
+    private int tipoPartita; // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: b5
+    
     private ArrayList<Squadra> squadre;
 
-    public Partita(int nPlayer, String modalita) {
-        mazzo1 = new Mazzo();
-        
-        this.nPlayer = nPlayer;
-        squadre = new ArrayList<>();
-
-        /*if (this.nPlayer%2==0)
-            nSquadre = 2;
-        else if (this.nPlayer == 3)
-            nSquadre = 3;*/
-
-        switch (modalita) {
-            case "1v1" -> {
-                squadre.add(new Squadra())
-            }
-            case "2v2" -> {
-
-            }
-            case "1v1v1" -> {
-
-            }
-            case "bastarda" -> {
-
-            }
-            case "a5" -> {
-
-            }
-        }
-        
-        
-        
-        
-        
-    }
+   public Partita(int tipoPartita) {
+       this.tipoPartita = tipoPartita;
+       mazzo1 = new Mazzo();
+   }
 }
