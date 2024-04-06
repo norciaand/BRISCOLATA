@@ -6,6 +6,5 @@ public class PartitaMP extends Partita{
 
     public PartitaMP(int nPlayer) {
         super(nPlayer);
-        Bot bot = new Bot(mazzo);
     }
 }

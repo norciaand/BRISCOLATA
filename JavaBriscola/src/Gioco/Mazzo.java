@@ -3,8 +3,8 @@ package Gioco;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Mazzo extends ArrayList<Carta> {
-    private ArrayList<Carta> mazzo = new ArrayList<>();
+public class Mazzo {
+    private ArrayList<Carta> deck = new ArrayList<>();
 
     public static final int SEMI = 4;
     public static final int DECK = 10;
@@ -12,32 +12,29 @@ public class Mazzo extends ArrayList<Carta> {
     public static final String[] rankOriginali = {"Asso", "Due", "Tre", "Quattro", "Cinque", "Sei", "Sette", "Fante", "Cavallo", "Re"};
     public static final String[] semiOriginali = {"Denari", "Spade", "Coppe","Bastoni"};
 
-    private void mischia()
-    {
-        Collections.shuffle(mazzo);
-    }
-
-    public Mazzo()
-    {
+    public Mazzo() {
         riempi();
         mischia();
     }
 
-    private void riempi()
-    {
-        mazzo.clear();
+    private void riempi() {
+        deck.clear();
         for (int i = 0; i < SEMI; i++)
         {
             for (int j = 0; j < DECK; j++)
             {
-                mazzo.add(new Carta(i, j));
+                deck.add(new Carta(i, j));
             }
         }
     }
 
+    private void mischia() {
+        Collections.shuffle(deck);
+    }
+
     public int semeBriscola()
     {
-        return mazzo.get(0).getSeme();
+        return deck.get(0).getSeme();
     }
 
     public String semeBriscolaToString()
@@ -45,10 +42,10 @@ public class Mazzo extends ArrayList<Carta> {
         return semiOriginali[semeBriscola()];
     }
 
-    public Carta pesca()
+    public Carta pesca() //ESTRAE E RIMUOVE LA CARTA
     {
-        Carta x = mazzo.get(mazzo.size()-1);
-        mazzo.remove(mazzo.size()-1);
+        Carta x = deck.get(deck.size()-1);
+        deck.remove(deck.size()-1);
         return x;
     }
 

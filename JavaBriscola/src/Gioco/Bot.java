@@ -2,15 +2,14 @@ package Gioco;
 import java.util.ArrayList;
 public class Bot extends Giocatore{
 
-    Mazzo memoria;
+    ArrayList<Carta> memoria;
 
-    public Bot(Mazzo memoria) {
+    public Bot() {
         super("Avversario");
-        this.memoria = memoria;
     }
 
     public void PescataBot(Carta x){
-        Prendi(x);
+        prendi(x);
         memoria.remove(x);
     }
 

@@ -11,7 +11,7 @@ public class Giocatore {
         mano.clear();
     }
 
-    public void Prendi(Carta x)
+    public void prendi(Carta x)
     {
         mano.add(x);
     }
@@ -25,7 +25,7 @@ public class Giocatore {
         return mano.get(index);
     }
 
-    public Carta GiocaCarta(int index)
+    public Carta giocaCarta(int index)
     {
         if (index < 0 && index > 2)
         {

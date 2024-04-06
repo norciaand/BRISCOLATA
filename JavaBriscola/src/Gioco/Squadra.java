@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Squadra {
     private ArrayList<Giocatore> squadra;
-    private ArrayList<Carta> CarteVinte;
+    private ArrayList<Carta> carteVinte;
 
     public Squadra(Giocatore g1) {
         this.squadra.add(g1);
@@ -20,16 +20,18 @@ public class Squadra {
     }
 
     public void PrendiBanco(ArrayList<Carta> Banco){
-        CarteVinte.addAll(Banco);
+        carteVinte.addAll(Banco);
     }
+    
     public int CalcoloPunti(){
         int totPunti = 0;
-        for (Carta c: CarteVinte){
+        for (Carta c: carteVinte){
             totPunti += c.getPunti();
             //inserire qui eventuale roba per animazione graduale figa del callcolo dei punti
         }
         return totPunti;
     }
+    
     public void AddToSquadra(Giocatore g) {
         squadra.add(g);
     }
