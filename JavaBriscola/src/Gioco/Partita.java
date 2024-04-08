@@ -13,7 +13,6 @@ public abstract class Partita {
     * da associarli ad una squadra*/
     
     
-    
     public Partita(int tipoPartita) {
        this.tipoPartita = tipoPartita;
        mazzo1 = new Mazzo();
@@ -34,7 +33,30 @@ public abstract class Partita {
                break;
        }
        
-   }
+    }
+
+    public int scontro(Carta cartaBase, Carta cartaSopra)
+    {   
+        int risultato = cartaBase.getPunti() + cartaSopra.getPunti();
+        if (risultato == 0) risultato = 1;
+        
+        if(cartaBase.getSeme() == cartaSopra.getSeme()) 
+        {
+            if (cartaBase.getPriorita() < cartaSopra.getPriorita())
+            {
+                risultato *= -1;
+                servizio = !servizio;
+            }
+        }
+
+        else if (cartaSopra.getSeme() == mazzo1.semeBriscola())
+        {
+            risultato *= -1;
+            servizio = !servizio;
+        }
+        return risultato;
+    }
+
 
     public int getTipoPartita() {
         return tipoPartita;
