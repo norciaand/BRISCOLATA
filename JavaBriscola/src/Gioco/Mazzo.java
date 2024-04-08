@@ -6,6 +6,10 @@ import java.util.Collections;
 public class Mazzo {
     private ArrayList<Carta> deck = new ArrayList<>();
 
+    public ArrayList<Carta> getDeck() {
+        return deck;
+    }
+
     public static final int SEMI = 4;
     public static final int DECK = 10;
 
@@ -14,7 +18,6 @@ public class Mazzo {
 
     public Mazzo() {
         riempi();
-        mischia();
     }
 
     private void riempi() {
@@ -28,7 +31,7 @@ public class Mazzo {
         }
     }
 
-    private void mischia() {
+    public void mischia() {
         Collections.shuffle(deck);
     }
 
@@ -42,10 +45,9 @@ public class Mazzo {
         return semiOriginali[semeBriscola()];
     }
 
-    public Carta pesca() {          //ESTRAE E RIMUOVE LA CARTA
+    public Carta pesca(){          //ESTRAE E RIMUOVE LA CARTA
         Carta x = deck.get(deck.size()-1);
         deck.remove(deck.size()-1);
         return x;
     }
-    
 }

@@ -12,7 +12,6 @@ public class Giocatore {
         this.nome = nome;
         mano.clear();
     }
-
     public void prendi(Carta x)
     {
         mano.add(x);
@@ -29,7 +28,4 @@ public class Giocatore {
         mano.remove(index);
         return x;
     }
-
-
-
 }

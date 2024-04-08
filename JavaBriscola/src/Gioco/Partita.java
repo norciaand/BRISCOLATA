@@ -16,7 +16,8 @@ public abstract class Partita {
     public Partita(int tipoPartita) {
        this.tipoPartita = tipoPartita;
        mazzo1 = new Mazzo();
-       
+       mazzo1.mischia();
+
        switch (tipoPartita) {
            case 0:
                nPlayer = 2;
