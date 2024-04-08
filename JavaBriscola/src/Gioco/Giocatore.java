@@ -18,23 +18,18 @@ public class Giocatore {
 
     public Carta getCarta(int index)
     {
-        if (index < 0 && index > 2)
-        {
-            index = 0;
-        }
         return mano.get(index);
     }
 
     public Carta giocaCarta(int index)
     {
-        if (index < 0 && index > 2)
-        {
-            index = 0;
-        }
         Carta x = mano.get(index);
         mano.remove(index);
         return x;
     }
+
+
+
     /*
     @Override
     public String toString()

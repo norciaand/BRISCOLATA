@@ -4,11 +4,11 @@ import java.util.ArrayList;
 public abstract class Partita {
     
     private Mazzo mazzo1; //mazzo della partita
-    private int tipoPartita; // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: bà
+    private int tipoPartita; // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: b5
     private int nPlayer;
     
     private ArrayList<Squadra> squadre;
-
+    private ArrayList<Carta> banco;
     /*dovremmo far arrivare al costruttore anche una lista di giocatori gia formata, fatta di nome in modo 
     * da associarli ad una squadra*/
     
@@ -42,17 +42,14 @@ public abstract class Partita {
         
         if(cartaBase.getSeme() == cartaSopra.getSeme()) 
         {
-            if (cartaBase.getPriorita() < cartaSopra.getPriorita())
+            if ((cartaBase.getPunti() < cartaSopra.getPunti()) || (cartaBase.getPunti() == cartaSopra.getPunti() && cartaBase.getNumero() < cartaSopra.getNumero()))
             {
                 risultato *= -1;
-                servizio = !servizio;
             }
         }
-
         else if (cartaSopra.getSeme() == mazzo1.semeBriscola())
         {
             risultato *= -1;
-            servizio = !servizio;
         }
         return risultato;
     }
@@ -81,4 +78,13 @@ public abstract class Partita {
     public void setMazzo1(Mazzo mazzo1) {
         this.mazzo1 = mazzo1;
     }
+
+    public ArrayList<Carta> getBanco() { return banco; }
+
+    public void setBanco(ArrayList<Carta> banco) {
+        this.banco = banco;
+    }
+
+
+
 }

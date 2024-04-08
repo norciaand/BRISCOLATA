@@ -12,9 +12,7 @@ public class PartitaMP extends Partita{
             gameFrames[i] = new GameFrame();
             gameFrames[i].setBounds(60+500*i, 60+60*i+60, 800, 500);
         }
-        
-        
-        
+
     }
     
     
