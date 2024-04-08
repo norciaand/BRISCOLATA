@@ -1,12 +1,11 @@
 package Gioco;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class Giocatore {
     private String nome;
     private ArrayList<Carta> mano = new ArrayList<>();
-    public GameFrame gameFrame;
+    private MPGameFrame gameFrame;
 
 
     public Giocatore(String nome) {
@@ -14,8 +13,7 @@ public class Giocatore {
         mano.clear();
     }
 
-    public void prendi(Carta x)
-    {
+    public void prendi(Carta x) {
         mano.add(x);
     }
 
@@ -32,19 +30,26 @@ public class Giocatore {
     }
     
     public void mostraFrame(int x, int y){
-        gameFrame = new GameFrame(nome);
-        gameFrame.setBounds(60+500*x, 100*y+60, 800, 500);
+        gameFrame = new MPGameFrame(nome);
+        gameFrame.setBounds(60+500*x, 100*y+60, 900, 900);
     }
     
-    public void update() {
+    public void updateMano() {
         if (mano.size() == 3){
             for(int i = 0; i < mano.size(); i++){
                 gameFrame.cardButton[i].setText(mano.get(i).getNome());
             }
         }
-        else {
-            JOptionPane.showMessageDialog(null,"X");
-        }
     }
+    
+    public void disegnaMano(){
+        gameFrame.impostaProssimeFigure(mano.get(0).toString(),mano.get(1).toString(),mano.get(2).toString());
+        gameFrame.repaint();
+    }
+    
+    public MPGameFrame getGameFrame() {
+        return gameFrame;
+    }
+    
     
 }

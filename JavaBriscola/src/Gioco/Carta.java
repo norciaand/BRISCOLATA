@@ -48,4 +48,19 @@ public class Carta {
             break;
         }
     }
+
+    @Override
+    public String toString() {
+        String s = switch (seme) {
+            case 0 -> "D";
+            case 1 -> "S";
+            case 2 -> "C";
+            case 3 -> "B";
+            default -> "";
+        };
+
+        s += String.valueOf(numero+1);
+        
+        return s;
+    }
 }
