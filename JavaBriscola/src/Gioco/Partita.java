@@ -21,6 +21,7 @@ public abstract class Partita {
         squadres = new ArrayList<>();
         this.tipoPartita = tipoPartita;
         mazzo1 = new Mazzo();
+        mazzo1.mischia();
 
         switch (tipoPartita) {
             case 0:

@@ -12,7 +12,9 @@ import java.util.ArrayList;
 public class MPGameFrame extends JFrame implements ActionListener{
     
     public JButton[] cardButton;    
+    
     private String[] prossimeFigure;
+    private String  cartaBriscola;
 
     public MPGameFrame(String nomeGiocatore) {
         super();
@@ -48,6 +50,10 @@ public class MPGameFrame extends JFrame implements ActionListener{
         prossimeFigure[2] = s3;
     }
     
+    public void impostaCartaBriscola(String s){
+        cartaBriscola = s;
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -58,22 +64,23 @@ public class MPGameFrame extends JFrame implements ActionListener{
         super.paintComponents(g);
         Graphics2D graphics2D = (Graphics2D) g;
 
-        BufferedImage img1, img2, img3;
+        BufferedImage img1, img2, img3, briscola;
         
         try {
             img1 = ImageIO.read(getClass().getResourceAsStream("/napoletane/" + prossimeFigure[0] + ".png"));
             img2 = ImageIO.read(getClass().getResourceAsStream("/napoletane/" + prossimeFigure[1] + ".png"));
             img3 = ImageIO.read(getClass().getResourceAsStream("/napoletane/" + prossimeFigure[2] + ".png"));
+            briscola = ImageIO.read(getClass().getResourceAsStream("/napoletane/" + cartaBriscola + ".png"));
             
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
+        
         graphics2D.drawImage(img1, 280,680,100,160,null);
         graphics2D.drawImage(img2, 400,680,100,160,null);
         graphics2D.drawImage(img3, 520,680,100,160,null);
         
+        graphics2D.drawImage(briscola, 100,350,100,160,null);
         
     }
     

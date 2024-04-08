@@ -45,6 +45,7 @@ public class PartitaMP extends Partita{
         //SCRITTURA JBUTTON
         for(Squadra squadra :squadres){
             for (Giocatore giocatore: squadra.getGiocatores()) {
+                giocatore.disegnaBriscola(getMazzo1().getDeck().get(0).toString());
                 giocatore.updateMano();
                 giocatore.disegnaMano();
             }

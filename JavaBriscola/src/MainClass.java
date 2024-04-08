@@ -1,7 +1,9 @@
+import Gioco.PartitaMP;
 import Menu.*;
 
 public class MainClass {
     public static void main(String[] args) {
         new MenuPrincipale();
+
     }
 }

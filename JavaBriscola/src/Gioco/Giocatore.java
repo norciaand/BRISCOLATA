@@ -44,7 +44,11 @@ public class Giocatore {
     
     public void disegnaMano(){
         gameFrame.impostaProssimeFigure(mano.get(0).toString(),mano.get(1).toString(),mano.get(2).toString());
-        gameFrame.repaint();
+//        gameFrame.repaint();
+    }
+    
+    public void disegnaBriscola(String s){
+        gameFrame.impostaCartaBriscola(s);
     }
     
     public MPGameFrame getGameFrame() {
