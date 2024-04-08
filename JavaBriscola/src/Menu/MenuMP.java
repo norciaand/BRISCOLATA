@@ -72,19 +72,22 @@ public class MenuMP extends MioFrame {
         mBB_Button.addActionListener(new ActionListener() {             //Listener briscola bastarda
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                new PartitaMP(3);
+                dispose();
             }
         });
         m1v1v1_Button.addActionListener(new ActionListener() {          //listener briscola a 3
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                new PartitaMP(2);
+                dispose();
             }
         });
         m2v2_Button.addActionListener(new ActionListener() {            //listener briscola a 4
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                new PartitaMP(1);
+                dispose();
             }
         });
         a5_Button.addActionListener(new ActionListener() {          //Listener Briscola a 5

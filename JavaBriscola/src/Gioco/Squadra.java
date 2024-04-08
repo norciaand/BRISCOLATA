@@ -3,20 +3,16 @@ package Gioco;
 import java.util.ArrayList;
 
 public class Squadra {
-    private ArrayList<Giocatore> squadra;
+    
+    private ArrayList<Giocatore> giocatores;
+    
     private ArrayList<Carta> carteVinte;
+    private String nome;
 
-    public Squadra(Giocatore g1) {
-        this.squadra.add(g1);
-    }
-    public Squadra(Giocatore g1, Giocatore g2) {
-        this.squadra.add(g1);
-        this.squadra.add(g2);
-    }
-    public Squadra(Giocatore g1, Giocatore g2 , Giocatore g3) {
-        this.squadra.add(g1);
-        this.squadra.add(g2);
-        this.squadra.add(g3);
+    public Squadra(String nome) {
+        this.nome = nome;
+        giocatores = new ArrayList<>();
+        giocatores.clear();
     }
 
     public void PrendiBanco(ArrayList<Carta> Banco){
@@ -32,7 +28,15 @@ public class Squadra {
         return totPunti;
     }
     
-    public void AddToSquadra(Giocatore g) {
-        squadra.add(g);
+    public void aggiungiAllaSquadra(String gName) {
+        giocatores.add(new Giocatore(gName + " - Squadra " + nome));
+    }
+
+    public ArrayList<Giocatore> getGiocatores() {
+        return giocatores;
+    }
+
+    public String getNomeSquadra() {
+        return nome;
     }
 }
