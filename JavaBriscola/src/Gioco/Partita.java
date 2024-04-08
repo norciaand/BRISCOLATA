@@ -87,12 +87,16 @@ public abstract class Partita {
         this.mazzo1 = mazzo1;
     }
 
-    public ArrayList<Carta> getBanco() {
-        return banco;
+    public Carta getBanco(int index) {
+        return banco.get(index);
     }
 
     public void setBanco(ArrayList<Carta> banco) {
         this.banco = banco;
+    }
+
+    public int getBriscolaPartita(){
+        return mazzo1.semeBriscola();
     }
 
 
