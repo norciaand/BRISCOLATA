@@ -46,7 +46,7 @@ public abstract class Partita {
         }
     }
 
-
+    //SCONTRO 1v1
     public int scontro(Carta cartaBase, Carta cartaSopra) {
         int risultato = cartaBase.getPunti() + cartaSopra.getPunti();
         if (risultato == 0) risultato = 1;

@@ -1,5 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Start" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="20" />
     <option name="MAIN_CLASS_NAME" value="MainClass" />
     <module name="BRISCOLATA" />
     <method v="2">
