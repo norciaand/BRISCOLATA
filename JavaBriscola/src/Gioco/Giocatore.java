@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Giocatore {
     private String nome;
     private ArrayList<Carta> mano = new ArrayList<>();
+    public GameFrame gameFrame = new GameFrame(nome);
+
 
     public Giocatore(String nome) {
         this.nome = nome;
@@ -29,19 +31,5 @@ public class Giocatore {
     }
 
 
-
-    /*
-    @Override
-    public String toString()
-    {
-        String s = "-----MANO DI: " + nome +"----\n";
-        for(Carta x: mano)
-        {
-            s+=x.getNome() + "\n";
-        }
-        s+="------------------------\n";
-        return s;
-    }
-    */
 
 }
