@@ -50,4 +50,8 @@ public class Mazzo {
         deck.remove(deck.size()-1);
         return x;
     }
+    public int getSize(){
+        return this.getSize();
+    }
+
 }

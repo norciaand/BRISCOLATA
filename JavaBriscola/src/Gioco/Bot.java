@@ -29,6 +29,7 @@ public class Bot{
     public Carta giocaBot(int turno ,PartitaSP p){
         //Dichiarazione base
         final int VittoriaCarta = 100;
+        final int Sacrificabile = 50;
         Carta x = null;
         puntiMano = new ArrayList<>();
         int index = 0;
@@ -44,31 +45,67 @@ public class Bot{
 
         //se e il primo a giocare
         if(turno == 0){
+            for(Carta c: mano){
+                index = mano.indexOf(c);
+                if(c.getPunti() == 11  || c.getPunti() == 10 || c.getPunti() == 4 && c.getSeme() == p.getBriscolaPartita() || c.getPunti() == 3 && c.getSeme() == p.getBriscolaPartita()){
+                    puntiMano.set(index, puntiMano.get(index) - VittoriaCarta - c.getPunti());
+                }
 
 
+                //rivedere molt
+                    if (c.getSeme() == p.getBriscolaPartita() && c.getPunti() == 0) {
+                        puntiMano.set(index, puntiMano.get(index) - c.getNumero() + 20);
+                    } else {
+                        puntiMano.set(index, puntiMano.get(index) + c.getNumero());
+                    }
+
+                //scolegato
+            }
         }
         //se e il secondo
         else{
             for (Carta c: mano){
                 index = mano.indexOf(c);
                 //asegnamento punti alle carte vincenti
-                if(p.scontro(p.getBanco(0) , c) < 0){
+                if((p.scontro(p.getBanco(0) , c) < 0 && p.getBanco(0).getPunti() > 0 && c.getSeme() == p.getBriscolaPartita() )||( p.scontro(p.getBanco(0) , c) < 0 && c.getSeme() != p.getBriscolaPartita())){
                     puntiMano.set(index, puntiMano.get(index) + VittoriaCarta);
+                    //si preferisce mantenere in mano le briscole piu grosse
+                    if(c.getSeme() == p.getBriscolaPartita()){
+                        puntiMano.set(index, puntiMano.get(index) - c.getPunti()*5 - c.getNumero());
+                    }
+                    //al contrario e meglio ottenere subito i punti delle altre carte
+                    else{
+                        puntiMano.set(index, puntiMano.get(index) + c.getPunti()*2);
+                    }
                 }
-                //si preferisce mantenere in mano le briscole piu grosse
-                if(c.getSeme() == p.getBriscolaPartita()){
-                    puntiMano.set(index, puntiMano.get(index) - c.getPunti());
-                }
-                //al contrario e meglio ottenere subito i punti delle altre carte
+                //assegnamento alle carte perdenti
                 else{
-                    puntiMano.set(index, puntiMano.get(index) + c.getPunti());
+                    //i lisci sono i piu sacrificabili
+                    if(c.getPunti() == 0  && c.getSeme() != p.getBriscolaPartita() ){
+                        puntiMano.set(index, puntiMano.get(index) + Sacrificabile - c.getNumero());
+                    }
+                    //se non sono disponibili si sceglie il meno peggio
+                    else{
+                        puntiMano.set(index, puntiMano.get(index) - c.getPunti());
+                        if(c.getPunti() == 0 && c.getSeme() == p.getBriscolaPartita()){
+                            puntiMano.set(index, puntiMano.get(index) - 2);
+                        }else{
+                            puntiMano.set(index, puntiMano.get(index) - c.getPunti());
+                        }
+                    }
                 }
             }
         }
         //considerazioni sempre valide
 
 
-
+        /*
+        Appunti
+        -per adesso piu da intendere come frammenti da riorganizare che come codice definitivo
+        -fare in modo che in caso di licio si prefersica far vincere laversrario
+        -fare in modo che mantenga briscole sui lisci ma prenda se altro seme
+        -da riveder gestione briscole
+        */
 
 
 
