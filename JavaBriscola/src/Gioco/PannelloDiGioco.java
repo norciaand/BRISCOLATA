@@ -5,24 +5,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
+import java.util.Objects;
 
 public class PannelloDiGioco extends JPanel implements Runnable {
 
+    //THREAD
     private Thread gameThread;
-    private Partita partita;
-    private Giocatore giocatore;
+    
+    //INFO PARTITA
+    private final Partita partita;
+    private final Squadra squadra;
+    private final Giocatore giocatore;
+    
+    //GRAPHICS ENGINE SETTINGS
     private final int FPS = 60;
     
-    private Carta briscolaCard;
+    
     private String[] manoCard;
     
     
-    public PannelloDiGioco(Partita partita, Giocatore giocatore) {
+    public PannelloDiGioco(Partita partita,Squadra squadra, Giocatore giocatore) {
         this.partita = partita;
         this.giocatore = giocatore;
-
-        briscolaCard = partita.getCartaBriscola();
+        this.squadra = squadra;
         manoCard = new String[3];
         
         startGameThread();
@@ -64,7 +69,6 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     }
 
     public void update(){
-        
         //AGGIORNAMENTO MANOCARD
         for (int i = 0; i < giocatore.getMano().size(); i++){
             manoCard[i] = giocatore.getMano().get(i).toString();
@@ -83,10 +87,10 @@ public class PannelloDiGioco extends JPanel implements Runnable {
 
         if (manoCard[0] != null && manoCard[1] != null && manoCard[2] != null){
             try {
-                briscola = ImageIO.read(getClass().getResourceAsStream("/napoletane/" + briscolaCard.toString() + ".png"));
-                m0 = ImageIO.read(getClass().getResourceAsStream("/napoletane/" + manoCard[0] + ".png"));
-                m1 = ImageIO.read(getClass().getResourceAsStream("/napoletane/" + manoCard[1] + ".png"));
-                m2 = ImageIO.read(getClass().getResourceAsStream("/napoletane/" + manoCard[2] + ".png"));
+                briscola = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getCartaBriscola().toString() + ".png")));
+                m0 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + manoCard[0] + ".png")));
+                m1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + manoCard[1] + ".png")));
+                m2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + manoCard[2] + ".png")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

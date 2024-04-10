@@ -1,10 +1,7 @@
 package Gioco;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class FinestraDiGioco extends JFrame {
     
@@ -12,9 +9,9 @@ public class FinestraDiGioco extends JFrame {
     
     //CONSTRUCTOR
     
-    public FinestraDiGioco(String nomeFinestra, Partita partitaInCorso, Giocatore giocatore) throws HeadlessException {
+    public FinestraDiGioco(String nomeFinestra, Partita partitaInCorso, Squadra squadra, Giocatore giocatore) throws HeadlessException {
         super("Briscola - " + nomeFinestra);
-        pannelloDiGioco = new PannelloDiGioco(partitaInCorso, giocatore);
+        pannelloDiGioco = new PannelloDiGioco(partitaInCorso,squadra ,giocatore);
         setSize(900,900);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

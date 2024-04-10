@@ -29,7 +29,7 @@ public class Squadra {
     }
     
     public void aggiungiNuovoGiocatore(String gName, Partita partita) {
-        giocatores.add(new Giocatore(gName + " - Squadra " + nome, partita));
+        giocatores.add(new Giocatore(gName + " - Squadra " + nome,this, partita));
     }
 
     public ArrayList<Giocatore> getGiocatores() {

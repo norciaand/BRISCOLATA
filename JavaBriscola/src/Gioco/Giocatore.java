@@ -9,10 +9,12 @@ public class Giocatore {
 
     private FinestraDiGioco gameFrame;
     private Partita partita;
+    private Squadra squadra;
 
-    public Giocatore(String nome, Partita partita) {
+    public Giocatore(String nome,Squadra squadra, Partita partita) {
         this.nome = nome;
         this.partita = partita;
+        this.squadra = squadra;
         mano.clear();
     }
 
@@ -33,7 +35,7 @@ public class Giocatore {
     }
     
     public void mostraFrame(int x, int y){
-        gameFrame = new FinestraDiGioco(nome, partita,this);
+        gameFrame = new FinestraDiGioco(nome,partita, squadra,this);
         gameFrame.setBounds(60+500*x, 100*y+60, 900, 900);
     }
 

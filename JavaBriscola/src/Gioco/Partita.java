@@ -95,7 +95,7 @@ public abstract class Partita {
         this.banco = banco;
     }
 
-    public int getBriscolaPartita(){
+    public int getSemeBriscola(){
         return mazzo1.semeBriscola();
     }
     

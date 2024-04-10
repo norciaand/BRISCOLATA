@@ -47,13 +47,13 @@ public class Bot{
         if(turno == 0){
             for(Carta c: mano){
                 index = mano.indexOf(c);
-                if(c.getPunti() == 11  || c.getPunti() == 10 || c.getPunti() == 4 && c.getSeme() == p.getBriscolaPartita() || c.getPunti() == 3 && c.getSeme() == p.getBriscolaPartita()){
+                if(c.getPunti() == 11  || c.getPunti() == 10 || c.getPunti() == 4 && c.getSeme() == p.getSemeBriscola() || c.getPunti() == 3 && c.getSeme() == p.getSemeBriscola()){
                     puntiMano.set(index, puntiMano.get(index) - VittoriaCarta - c.getPunti());
                 }
 
 
                 //rivedere molt
-                    if (c.getSeme() == p.getBriscolaPartita() && c.getPunti() == 0) {
+                    if (c.getSeme() == p.getSemeBriscola() && c.getPunti() == 0) {
                         puntiMano.set(index, puntiMano.get(index) - c.getNumero() + 20);
                     } else {
                         puntiMano.set(index, puntiMano.get(index) + c.getNumero());
@@ -67,10 +67,10 @@ public class Bot{
             for (Carta c: mano){
                 index = mano.indexOf(c);
                 //asegnamento punti alle carte vincenti
-                if((p.scontro(p.getBanco(0) , c) < 0 && p.getBanco(0).getPunti() > 0 && c.getSeme() == p.getBriscolaPartita() )||( p.scontro(p.getBanco(0) , c) < 0 && c.getSeme() != p.getBriscolaPartita())){
+                if((p.scontro(p.getBanco(0) , c) < 0 && p.getBanco(0).getPunti() > 0 && c.getSeme() == p.getSemeBriscola() )||( p.scontro(p.getBanco(0) , c) < 0 && c.getSeme() != p.getSemeBriscola())){
                     puntiMano.set(index, puntiMano.get(index) + VittoriaCarta);
                     //si preferisce mantenere in mano le briscole piu grosse
-                    if(c.getSeme() == p.getBriscolaPartita()){
+                    if(c.getSeme() == p.getSemeBriscola()){
                         puntiMano.set(index, puntiMano.get(index) - c.getPunti()*5 - c.getNumero());
                     }
                     //al contrario e meglio ottenere subito i punti delle altre carte
@@ -81,13 +81,13 @@ public class Bot{
                 //assegnamento alle carte perdenti
                 else{
                     //i lisci sono i piu sacrificabili
-                    if(c.getPunti() == 0  && c.getSeme() != p.getBriscolaPartita() ){
+                    if(c.getPunti() == 0  && c.getSeme() != p.getSemeBriscola() ){
                         puntiMano.set(index, puntiMano.get(index) + Sacrificabile - c.getNumero());
                     }
                     //se non sono disponibili si sceglie il meno peggio
                     else{
                         puntiMano.set(index, puntiMano.get(index) - c.getPunti());
-                        if(c.getPunti() == 0 && c.getSeme() == p.getBriscolaPartita()){
+                        if(c.getPunti() == 0 && c.getSeme() == p.getSemeBriscola()){
                             puntiMano.set(index, puntiMano.get(index) - 2);
                         }else{
                             puntiMano.set(index, puntiMano.get(index) - c.getPunti());
