@@ -98,6 +98,10 @@ public abstract class Partita {
     public int getBriscolaPartita(){
         return mazzo1.semeBriscola();
     }
+    
+    public Carta getCartaBriscola() {
+        return mazzo1.getDeck().get(0);
+    }
 
 
 }

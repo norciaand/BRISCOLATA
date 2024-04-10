@@ -3,13 +3,16 @@ package Gioco;
 import java.util.ArrayList;
 
 public class Giocatore {
+    
     private String nome;
     private ArrayList<Carta> mano = new ArrayList<>();
-    private MPGameFrame gameFrame;
 
+    private FinestraDiGioco gameFrame;
+    private Partita partita;
 
-    public Giocatore(String nome) {
+    public Giocatore(String nome, Partita partita) {
         this.nome = nome;
+        this.partita = partita;
         mano.clear();
     }
 
@@ -30,30 +33,19 @@ public class Giocatore {
     }
     
     public void mostraFrame(int x, int y){
-        gameFrame = new MPGameFrame(nome);
+        gameFrame = new FinestraDiGioco(nome, partita,this);
         gameFrame.setBounds(60+500*x, 100*y+60, 900, 900);
     }
-    
-    public void updateMano() {
-        if (mano.size() == 3){
-            for(int i = 0; i < mano.size(); i++){
-                gameFrame.cardButton[i].setText(mano.get(i).getNome());
-            }
-        }
+
+    public String getNome() {
+        return nome;
     }
-    
-    public void disegnaMano(){
-        gameFrame.impostaProssimeFigure(mano.get(0).toString(),mano.get(1).toString(),mano.get(2).toString());
-//        gameFrame.repaint();
-    }
-    
-    public void disegnaBriscola(String s){
-        gameFrame.impostaCartaBriscola(s);
-    }
-    
-    public MPGameFrame getGameFrame() {
+
+    public FinestraDiGioco getGameFrame() {
         return gameFrame;
     }
-    
-    
+
+    public ArrayList<Carta> getMano() {
+        return mano;
+    }
 }

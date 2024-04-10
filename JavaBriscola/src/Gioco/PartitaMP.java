@@ -2,31 +2,30 @@ package Gioco;
 
 public class PartitaMP extends Partita{
     
-    final String[] nomii = {"Andrea", "Alessandro","Giovanni","Filippo"};
+    final String[] nomii = {"Andrea", "Alessandro","Giovanni","Filippo"}; //ESEMPIO
     
     public PartitaMP(int tipoPartita) {
         super(tipoPartita);
         setup();
     }
     
-    public void setup(){
+    public void setup() {
         
         if(getnPlayer() == 2){
-            squadres.get(0).aggiungiAllaSquadra(nomii[0]);
-            squadres.get(1).aggiungiAllaSquadra(nomii[1]);
+            squadres.get(0).aggiungiNuovoGiocatore(nomii[0],this);
+            squadres.get(1).aggiungiNuovoGiocatore(nomii[1],this);
         } else if (getnPlayer() == 4) {
-            squadres.get(0).aggiungiAllaSquadra(nomii[0]);
-            squadres.get(0).aggiungiAllaSquadra(nomii[1]);
-            squadres.get(1).aggiungiAllaSquadra(nomii[2]);
-            squadres.get(1).aggiungiAllaSquadra(nomii[3]);
+            squadres.get(0).aggiungiNuovoGiocatore(nomii[0],this);
+            squadres.get(0).aggiungiNuovoGiocatore(nomii[1],this);
+            squadres.get(1).aggiungiNuovoGiocatore(nomii[2],this);
+            squadres.get(1).aggiungiNuovoGiocatore(nomii[3],this);
         }
         else if (getnPlayer() == 3){
-            squadres.get(0).aggiungiAllaSquadra(nomii[0]);
-            squadres.get(1).aggiungiAllaSquadra(nomii[1]);
-            squadres.get(2).aggiungiAllaSquadra(nomii[2]);
+            squadres.get(0).aggiungiNuovoGiocatore(nomii[0],this);
+            squadres.get(1).aggiungiNuovoGiocatore(nomii[1],this);
+            squadres.get(2).aggiungiNuovoGiocatore(nomii[2],this);
         }
-        
-        //CREAZIONE FINESTRE PER OGNI GIOCATORE PER OGNI SQUADRA
+                
         for (int i = 0; i < squadres.size(); i++) {
             for (int j = 0; j < squadres.get(i).getGiocatores().size(); j++){
                 squadres.get(i).getGiocatores().get(j).mostraFrame(i,j);
@@ -35,21 +34,26 @@ public class PartitaMP extends Partita{
         
         //DISTRIBUZIONE PRIME 3 CARTE
         for (int j = 0; j < 3; j++){
-            for(Squadra squadra :squadres){
+            for(Squadra squadra : squadres){
                 for (Giocatore giocatore: squadra.getGiocatores()) {
                     giocatore.prendi(getMazzo1().pesca());
                 }
             }
         }
         
+        /*
         //SCRITTURA JBUTTON
-        for(Squadra squadra :squadres){
+        for(Squadra squadra : squadres){
             for (Giocatore giocatore: squadra.getGiocatores()) {
-                giocatore.disegnaBriscola(getMazzo1().getDeck().get(0).toString());
-                giocatore.updateMano();
-                giocatore.disegnaMano();
+                giocatore.aggiornaBriscola(getMazzo1().getDeck().get(0).toString());
+                giocatore.aggiornaMano();
+                giocatore.getGameFrame();
             }
-        }
+        }*/
+        
+        
+        
+        
     }
     
     

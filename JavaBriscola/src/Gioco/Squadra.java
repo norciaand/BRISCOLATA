@@ -28,8 +28,8 @@ public class Squadra {
         return totPunti;
     }
     
-    public void aggiungiAllaSquadra(String gName) {
-        giocatores.add(new Giocatore(gName + " - Squadra " + nome));
+    public void aggiungiNuovoGiocatore(String gName, Partita partita) {
+        giocatores.add(new Giocatore(gName + " - Squadra " + nome, partita));
     }
 
     public ArrayList<Giocatore> getGiocatores() {
