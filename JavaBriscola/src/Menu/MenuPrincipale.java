@@ -78,5 +78,7 @@ public class MenuPrincipale extends MioFrame {
                 dispose();
             }
         });
+
+        setVisible(true);
     }
 }

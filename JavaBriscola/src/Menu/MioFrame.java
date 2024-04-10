@@ -10,6 +10,5 @@ public abstract class MioFrame extends JFrame {
         setSize(800,500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
     }
 }
