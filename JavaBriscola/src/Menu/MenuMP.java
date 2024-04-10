@@ -104,5 +104,6 @@ public class MenuMP extends MioFrame {
             }
         });
 
+        setVisible(true);
     }
 }
