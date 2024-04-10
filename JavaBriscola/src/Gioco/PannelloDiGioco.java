@@ -20,10 +20,7 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     private final Giocatore giocatore;
         
     //CARTE MANO
-    private String[] manoCard;
     private int selector;
-    private int pressorLeft;
-    private int pressorRight;
     
     public PannelloDiGioco(Partita partita,Squadra squadra, Giocatore giocatore) {
         this.partita = partita;
@@ -31,11 +28,8 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         this.squadra = squadra;
         
         this.setBackground(new Color(53,101,77));
-        manoCard = new String[3];
         
         selector = 1;
-        pressorLeft = 0;
-        pressorRight = 0;
         
         setDoubleBuffered(true);
         setFocusable(true);
@@ -59,7 +53,7 @@ public class PannelloDiGioco extends JPanel implements Runnable {
 
         while (gameThread != null){
             update();
-            
+            repaint();
             try {
                 double remainingTime =  nextDrawTime - System.nanoTime();
                 remainingTime = remainingTime/1000000;
@@ -75,31 +69,10 @@ public class PannelloDiGioco extends JPanel implements Runnable {
             catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            repaint();
         }
     }
 
     public void update(){
-        //AGGIORNAMENTO MANOCARD
-        for (int i = 0; i < giocatore.getMano().size(); i++){
-            manoCard[i] = giocatore.getMano().get(i).toString();
-        }
-        
-        /*if (keyHandler.isLeftPressed()){
-            pressorLeft++;
-            if (selector != 0 && pressorLeft > FTSK) {
-                selector--;
-                pressorLeft = 0;
-            }
-        } 
-        else if (keyHandler.isRightPressed()) {
-            pressorRight++;
-            if (selector != 2 && pressorRight > FTSK) {
-                selector++;
-                pressorRight = 0;
-            }
-        }*/
-        
         if (keyHandler.isPressed1()){
             selector = 0;
         } else if (keyHandler.isPressed2()){
@@ -114,39 +87,54 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
         
-        BufferedImage briscola;
-        BufferedImage m0, m1, m2;
+        BufferedImage[] m = new BufferedImage[giocatore.getMano().size()];
+        BufferedImage briscola, mazzo, anonima;
+        
+        switch (partita.getTipoPartita()){
+            case 0:
+                try {
+                    anonima = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("anonim.png")));
+                    mazzo = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("mazzo.png")));
+                    briscola = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getCartaBriscola().toString() + ".png")));
+                
+                    for(int i = 0; i < m.length; i++){
+                        m[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + giocatore.getMano().get(i).toString() + ".png")));
+                        graphics2D.drawImage(m[i],270 + (i*130),660,100,160,null);
+                    }
 
-        if (manoCard[0] != null && manoCard[1] != null && manoCard[2] != null){
-            try {
-                briscola = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getCartaBriscola().toString() + ".png")));
-                m0 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + manoCard[0] + ".png")));
-                m1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + manoCard[1] + ".png")));
-                m2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + manoCard[2] + ".png")));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            
-            //DISEGNO MANO
-            graphics2D.drawImage(m0, 270,660,100,160,null);
-            graphics2D.drawImage(m1, 400,660,100,160,null);
-            graphics2D.drawImage(m2, 530,660,100,160,null);
-            
-            //DISEGNO BRISCOLA
-            graphics2D.drawImage(briscola, 100,350,100,160,null);
-            
-            //DISEGNO SELECTOR
-            graphics2D.setColor(Color.WHITE);
-            graphics2D.setStroke(new BasicStroke(2.5f));
-//            graphics2D.drawRect(260 + (selector*130) ,630,120,180);
-            graphics2D.drawLine(260 + (selector*130),840, 260 + (selector*130) + 120, 840);
-            
-            graphics2D.setFont(new Font("Arial",Font.BOLD,20));
-            graphics2D.drawString(giocatore.getMano().get(selector).getNome(),20,840);
-            graphics2D.drawString("PUNTI: " + "20", 770,840);
-            
+                    //DISEGNO CARTE SOPRA
+                    graphics2D.drawImage(anonima, 270,20,100,160,null);
+                    graphics2D.drawImage(anonima, 400,20,100,160,null);
+                    graphics2D.drawImage(anonima, 530,20,100,160,null);
+
+                    //DISEGNO BRISCOLA
+                    graphics2D.drawImage(briscola, 150,350,100,160,null);
+                    graphics2D.drawImage(mazzo,50,340,120,180,null);
+                    
+                } catch (IOException e){
+                    throw new RuntimeException(e);
+                }
+                
+                
+                break;
+            case 1:
+                break;
+            case 2:
+            case 3:
+                break;
         }
+        
+            
+        //DISEGNO SELECTOR
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.setStroke(new BasicStroke(2.5f));
+        graphics2D.drawLine(260 + (selector*130),840, 260 + (selector*130) + 120, 840);
+        
+        graphics2D.setFont(new Font("Arial",Font.BOLD,20));
+        graphics2D.drawString(giocatore.getMano().get(selector).getNome(),20,840);
+        graphics2D.drawString("PUNTI: " + "20", 770,840);
+            
         graphics2D.dispose();
+        
     }
-    
 }
