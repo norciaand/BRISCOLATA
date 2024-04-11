@@ -25,12 +25,6 @@ public class PartitaMP extends Partita{
             squadres.get(1).aggiungiNuovoGiocatore(nomii[1],this);
             squadres.get(2).aggiungiNuovoGiocatore(nomii[2],this);
         }
-                
-        for (int i = 0; i < squadres.size(); i++) {
-            for (int j = 0; j < squadres.get(i).getGiocatores().size(); j++){
-                squadres.get(i).getGiocatores().get(j).mostraFrame(i,j);
-            }
-        }
         
         //DISTRIBUZIONE PRIME 3 CARTE
         for (int j = 0; j < 3; j++){
@@ -38,6 +32,13 @@ public class PartitaMP extends Partita{
                 for (Giocatore giocatore: squadra.getGiocatores()) {
                     giocatore.prendi(getMazzo1().pesca());
                 }
+            }
+        }
+        
+        //MOSTRA FRAME
+        for (int i = 0; i < squadres.size(); i++) {
+            for (int j = 0; j < squadres.get(i).getGiocatores().size(); j++){
+                squadres.get(i).getGiocatores().get(j).mostraFrame(i,j);
             }
         }
         
