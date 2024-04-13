@@ -12,11 +12,7 @@ public abstract class Partita {
 
     public ArrayList<Squadra> squadres;
     private ArrayList<Carta> banco;
-
-    /*dovremmo far arrivare al costruttore anche una lista di giocatori gia formata, fatta di nome in modo
-     * da associarli ad una squadra*/
-
-
+    
     public Partita(int tipoPartita) {
         squadres = new ArrayList<>();
         this.tipoPartita = tipoPartita;
@@ -46,9 +42,45 @@ public abstract class Partita {
                 break;
         }
     }
+    
+    public void matchLoop(){
+        ArrayList<Carta> carteAppoggiate = new ArrayList<>();
+        
+        int s = 0;
+        int g = 0;
+        
+        for (g = 0; g < squadres.get(0).getGiocatores().size(); g++){
+            for (s = 0; s < squadres.size(); s++) {
+
+                if (squadres.get(s).getGiocatores().get(g).giocaCarta() != null){
+                    carteAppoggiate.add(squadres.get(s).getGiocatores().get(g).giocaCarta());
+                }
+                
+            }
+        }
+        
+        if (tipoPartita == 0){
+            
+            int risultatoScontro = scontro2(carteAppoggiate.get(0), carteAppoggiate.get(0));
+            
+            
+            if (risultatoScontro > 0){
+                
+            } else {
+                
+            }
+            
+            
+            
+        }
+        
+        
+    }
+    
+    
 
     //SCONTRO 1v1
-    public int scontro(Carta cartaBase, Carta cartaSopra) {
+    public int scontro2(Carta cartaBase, Carta cartaSopra) {
         int risultato = cartaBase.getPunti() + cartaSopra.getPunti();
         if (risultato == 0) risultato = 1;
 
@@ -61,8 +93,7 @@ public abstract class Partita {
         }
         return risultato;
     }
-
-
+    
     public int getTipoPartita() {
         return tipoPartita;
     }

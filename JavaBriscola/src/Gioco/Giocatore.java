@@ -27,11 +27,9 @@ public class Giocatore {
         return mano.get(index);
     }
 
-    public Carta giocaCarta(int index)
+    public Carta giocaCarta()
     {
-        Carta x = mano.get(index);
-        mano.remove(index);
-        return x;
+        return null;
     }
     
     public void mostraFrame(int x, int y){

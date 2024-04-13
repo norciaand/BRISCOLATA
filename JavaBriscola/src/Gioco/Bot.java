@@ -67,7 +67,7 @@ public class Bot{
             for (Carta c: mano){
                 index = mano.indexOf(c);
                 //asegnamento punti alle carte vincenti
-                if((p.scontro(p.getBanco(0) , c) < 0 && p.getBanco(0).getPunti() > 0 && c.getSeme() == p.getSemeBriscola() )||( p.scontro(p.getBanco(0) , c) < 0 && c.getSeme() != p.getSemeBriscola())){
+                if((p.scontro2(p.getBanco(0) , c) < 0 && p.getBanco(0).getPunti() > 0 && c.getSeme() == p.getSemeBriscola() )||( p.scontro2(p.getBanco(0) , c) < 0 && c.getSeme() != p.getSemeBriscola())){
                     puntiMano.set(index, puntiMano.get(index) + VittoriaCarta);
                     //si preferisce mantenere in mano le briscole piu grosse
                     if(c.getSeme() == p.getSemeBriscola()){

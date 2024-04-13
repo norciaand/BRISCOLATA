@@ -41,18 +41,7 @@ public class PartitaMP extends Partita{
                 squadres.get(i).getGiocatores().get(j).mostraFrame(i,j);
             }
         }
-        
-        /*
-        //SCRITTURA JBUTTON
-        for(Squadra squadra : squadres){
-            for (Giocatore giocatore: squadra.getGiocatores()) {
-                giocatore.aggiornaBriscola(getMazzo1().getDeck().get(0).toString());
-                giocatore.aggiornaMano();
-                giocatore.getGameFrame();
-            }
-        }*/
-        
-        
+                
         
         
     }
