@@ -51,30 +51,15 @@ public abstract class Partita {
         
         for (g = 0; g < squadres.get(0).getGiocatores().size(); g++){
             for (s = 0; s < squadres.size(); s++) {
-
-                if (squadres.get(s).getGiocatores().get(g).giocaCarta() != null){
-                    carteAppoggiate.add(squadres.get(s).getGiocatores().get(g).giocaCarta());
+                System.out.println("G" + g + "S" + s);
+                while (true){
+                    if (squadres.get(s).getGiocatores().get(g).giocaCarta() != null){
+                        carteAppoggiate.add(squadres.get(s).getGiocatores().get(g).giocaCarta());
+                        break;
+                    }
                 }
-                
             }
-        }
-        
-        if (tipoPartita == 0){
-            
-            int risultatoScontro = scontro2(carteAppoggiate.get(0), carteAppoggiate.get(0));
-            
-            
-            if (risultatoScontro > 0){
-                
-            } else {
-                
-            }
-            
-            
-            
-        }
-        
-        
+        }        
     }
     
     

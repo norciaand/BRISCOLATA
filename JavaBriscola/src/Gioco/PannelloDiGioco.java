@@ -14,7 +14,6 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     //PANEL TOOLS
     private Thread gameThread;
     private KeyHandler keyHandler;
-    private final int FPS = 60;
     
     //INFO PARTITA
     private final Partita partita;
@@ -61,10 +60,6 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-                
-        double drawInterval = (double) 1000000000/FPS;
-        double nextDrawTime = System.nanoTime() + drawInterval;
-
 
         while (gameThread != null){
             update();
