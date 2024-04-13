@@ -26,6 +26,8 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     //CARTE MANO
     private int selector;
     
+    private boolean isPressingEnter;
+    
     public PannelloDiGioco(Partita partita,Squadra squadra, Giocatore giocatore) {
         this.partita = partita;
         this.giocatore = giocatore;
@@ -46,11 +48,11 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
-        
     }
 
     @Override
     public void run() {
+        
         m = new BufferedImage[3];
         
         try {
@@ -74,6 +76,12 @@ public class PannelloDiGioco extends JPanel implements Runnable {
             selector = 1;
         } else if (keyHandler.isPressed3()){
             selector = 2;
+        }
+        
+        if (keyHandler.isPressedEnter()){
+            isPressingEnter = true;
+        } else {
+            isPressingEnter = false;
         }
         
         for (int i = 0; i < giocatore.getMano().size(); i++){
@@ -120,5 +128,13 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         
         graphics2D.dispose();
         
+    }
+
+    public boolean isPressingEnter() {
+        return isPressingEnter;
+    }
+
+    public int getSelector() {
+        return selector;
     }
 }

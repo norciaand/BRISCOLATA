@@ -1,5 +1,7 @@
 package Gioco;
 
+import java.util.ArrayList;
+
 public class PartitaMP extends Partita{
     
     final String[] nomii = {"Andrea", "Alessandro","Giovanni","Filippo"}; //ESEMPIO
@@ -10,7 +12,6 @@ public class PartitaMP extends Partita{
     }
     
     public void setup() {
-        
         if(getnPlayer() == 2){
             squadres.get(0).aggiungiNuovoGiocatore(nomii[0],this);
             squadres.get(1).aggiungiNuovoGiocatore(nomii[1],this);
@@ -41,9 +42,26 @@ public class PartitaMP extends Partita{
                 squadres.get(i).getGiocatores().get(j).mostraFrame(i,j);
             }
         }
+        
+        matchLoop();
+    }
+
+    public void matchLoop(){
+        ArrayList<Carta> carteAppoggiate = new ArrayList<>();
+        
+        int s = 0;
+        int g = 0;
+
+        for (g = 0; g < squadres.get(0).getGiocatores().size(); g++){
+            for (s = 0; s < squadres.size(); s++) {
                 
-        
-        
+                System.out.println("G" + g + "S" + s);
+                
+                Carta x1 = squadres.get(s).getGiocatores().get(g).giocaCarta();
+                System.out.println(x1.toString());
+                
+            }
+        }
     }
     
     

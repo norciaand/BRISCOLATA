@@ -6,8 +6,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     
-    private boolean leftPressed, rightPressed;
-    private boolean pressed1, pressed2, pressed3;
+    private boolean pressed1, pressed2, pressed3, pressedEnter;
 
     public boolean isPressed1() {
         return pressed1;
@@ -21,6 +20,10 @@ public class KeyHandler implements KeyListener {
         return pressed3;
     }
 
+    public boolean isPressedEnter() {
+        return pressedEnter;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
         
@@ -30,11 +33,6 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
         
-//        if(code == KeyEvent.VK_LEFT) {
-//            leftPressed = true;
-//        } else if (code == KeyEvent.VK_RIGHT) {
-//            rightPressed = true;
-//        }
         
         if (code == KeyEvent.VK_1 || code == KeyEvent.VK_NUMPAD1) {
             pressed1 = true;
@@ -42,6 +40,8 @@ public class KeyHandler implements KeyListener {
             pressed2 = true;
         } else if (code == KeyEvent.VK_3 || code == KeyEvent.VK_NUMPAD3) {
             pressed3 = true;
+        } else if (code == KeyEvent.VK_ENTER) {
+            pressedEnter = true;
         }
         
     }
@@ -50,11 +50,6 @@ public class KeyHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
         
-        /*if(code == KeyEvent.VK_LEFT) {
-            leftPressed = false;
-        } else if (code == KeyEvent.VK_RIGHT) {
-            rightPressed = false;
-        }*/
 
         if (code == KeyEvent.VK_1 || code == KeyEvent.VK_NUMPAD1) {
             pressed1 = false;
@@ -62,15 +57,10 @@ public class KeyHandler implements KeyListener {
             pressed2 = false;
         } else if (code == KeyEvent.VK_3 || code == KeyEvent.VK_NUMPAD3) {
             pressed3 = false;
+        } else if (code == KeyEvent.VK_ENTER) {
+            pressedEnter = false;
         }
         
     }
-
-    public boolean isLeftPressed() {
-        return leftPressed;
-    }
-
-    public boolean isRightPressed() {
-        return rightPressed;
-    }
+    
 }

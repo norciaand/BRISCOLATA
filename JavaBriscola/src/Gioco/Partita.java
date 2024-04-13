@@ -43,24 +43,7 @@ public abstract class Partita {
         }
     }
     
-    public void matchLoop(){
-        ArrayList<Carta> carteAppoggiate = new ArrayList<>();
-        
-        int s = 0;
-        int g = 0;
-        
-        for (g = 0; g < squadres.get(0).getGiocatores().size(); g++){
-            for (s = 0; s < squadres.size(); s++) {
-                System.out.println("G" + g + "S" + s);
-                while (true){
-                    if (squadres.get(s).getGiocatores().get(g).giocaCarta() != null){
-                        carteAppoggiate.add(squadres.get(s).getGiocatores().get(g).giocaCarta());
-                        break;
-                    }
-                }
-            }
-        }        
-    }
+    
     
     
 

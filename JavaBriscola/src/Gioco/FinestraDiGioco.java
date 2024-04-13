@@ -19,6 +19,8 @@ public class FinestraDiGioco extends JFrame {
         add(pannelloDiGioco);
         setVisible(true);
     }
-    
-    
+
+    public PannelloDiGioco getPannelloDiGioco() {
+        return pannelloDiGioco;
+    }
 }
