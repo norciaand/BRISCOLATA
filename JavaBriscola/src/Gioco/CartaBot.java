@@ -2,8 +2,9 @@ package Gioco;
 
 public class CartaBot extends Carta{
 
-    private boolean briscola;
-    private boolean liscio;
+    private boolean briscola = false;
+    private boolean liscio = false;
+    private boolean win = false;
     private int giocabilita = 0;
 
     public CartaBot(int seme, int numero) {
@@ -32,5 +33,13 @@ public class CartaBot extends Carta{
 
     public void setGiocabilita(int giocabilita) {
         this.giocabilita += giocabilita;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
     }
 }
