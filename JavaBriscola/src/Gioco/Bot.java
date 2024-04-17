@@ -8,6 +8,9 @@ public class Bot{
     private ArrayList<Carta> mano = new ArrayList<>();
     Random rd = new Random();
     Carta lastEnemy = null;     //quando il nemico gioca per secondo questa carta va settata con la carta giocata da lui;
+    Carta lastFirstBot = null;
+    private int strategia = 0;
+    private int distanza = 0;
     private String nome;
     private int difficolta;
 
@@ -39,7 +42,7 @@ public class Bot{
 
         /*
         Appunti
-
+            sistema presa punticini
 
         */
 
@@ -48,6 +51,7 @@ public class Bot{
         ArrayList<CartaBot> bMano = new ArrayList<>();
         int nBri = 0;
         int nWin = 0;
+        boolean conStrate = true;
         int index;
         //creazione array CartaBot
         for (Carta c : mano){
@@ -86,13 +90,7 @@ public class Bot{
                 }
             }
             else if(p.getMazzo1().getDeck().size() == 2){
-                //se la penultima carta e meglio del'ultima si cerca di vincere per averla
-                if(p.getCartaBriscola().getPunti() < p.getMazzo1().getDeck().get(1).getPunti() && p.getMazzo1().getDeck().get(1).getSeme() == p.getSemeBriscola()){
 
-                }
-                else{
-
-                }
             }
             else if(p.getMazzo1().getDeck().isEmpty()){
                 if(bMano.size() == 3){
@@ -102,8 +100,40 @@ public class Bot{
 
                 }
             }
-            else{
-
+            else {
+                //strategia
+                if (strategia == 0){
+                    for (CartaBot cb : bMano) {
+                        for (CartaBot cb2 : bMano) {
+                            if ((cb.getPunti() >= 2 && cb.getPunti() <= 4) && cb2.isLiscio() && cb.getSeme() == cb2.getSeme()) {
+                                strategia = 1;
+                                cb2.setGiocabilita(100);
+                                conStrate = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else if(strategia == 1 && distanza <=2){
+                    strategia = 0;
+                    for (CartaBot cb: bMano) {
+                        if (cb.getPunti() >= 2 && cb.getPunti() <= 4 && cb.getSeme() == lastFirstBot.getSeme()) {
+                            cb.setGiocabilita(120 - cb.getPunti());
+                            strategia = 0;
+                            distanza = 0;
+                            conStrate = false;
+                            break;
+                        }
+                    }
+                }
+                else{
+                    conStrate = true;
+                    strategia = 0;
+                    distanza = 0;
+                }
+                if(conStrate){
+                    //AGGIUNGI DIO BASTARDO TIPO TUTTO
+                }
             }
         }
         //se si e secondi di mano
@@ -136,9 +166,9 @@ public class Bot{
             else if(p.getBanco(0).getPunti() > 0 && p.getBanco(0).getPunti() <=4){
                 for (CartaBot cb:bMano){
                     if(!cb.isBriscola() && cb.isWin()) //non di briscola puo prendere
-                        cb.setGiocabilita(100 + cb.getPunti());
+                        cb.setGiocabilita(120 + cb.getPunti());
                     else if(nBri > 1 && cb.isWin() && cb.getPunti() < 10) //prendere con una briscola non carico
-                        cb.setGiocabilita(100 - cb.getPunti() - cb.getNumero());
+                        cb.setGiocabilita(100 + cb.getPunti());
                     else if(nWin == 0)       //gli lascia il meno peggio
                         cb.setGiocabilita(-cb.getPunti() - cb.getNumero()/2);
                 }
@@ -175,6 +205,9 @@ public class Bot{
         }
         //effetua la giocata
         x = mano.get(index);
+        distanza++;
+        if(firstMano)
+            lastFirstBot = x;
         mano.remove(x);
         return x;
     }
