@@ -33,7 +33,6 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
         
-        
         if (code == KeyEvent.VK_1 || code == KeyEvent.VK_NUMPAD1) {
             pressed1 = true;
         } else if (code == KeyEvent.VK_2 || code == KeyEvent.VK_NUMPAD2) {
@@ -43,14 +42,11 @@ public class KeyHandler implements KeyListener {
         } else if (code == KeyEvent.VK_ENTER) {
             pressedEnter = true;
         }
-        
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
-        
-
         if (code == KeyEvent.VK_1 || code == KeyEvent.VK_NUMPAD1) {
             pressed1 = false;
         } else if (code == KeyEvent.VK_2 || code == KeyEvent.VK_NUMPAD2) {
@@ -60,7 +56,6 @@ public class KeyHandler implements KeyListener {
         } else if (code == KeyEvent.VK_ENTER) {
             pressedEnter = false;
         }
-        
     }
     
 }

@@ -8,7 +8,6 @@ public class FinestraDiGioco extends JFrame {
     private PannelloDiGioco pannelloDiGioco;
     
     //CONSTRUCTOR
-    
     public FinestraDiGioco(String nomeFinestra, Partita partitaInCorso, Squadra squadra, Giocatore giocatore) throws HeadlessException {
         setTitle("Briscola - " + nomeFinestra);
         pannelloDiGioco = new PannelloDiGioco(partitaInCorso, squadra ,giocatore);
@@ -19,7 +18,9 @@ public class FinestraDiGioco extends JFrame {
         add(pannelloDiGioco);
         setVisible(true);
     }
-
+    
+    
+    //GETTER DEL GAMEPANEL
     public PannelloDiGioco getPannelloDiGioco() {
         return pannelloDiGioco;
     }

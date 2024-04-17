@@ -29,14 +29,16 @@ public class Giocatore {
 
     public Carta giocaCarta()
     {
-//        while (true){
-            if (gameFrame.getPannelloDiGioco().isPressingEnter()) {
-                Carta x = mano.get(gameFrame.getPannelloDiGioco().getSelector());
-                mano.remove(gameFrame.getPannelloDiGioco().getSelector());
-                return x;
+        if (gameFrame.getPannelloDiGioco().isPressingEnter()) {
+            Carta cartaGiocata = mano.get(gameFrame.getPannelloDiGioco().getSelettore());
+            mano.remove(gameFrame.getPannelloDiGioco().getSelettore());
+            if (gameFrame.getPannelloDiGioco().getSelettore() >= mano.size())
+            {
+                gameFrame.getPannelloDiGioco().setSelettore(mano.size()-1);
             }
-            return mano.get(0);
-//        }
+            return cartaGiocata;
+        }
+        return null;
     }
     
     public void mostraFrame(int x, int y){

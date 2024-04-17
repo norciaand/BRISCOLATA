@@ -1,7 +1,5 @@
 package Gioco;
 
-import java.util.ArrayList;
-
 public class PartitaMP extends Partita{
     
     final String[] nomii = {"Andrea", "Alessandro","Giovanni","Filippo"}; //ESEMPIO
@@ -13,23 +11,23 @@ public class PartitaMP extends Partita{
     
     public void setup() {
         if(getnPlayer() == 2){
-            squadres.get(0).aggiungiNuovoGiocatore(nomii[0],this);
-            squadres.get(1).aggiungiNuovoGiocatore(nomii[1],this);
+            getSquadres().get(0).aggiungiNuovoGiocatore(nomii[0],this);
+            getSquadres().get(1).aggiungiNuovoGiocatore(nomii[1],this);
         } else if (getnPlayer() == 4) {
-            squadres.get(0).aggiungiNuovoGiocatore(nomii[0],this);
-            squadres.get(0).aggiungiNuovoGiocatore(nomii[1],this);
-            squadres.get(1).aggiungiNuovoGiocatore(nomii[2],this);
-            squadres.get(1).aggiungiNuovoGiocatore(nomii[3],this);
+            getSquadres().get(0).aggiungiNuovoGiocatore(nomii[0],this);
+            getSquadres().get(0).aggiungiNuovoGiocatore(nomii[1],this);
+            getSquadres().get(1).aggiungiNuovoGiocatore(nomii[2],this);
+            getSquadres().get(1).aggiungiNuovoGiocatore(nomii[3],this);
         }
         else if (getnPlayer() == 3){
-            squadres.get(0).aggiungiNuovoGiocatore(nomii[0],this);
-            squadres.get(1).aggiungiNuovoGiocatore(nomii[1],this);
-            squadres.get(2).aggiungiNuovoGiocatore(nomii[2],this);
+            getSquadres().get(0).aggiungiNuovoGiocatore(nomii[0],this);
+            getSquadres().get(1).aggiungiNuovoGiocatore(nomii[1],this);
+            getSquadres().get(2).aggiungiNuovoGiocatore(nomii[2],this);
         }
         
         //DISTRIBUZIONE PRIME 3 CARTE
         for (int j = 0; j < 3; j++){
-            for(Squadra squadra : squadres){
+            for(Squadra squadra : getSquadres()){
                 for (Giocatore giocatore: squadra.getGiocatores()) {
                     giocatore.prendi(getMazzo1().pesca());
                 }
@@ -37,34 +35,16 @@ public class PartitaMP extends Partita{
         }
         
         //MOSTRA FRAME
-        for (int i = 0; i < squadres.size(); i++) {
-            for (int j = 0; j < squadres.get(i).getGiocatores().size(); j++){
-                squadres.get(i).getGiocatores().get(j).mostraFrame(i,j);
+        for (int i = 0; i < getSquadres().size(); i++) {
+            for (int j = 0; j < getSquadres().get(i).getGiocatores().size(); j++){
+                getSquadres().get(i).getGiocatores().get(j).mostraFrame(i,j);
             }
         }
         
-        matchLoop();
-    }
-
-    public void matchLoop(){
-        ArrayList<Carta> carteAppoggiate = new ArrayList<>();
+        //START THREAD
+        getMatchThread().start();
         
-        int s = 0;
-        int g = 0;
-
-        for (g = 0; g < squadres.get(0).getGiocatores().size(); g++){
-            for (s = 0; s < squadres.size(); s++) {
-                
-                System.out.println("G" + g + "S" + s);
-                
-                Carta x1 = squadres.get(s).getGiocatores().get(g).giocaCarta();
-                System.out.println(x1.toString());
-                
-            }
-        }
     }
-    
-    
     
     
 }

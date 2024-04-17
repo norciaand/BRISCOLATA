@@ -2,20 +2,25 @@ package Gioco;
 
 import java.util.ArrayList;
 
-public abstract class Partita {
-
+public abstract class Partita implements Runnable {
+    
+    //COSTANTI COLORI
     private final String[] coloriSquadre = {"Rossa", "Blu", "Verde"};
-
-    private Mazzo mazzo1; //mazzo della partita
+    
+    //INFO PARTITA
+    private Mazzo mazzo1; //MAZZO DELLA PARTITA
     private int tipoPartita; // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: b5
     private int nPlayer;
-
-    public ArrayList<Squadra> squadres;
     private ArrayList<Carta> banco;
     
+    //TOOLS PARTITA
+    private Thread matchThread;
+    private ArrayList<Squadra> squadres;
+    
     public Partita(int tipoPartita) {
-        squadres = new ArrayList<>();
         this.tipoPartita = tipoPartita;
+        squadres = new ArrayList<>();
+        banco = new ArrayList<>();
         mazzo1 = new Mazzo();
         mazzo1.mischia();
 
@@ -41,11 +46,9 @@ public abstract class Partita {
                 nPlayer = 5;
                 break;
         }
+        
+        matchThread = new Thread(this);
     }
-    
-    
-    
-    
 
     //SCONTRO 1v1
     public int scontro(Carta cartaBase, Carta cartaSopra) {
@@ -66,32 +69,16 @@ public abstract class Partita {
         return tipoPartita;
     }
 
-    public void setTipoPartita(int tipoPartita) {
-        this.tipoPartita = tipoPartita;
-    }
-
     public int getnPlayer() {
         return nPlayer;
-    }
-
-    public void setnPlayer(int nPlayer) {
-        this.nPlayer = nPlayer;
     }
 
     public Mazzo getMazzo1() {
         return mazzo1;
     }
-
-    public void setMazzo1(Mazzo mazzo1) {
-        this.mazzo1 = mazzo1;
-    }
-
+    
     public Carta getBanco(int index) {
         return banco.get(index);
-    }
-
-    public void setBanco(ArrayList<Carta> banco) {
-        this.banco = banco;
     }
 
     public int getSemeBriscola(){
@@ -102,5 +89,40 @@ public abstract class Partita {
         return mazzo1.getDeck().get(0);
     }
 
+    public ArrayList<Squadra> getSquadres() {
+        return squadres;
+    }
 
+    public Thread getMatchThread() {
+        return matchThread;
+    }
+    
+    
+    
+    //FUCNTION MATCH THREAD
+    @Override
+    public void run() {
+        
+        int s = 0;
+        int g = 0;
+        
+        
+        
+        for (g = 0; g < squadres.get(0).getGiocatores().size(); g++){
+            for (s = 0; s < squadres.size(); s++) {
+                
+                //DEBUG A CHI TOCCA
+                System.out.println("G" + g + "S" + s);
+                
+                Carta carta = null;
+                while (carta == null){
+                    carta = squadres.get(s).getGiocatores().get(g).giocaCarta();
+                }
+                banco.add(carta);
+                
+                
+            }
+        }
+        
+    }
 }
