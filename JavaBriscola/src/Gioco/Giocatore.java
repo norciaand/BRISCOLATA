@@ -27,8 +27,7 @@ public class Giocatore {
         return mano.get(index);
     }
 
-    public Carta giocaCarta()
-    {
+    public Carta giocaCarta() {
         if (gameFrame.getPannelloDiGioco().isPressingEnter()) {
             Carta cartaGiocata = mano.get(gameFrame.getPannelloDiGioco().getSelettore());
             mano.remove(gameFrame.getPannelloDiGioco().getSelettore());

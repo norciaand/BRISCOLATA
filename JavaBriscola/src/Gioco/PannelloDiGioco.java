@@ -1,7 +1,5 @@
 package Gioco;
 
-import jdk.swing.interop.SwingInterOpUtils;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,7 +21,8 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     
     //IMMAGINI
     private BufferedImage briscola, mazzo, anonima;
-    private BufferedImage[] immagini;
+    private BufferedImage[] immaginiMano;
+    private BufferedImage[] immaginiBanco;
         
     //CARTE MANO
     private int selettore;
@@ -42,7 +41,8 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         
         keyHandler = new KeyHandler();
         addKeyListener(keyHandler);
-        immagini = new BufferedImage[3];
+        immaginiMano = new BufferedImage[3];
+        immaginiBanco = new BufferedImage[4];
         startGameThread();
         
     }
@@ -86,10 +86,20 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         
         for (int i = 0; i < giocatore.getMano().size(); i++){
             try {
-                immagini[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + giocatore.getMano().get(i).toString() + ".png")));
+                immaginiMano[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + giocatore.getMano().get(i).toString() + ".png")));
             } catch (IOException e) {
+                System.out.println("ECCEZIONE IN IMMAGINI MANO GAME PANEL - " + gameThread.getName());
             }
         }
+        
+        for (int i = 0; i < partita.getAllBanco().size(); i++){
+            try {
+                immaginiBanco[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getBanco(i).toString() + ".png")));
+            } catch (IOException e) {
+                System.out.println("ECCEZIONE IN BANCO MANO GAME PANEL - " + gameThread.getName());
+            }
+        }
+        
     }
 
     @Override
@@ -105,8 +115,14 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         
         //DISEGNO CARTE IN MANO
         for(int i = 0; i < giocatore.getMano().size(); i++){
-            if (immagini[i] != null)
-                graphics2D.drawImage(immagini[i],270 + (i*130),660,100,160,null);
+            if (immaginiMano[i] != null)
+                graphics2D.drawImage(immaginiMano[i],270 + (i*130),660,100,160,null);
+        }
+        
+        //DISEGNO CARTE SUL BANCONE
+        for (int i = 0; i < partita.getAllBanco().size();i++){
+            if (immaginiBanco[i] != null)
+                graphics2D.drawImage(immaginiBanco[i],400 + (i*40),350,100,160,null);
         }
         
         //DISEGNO CARTE ANONIME SOPRA
@@ -122,6 +138,9 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         graphics2D.setFont(new Font("Arial",Font.BOLD,20));
         graphics2D.drawString(giocatore.getMano().get(selettore).getNome(),20,840);
         graphics2D.drawString("PUNTI: " + "20", 770,840);
+        
+        
+        
         
         graphics2D.dispose();
     }

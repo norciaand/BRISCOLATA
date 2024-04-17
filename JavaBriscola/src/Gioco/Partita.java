@@ -81,6 +81,10 @@ public abstract class Partita implements Runnable {
         return banco.get(index);
     }
 
+    public ArrayList<Carta> getAllBanco() {
+        return banco;
+    }
+
     public int getSemeBriscola(){
         return mazzo1.semeBriscola();
     }
@@ -97,16 +101,12 @@ public abstract class Partita implements Runnable {
         return matchThread;
     }
     
-    
-    
     //FUCNTION MATCH THREAD
     @Override
     public void run() {
         
         int s = 0;
         int g = 0;
-        
-        
         
         for (g = 0; g < squadres.get(0).getGiocatores().size(); g++){
             for (s = 0; s < squadres.size(); s++) {
@@ -120,6 +120,11 @@ public abstract class Partita implements Runnable {
                 }
                 banco.add(carta);
                 
+                for (Squadra squadra : squadres){
+                    for (Giocatore giocatore : squadra.getGiocatores()){
+                        
+                    }
+                }
                 
             }
         }
