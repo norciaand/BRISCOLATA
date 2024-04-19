@@ -102,6 +102,10 @@ public class PannelloDiGioco extends JPanel implements Runnable {
             }
         }
         
+        if (partita.getMATCH_STATE() == 2) {
+            immagineMazzo = immagineBriscola = null;
+        }
+                
     }
 
     @Override
@@ -132,15 +136,15 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         graphics2D.drawImage(immagineAnonima, 400,20,100,160,null);
         graphics2D.drawImage(immagineAnonima, 530,20,100,160,null);
 
-
         //DISEGNO BRISCOLA E MAZZO
-        graphics2D.drawImage(immagineBriscola, 150,350,100,160,null);
-        graphics2D.drawImage(immagineMazzo,50,340,120,180,null);
+        if (immagineMazzo != null){
+            graphics2D.drawImage(immagineBriscola, 150,350,100,160,null);
+            graphics2D.drawImage(immagineMazzo,50,340,120,180,null);
+        }
         
         graphics2D.setFont(new Font("Arial",Font.BOLD,20));
         graphics2D.drawString(giocatore.getMano().get(selettore).getNome(),20,840);
         graphics2D.drawString("PUNTI: " + "20", 770,840);
-        
         
         
         graphics2D.dispose();
