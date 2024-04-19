@@ -81,7 +81,7 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         
         if (keyHandler.isPressedEnter()){
             isPressingEnter = true;
-            System.out.println(paneThread.getName() + " ha premuto INVIO");
+//            System.out.println(paneThread.getName() + " ha premuto INVIO");
         } else {
             isPressingEnter = false;
         }

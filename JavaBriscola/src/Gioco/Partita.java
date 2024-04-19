@@ -56,9 +56,11 @@ public abstract class Partita implements Runnable {
 
         //METODO DI SETUP appartenente a MP o SP
         setup();
-
+        
         //START THREAD
         matchThread.start();
+
+        
     }
 
     public abstract void setup();
@@ -106,9 +108,7 @@ public abstract class Partita implements Runnable {
                     carta = squadres.get(s).getGiocatores().get(g).giocaCarta();
                 }
                 banco.add(carta);
-
-
-                System.out.println("turno " + t + " finito");
+                
             }
         }
     }
