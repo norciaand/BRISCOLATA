@@ -37,7 +37,7 @@ public class Mazzo {
 
     public int semeBriscola()
     {
-        return deck.get(0).getSeme();
+        return deck.getFirst().getSeme();
     }
 
     public String semeBriscolaToString()
@@ -46,12 +46,21 @@ public class Mazzo {
     }
 
     public Carta pesca(){          //ESTRAE E RIMUOVE LA CARTA
-        Carta x = deck.get(deck.size()-1);
-        deck.remove(deck.size()-1);
+        Carta x = deck.getLast();
+        deck.removeLast();
         return x;
     }
     public int getSize(){
-        return this.getSize();
+        return deck.size();
+    }
+
+    public int nSeme(int seme){
+        int count = 0;
+        for(Carta c : this.deck){
+            if(c.getSeme() == seme)
+                count++;
+        }
+        return count;
     }
 
 }

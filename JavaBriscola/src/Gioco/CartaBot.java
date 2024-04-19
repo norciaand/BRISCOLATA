@@ -7,6 +7,8 @@ public class CartaBot extends Carta{
     private boolean win = false;
     private int giocabilita = 0;
 
+    private int nCarPred = 0;
+
     public CartaBot(int seme, int numero) {
         super(seme, numero);
     }
@@ -42,4 +44,13 @@ public class CartaBot extends Carta{
     public void setWin(boolean win) {
         this.win = win;
     }
+
+    public int getnCarPred() {
+        return nCarPred;
+    }
+
+    public void setnCarPred(int nCarPred) {
+        this.nCarPred = nCarPred;
+    }
+
 }
