@@ -11,6 +11,9 @@ public abstract class Partita implements Runnable {
     //INFO PARTITA
     private int tipoPartita; // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: b5
     private int nPlayer;
+    private int NORMAL_TURN;
+    private final int FINAL_TURN = 3;
+    private int MATCH_STATE;
 
     private Mazzo mazzo1; //MAZZO DELLA PARTITA
     private ArrayList<Carta> banco;
@@ -26,17 +29,19 @@ public abstract class Partita implements Runnable {
         banco = new ArrayList<>();
         mazzo1 = new Mazzo();
         mazzo1.mischia();
-
+        MATCH_STATE = 0;
         switch (tipoPartita) {
             case 0:
                 nPlayer = 2;
                 squadres.add(new Squadra(coloriSquadre[0]));
                 squadres.add(new Squadra(coloriSquadre[1]));
+                NORMAL_TURN = 17;
                 break;
             case 1:
                 nPlayer = 4;
                 squadres.add(new Squadra(coloriSquadre[0]));
                 squadres.add(new Squadra(coloriSquadre[1]));
+                NORMAL_TURN = 7;
                 break;
             case 2:
             case 3:
@@ -59,7 +64,6 @@ public abstract class Partita implements Runnable {
         
         //START THREAD
         matchThread.start();
-
         
     }
 
@@ -86,31 +90,71 @@ public abstract class Partita implements Runnable {
     public void run() {
         
         /*
-        *   INIZIO TURNO
+        *   INIZIO PARTITA
         */
-
-        int t = 0;
         
-//        while (matchThread != null) {}
-        
-        
-        int s = 0;
-        int g = 0;
+        int s,g;
+        MATCH_STATE = 1;        
+        for (int t = 0; t < NORMAL_TURN; t++){
+            
+            banco.clear();
 
-        for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++){
-            for (s = 0; s < squadres.size(); s++) {
+            System.out.println("CARTE NEL MAZZO: " + getMazzo1().getSize());
+            
+            for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++){
+                for (s = 0; s < squadres.size(); s++) {
 
-                //DEBUG A CHI TOCCA GIOCARE LA CARTA
-                System.out.println("G" + g + "S" + s);
+                    Carta carta = null;
+                    while (carta == null) {
+                        carta = squadres.get(s).getGiocatores().get(g).giocaCarta();
+                    }
+                    banco.add(carta);
 
-                Carta carta = null;
-                while (carta == null) {
-                    carta = squadres.get(s).getGiocatores().get(g).giocaCarta();
                 }
-                banco.add(carta);
-                
+            }
+            
+            /*
+            * SCONTRO EFFETTIVO DELLE CARTE, vedere implementazione
+            * */
+
+            for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++) {
+                for (s = 0; s < squadres.size(); s++) {
+                    squadres.get(s).getGiocatores().get(g).prendi(getMazzo1().pesca());
+                }
+            }
+            
+        }
+        
+        /*
+        * ESAURIMENTO DEL MAZZO, inizio endgame
+        * */
+        
+        //IMPONIAMO AI FORM DI NON MOSTRARE PIU LA BRISCOLA E IL MAZZO
+        
+        MATCH_STATE = 2;
+        /*
+        * TURNI FINALI,
+        * */
+        
+        for (int t = 0; t < FINAL_TURN; t++){
+            
+            banco.clear();
+
+            System.out.println("CARTE NEL MAZZO: " + getMazzo1().getSize());
+
+            for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++){
+                for (s = 0; s < squadres.size(); s++) {
+
+                    Carta carta = null;
+                    while (carta == null) {
+                        carta = squadres.get(s).getGiocatores().get(g).giocaCarta();
+                    }
+                    banco.add(carta);
+
+                }
             }
         }
+        
     }
 
 
@@ -143,5 +187,8 @@ public abstract class Partita implements Runnable {
     public ArrayList<Squadra> getSquadres() {
         return squadres;
     }
-    
+
+    public int getMATCH_STATE() {
+        return MATCH_STATE;
+    }
 }
