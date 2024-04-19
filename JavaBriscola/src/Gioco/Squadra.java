@@ -5,14 +5,12 @@ import java.util.ArrayList;
 public class Squadra {
     
     private ArrayList<Giocatore> giocatores;
-    
     private ArrayList<Carta> carteVinte;
     private String nome;
 
     public Squadra(String nome) {
         this.nome = nome;
         giocatores = new ArrayList<>();
-        giocatores.clear();
     }
 
     public void PrendiBanco(ArrayList<Carta> Banco){
@@ -35,8 +33,5 @@ public class Squadra {
     public ArrayList<Giocatore> getGiocatores() {
         return giocatores;
     }
-
-    public String getNomeSquadra() {
-        return nome;
-    }
+    
 }

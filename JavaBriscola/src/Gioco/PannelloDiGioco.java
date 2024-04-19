@@ -11,16 +11,16 @@ import static javax.imageio.ImageIO.read;
 public class PannelloDiGioco extends JPanel implements Runnable {
 
     //PANEL TOOLS
-    private Thread gameThread;
+    private Thread paneThread;
     private KeyHandler keyHandler;
     
-    //OGGETTI PARTITA
+    //COMPONENTI PARTITA
     private final Partita partita;
     private final Squadra squadra;
     private final Giocatore giocatore;
     
     //IMMAGINI
-    private BufferedImage briscola, mazzo, anonima;
+    private BufferedImage immagineBriscola, immagineMazzo, immagineAnonima;
     private BufferedImage[] immaginiMano;
     private BufferedImage[] immaginiBanco;
         
@@ -41,35 +41,36 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         
         keyHandler = new KeyHandler();
         addKeyListener(keyHandler);
+        
         immaginiMano = new BufferedImage[3];
         immaginiBanco = new BufferedImage[4];
         startGameThread();
-        
     }
 
     public void startGameThread(){
-        gameThread = new Thread(this);
-        gameThread.setName(giocatore.getNome() + " - THREAD");
-        gameThread.start();
+        paneThread = new Thread(this);
+        paneThread.setName("THREAD di " + giocatore.getNome());
+        paneThread.start();
     }
 
     @Override
     public void run() {        
         try {
-            anonima = read(Objects.requireNonNull(getClass().getClassLoader().getResource("anonim.png")));
-            mazzo = read(Objects.requireNonNull(getClass().getClassLoader().getResource("mazzo.png")));
-            briscola = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getCartaBriscola().toString() + ".png")));
+            immagineAnonima = read(Objects.requireNonNull(getClass().getClassLoader().getResource("anonim.png")));
+            immagineMazzo = read(Objects.requireNonNull(getClass().getClassLoader().getResource("mazzo.png")));
+            immagineBriscola = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getCartaBriscola().toString() + ".png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        while (gameThread != null){
+        while (paneThread != null){
             update();
             repaint();
         }
     }
 
     public void update() {
+        
         if (keyHandler.isPressed1()){
             selettore = 0;
         } else if (keyHandler.isPressed2()){
@@ -80,6 +81,7 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         
         if (keyHandler.isPressedEnter()){
             isPressingEnter = true;
+//            System.out.println(paneThread.getName() + " ha premuto INVIO");
         } else {
             isPressingEnter = false;
         }
@@ -88,7 +90,7 @@ public class PannelloDiGioco extends JPanel implements Runnable {
             try {
                 immaginiMano[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + giocatore.getMano().get(i).toString() + ".png")));
             } catch (IOException e) {
-                System.out.println("ECCEZIONE IN IMMAGINI MANO GAME PANEL - " + gameThread.getName());
+                System.out.println("ECCEZIONE IN IMMAGINI MANO GAME PANEL - " + paneThread.getName());
             }
         }
         
@@ -96,7 +98,7 @@ public class PannelloDiGioco extends JPanel implements Runnable {
             try {
                 immaginiBanco[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getBanco(i).toString() + ".png")));
             } catch (IOException e) {
-                System.out.println("ECCEZIONE IN BANCO MANO GAME PANEL - " + gameThread.getName());
+                System.out.println("ECCEZIONE IN BANCO MANO GAME PANEL - " + paneThread.getName());
             }
         }
         
@@ -126,19 +128,18 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         }
         
         //DISEGNO CARTE ANONIME SOPRA
-        graphics2D.drawImage(anonima, 270,20,100,160,null);
-        graphics2D.drawImage(anonima, 400,20,100,160,null);
-        graphics2D.drawImage(anonima, 530,20,100,160,null);
+        graphics2D.drawImage(immagineAnonima, 270,20,100,160,null);
+        graphics2D.drawImage(immagineAnonima, 400,20,100,160,null);
+        graphics2D.drawImage(immagineAnonima, 530,20,100,160,null);
 
 
         //DISEGNO BRISCOLA E MAZZO
-        graphics2D.drawImage(briscola, 150,350,100,160,null);
-        graphics2D.drawImage(mazzo,50,340,120,180,null);
+        graphics2D.drawImage(immagineBriscola, 150,350,100,160,null);
+        graphics2D.drawImage(immagineMazzo,50,340,120,180,null);
         
         graphics2D.setFont(new Font("Arial",Font.BOLD,20));
         graphics2D.drawString(giocatore.getMano().get(selettore).getNome(),20,840);
         graphics2D.drawString("PUNTI: " + "20", 770,840);
-        
         
         
         
