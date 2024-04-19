@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Squadra {
     
     private ArrayList<Giocatore> giocatores;
-    
     private ArrayList<Carta> carteVinte;
     private String nome;
 

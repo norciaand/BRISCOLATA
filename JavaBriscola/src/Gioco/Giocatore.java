@@ -35,6 +35,7 @@ public class Giocatore {
             {
                 gameFrame.getPannelloDiGioco().setSelettore(mano.size()-1);
             }
+            System.out.println("BUONO");
             return cartaGiocata;
         }
         return null;

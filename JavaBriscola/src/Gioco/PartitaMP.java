@@ -2,27 +2,27 @@ package Gioco;
 
 public class PartitaMP extends Partita{
     
-    final String[] nomii = {"Andrea", "Alessandro","Giovanni","Filippo"}; //ESEMPIO
-    
     public PartitaMP(int tipoPartita) {
         super(tipoPartita);
-        setup();
     }
-    
+
+
+    //SETUP PARTITA MP
+    @Override
     public void setup() {
         if(getnPlayer() == 2){
-            getSquadres().get(0).aggiungiNuovoGiocatore(nomii[0],this);
-            getSquadres().get(1).aggiungiNuovoGiocatore(nomii[1],this);
+            getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0],this);
+            getSquadres().get(1).aggiungiNuovoGiocatore(nomiGiocatori[1],this);
         } else if (getnPlayer() == 4) {
-            getSquadres().get(0).aggiungiNuovoGiocatore(nomii[0],this);
-            getSquadres().get(0).aggiungiNuovoGiocatore(nomii[1],this);
-            getSquadres().get(1).aggiungiNuovoGiocatore(nomii[2],this);
-            getSquadres().get(1).aggiungiNuovoGiocatore(nomii[3],this);
+            getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0],this);
+            getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[1],this);
+            getSquadres().get(1).aggiungiNuovoGiocatore(nomiGiocatori[2],this);
+            getSquadres().get(1).aggiungiNuovoGiocatore(nomiGiocatori[3],this);
         }
         else if (getnPlayer() == 3){
-            getSquadres().get(0).aggiungiNuovoGiocatore(nomii[0],this);
-            getSquadres().get(1).aggiungiNuovoGiocatore(nomii[1],this);
-            getSquadres().get(2).aggiungiNuovoGiocatore(nomii[2],this);
+            getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0],this);
+            getSquadres().get(1).aggiungiNuovoGiocatore(nomiGiocatori[1],this);
+            getSquadres().get(2).aggiungiNuovoGiocatore(nomiGiocatori[2],this);
         }
         
         //DISTRIBUZIONE PRIME 3 CARTE
@@ -41,10 +41,6 @@ public class PartitaMP extends Partita{
             }
         }
         
-        //START THREAD
-        getMatchThread().start();
-        
     }
-    
-    
+
 }
