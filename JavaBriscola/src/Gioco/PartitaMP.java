@@ -26,10 +26,10 @@ public class PartitaMP extends Partita{
         }
         
         //DISTRIBUZIONE PRIME 3 CARTE
-        for (int j = 0; j < 3; j++){
-            for(Squadra squadra : getSquadres()){
-                for (Giocatore giocatore: squadra.getGiocatores()) {
-                    giocatore.prendi(getMazzo1().pesca());
+        for (int i = 0; i < 3; i++) {
+            for (int g = 0; g < getSquadres().getFirst().getGiocatores().size(); g++) {
+                for (int s = 0; s < getSquadres().size(); s++) {
+                    getSquadres().get(s).getGiocatores().get(g).prendiCarta(getMazzo1().pesca());
                 }
             }
         }

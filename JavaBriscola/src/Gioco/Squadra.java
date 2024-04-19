@@ -11,17 +11,18 @@ public class Squadra {
     public Squadra(String nome) {
         this.nome = nome;
         giocatores = new ArrayList<>();
+        carteVinte = new ArrayList<>();
     }
 
-    public void PrendiBanco(ArrayList<Carta> Banco){
+    public void prendiBanco(ArrayList<Carta> Banco) {
         carteVinte.addAll(Banco);
     }
     
-    public int CalcoloPunti(){
+    public int calcoloPunti() {
         int totPunti = 0;
         for (Carta c: carteVinte){
             totPunti += c.getPunti();
-            //inserire qui eventuale roba per animazione graduale figa del callcolo dei punti
+            //inserire qui eventuale roba per animazione graduale figa del calcolo dei punti, NO
         }
         return totPunti;
     }

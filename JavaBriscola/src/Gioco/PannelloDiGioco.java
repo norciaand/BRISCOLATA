@@ -12,17 +12,16 @@ public class PannelloDiGioco extends JPanel implements Runnable {
 
     //PANEL TOOLS
     private Thread paneThread;
-    private KeyHandler keyHandler;
+    private final KeyHandler keyHandler;
     
     //COMPONENTI PARTITA
     private final Partita partita;
-    private final Squadra squadra;
     private final Giocatore giocatore;
     
     //IMMAGINI
     private BufferedImage immagineBriscola, immagineMazzo, immagineAnonima;
-    private BufferedImage[] immaginiMano;
-    private BufferedImage[] immaginiBanco;
+    private final BufferedImage[] immaginiMano;
+    private final BufferedImage[] immaginiBanco;
         
     //CARTE MANO
     private int selettore;
@@ -31,7 +30,6 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     public PannelloDiGioco(Partita partita,Squadra squadra, Giocatore giocatore) {
         this.partita = partita;
         this.giocatore = giocatore;
-        this.squadra = squadra;
 
         selettore = 1;
         
@@ -56,7 +54,7 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     @Override
     public void run() {        
         try {
-            immagineAnonima = read(Objects.requireNonNull(getClass().getClassLoader().getResource("anonim.png")));
+            immagineAnonima = read(Objects.requireNonNull(getClass().getClassLoader().getResource("anonima.png")));
             immagineMazzo = read(Objects.requireNonNull(getClass().getClassLoader().getResource("mazzo.png")));
             immagineBriscola = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getCartaBriscola().toString() + ".png")));
         } catch (IOException e) {
@@ -70,23 +68,21 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     }
 
     public void update() {
-        
-        if (keyHandler.isPressed1()){
-            selettore = 0;
-        } else if (keyHandler.isPressed2()){
-            selettore = 1;
-        } else if (keyHandler.isPressed3()){
-            selettore = 2;
+        //LETTURA INPUT, solo se siamo nello stato true
+        if (giocatore.getPLAYER_STATE()){
+            if (keyHandler.isPressed1()){
+                selettore = 0;
+            } else if (keyHandler.isPressed2()){
+                selettore = 1;
+            } else if (keyHandler.isPressed3()){
+                selettore = 2;
+            }
+            
+            isPressingEnter = keyHandler.isPressedEnter();
         }
         
-        if (keyHandler.isPressedEnter()){
-            isPressingEnter = true;
-//            System.out.println(paneThread.getName() + " ha premuto INVIO");
-        } else {
-            isPressingEnter = false;
-        }
-        
-        for (int i = 0; i < giocatore.getMano().size(); i++){
+        //CARICAMENTO IMMAGINI NELLA MANO
+        for (int i = 0; i < giocatore.getMano().size(); i++) {
             try {
                 immaginiMano[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + giocatore.getMano().get(i).toString() + ".png")));
             } catch (IOException e) {
@@ -94,6 +90,7 @@ public class PannelloDiGioco extends JPanel implements Runnable {
             }
         }
         
+        //CARICAMENTO IMMAGINI NEL BANCO
         for (int i = 0; i < partita.getAllBanco().size(); i++){
             try {
                 immaginiBanco[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getBanco(i).toString() + ".png")));
@@ -113,10 +110,13 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
 
-        //DISEGNO SELECTOR
         graphics2D.setColor(Color.WHITE);
-        graphics2D.setStroke(new BasicStroke(2.5f));
-        graphics2D.drawLine(260 + (selettore *130),840, 260 + (selettore *130) + 120, 840);
+        
+        //DISEGNO SELECTOR
+        if (giocatore.getPLAYER_STATE()){
+            graphics2D.setStroke(new BasicStroke(2.5f));
+            graphics2D.drawLine(260 + (selettore *130),840, 260 + (selettore *130) + 120, 840);
+        }
         
         
         //DISEGNO CARTE IN MANO
@@ -144,14 +144,19 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         
         graphics2D.setFont(new Font("Arial",Font.BOLD,20));
         graphics2D.drawString(giocatore.getMano().get(selettore).getNome(),20,840);
-        graphics2D.drawString("PUNTI: " + "20", 770,840);
+        graphics2D.drawString("PUNTI: " + giocatore.getSquadra().calcoloPunti(), 770,840);
         
         
         graphics2D.dispose();
     }
+    
+    public boolean isPressingEnter() 
+    { 
+        return isPressingEnter; 
+    }
 
-    public boolean isPressingEnter() {
-        return isPressingEnter;
+    public void setPressingEnter(boolean pressingEnter) {
+        isPressingEnter = pressingEnter;
     }
 
     public int getSelettore() {

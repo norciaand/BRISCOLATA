@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class FinestraDiGioco extends JFrame {
     
-    private PannelloDiGioco pannelloDiGioco;
+    private final PannelloDiGioco pannelloDiGioco;
     
     //CONSTRUCTOR
     public FinestraDiGioco(String nomeFinestra, Partita partita, Squadra squadra, Giocatore giocatore) throws HeadlessException {

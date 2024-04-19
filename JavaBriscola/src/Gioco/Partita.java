@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public abstract class Partita implements Runnable {
 
-    //COSTANTI COLORI
+    //COSTANTI COLORI di esempio
     private final String[] coloriSquadre = {"Rossa", "Blu", "Verde"};
-    public final String[] nomiGiocatori = {"Andrea", "Alessandro","Giovanni","Filippo"}; //ESEMPIO
+    public final String[] nomiGiocatori = {"Andrea", "Alessandro","Giovanni","Filippo"};
     
     //INFO PARTITA
-    private int tipoPartita; // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: b5
+    private final int tipoPartita; // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: b5
     private int nPlayer;
     private int NORMAL_TURN;
     private final int FINAL_TURN = 3;
@@ -83,76 +83,132 @@ public abstract class Partita implements Runnable {
         }
         return risultato;
     }
+    
+    //SECONDA FUNZIONE SCONTRO DI PROVA
+    public int vincitoreScontro(Carta cartaBase, Carta cartaSopra){
+        int indice = 0;
+
+        if (cartaBase.getSeme() == cartaSopra.getSeme()) {
+            if ((cartaBase.getPunti() < cartaSopra.getPunti()) || (cartaBase.getPunti() == cartaSopra.getPunti() && cartaBase.getNumero() < cartaSopra.getNumero())) {
+                indice++;
+            }
+        } else if (cartaSopra.getSeme() == mazzo1.semeBriscola()) {
+            indice++;
+        }
+        
+        return indice;
+    }
+    
+    public int vincitoreScontro(ArrayList<Carta> banco){
+        int indice = 0;
+        
+        for (int x = 0; x < banco.size()-1; x++) {
+            indice += (x+1) * vincitoreScontro(banco.get(indice), banco.get(x+1));
+        }
+        
+        return indice;
+    }
 
 
     //FUCNTION MATCH THREAD
     @Override
     public void run() {
-        
         /*
         *   INIZIO PARTITA
         */
         
+        MATCH_STATE = 1;
         int s,g;
-        MATCH_STATE = 1;        
-        for (int t = 0; t < NORMAL_TURN; t++){
+        Giocatore giocatoreChePrende;
+        final ArrayList<Giocatore> tuttiGiocatori = new ArrayList<>();
+        for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++) {
+            for (s = 0; s < squadres.size(); s++) {
+                tuttiGiocatori.add(squadres.get(s).getGiocatores().get(g));
+            }
+        }
+        
+        int sfasamento = 0;
+        int x;
             
+        for (int t = 17; t < NORMAL_TURN; t++){
             banco.clear();
-
-            System.out.println("CARTE NEL MAZZO: " + getMazzo1().getSize());
             
-            for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++){
-                for (s = 0; s < squadres.size(); s++) {
-
-                    Carta carta = null;
-                    while (carta == null) {
-                        carta = squadres.get(s).getGiocatores().get(g).giocaCarta();
-                    }
-                    banco.add(carta);
-
+            for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++) {
+                x = i;
+                if (x >= tuttiGiocatori.size()){
+                    x -= tuttiGiocatori.size();
                 }
+                tuttiGiocatori.get(x).assegnaTurno();
+
+                Carta carta = null;
+                while (carta == null) {
+                    carta = tuttiGiocatori.get(x).giocaCarta();
+                }
+                banco.add(carta);
+
+                tuttiGiocatori.get(x).finalizaTurno();
+                                
+            }
+            //RITROVAMENTO INDICE DEL VINCITORE e PRESA DEI PUNTI NELLA SUA SQUADRA
+            sfasamento = vincitoreScontro(banco) + sfasamento;
+            if (sfasamento >= tuttiGiocatori.size()) {
+                sfasamento -= tuttiGiocatori.size();
             }
             
-            /*
-            * SCONTRO EFFETTIVO DELLE CARTE, vedere implementazione
-            * */
-
-            for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++) {
-                for (s = 0; s < squadres.size(); s++) {
-                    squadres.get(s).getGiocatores().get(g).prendi(getMazzo1().pesca());
+            giocatoreChePrende = tuttiGiocatori.get(sfasamento);
+            System.out.println("GIOCATORE VINCENTE " + giocatoreChePrende.getNome());
+            giocatoreChePrende.getSquadra().prendiBanco(banco);
+            
+            //PESCA CARTE x TURNO SUCCESSIVO
+            for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++){
+                x = i;
+                if (x >= tuttiGiocatori.size()){
+                    x -= tuttiGiocatori.size();
                 }
+                tuttiGiocatori.get(x).prendiCarta(getMazzo1().pesca());
             }
             
         }
-        
         /*
         * ESAURIMENTO DEL MAZZO, inizio endgame
         * */
         
         //IMPONIAMO AI FORM DI NON MOSTRARE PIU LA BRISCOLA E IL MAZZO
+        //TURNI FINALI
+        
+        
         
         MATCH_STATE = 2;
-        /*
-        * TURNI FINALI,
-        * */
-        
+
         for (int t = 0; t < FINAL_TURN; t++){
-            
             banco.clear();
 
-            System.out.println("CARTE NEL MAZZO: " + getMazzo1().getSize());
-
-            for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++){
-                for (s = 0; s < squadres.size(); s++) {
-
-                    Carta carta = null;
-                    while (carta == null) {
-                        carta = squadres.get(s).getGiocatores().get(g).giocaCarta();
-                    }
-                    banco.add(carta);
-
+            for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++) {
+                x = i;
+                if (x >= tuttiGiocatori.size()){
+                    x -= tuttiGiocatori.size();
                 }
+                tuttiGiocatori.get(x).assegnaTurno();
+
+                Carta carta = null;
+                while (carta == null) {
+                    carta = tuttiGiocatori.get(x).giocaCarta();
+                }
+                banco.add(carta);
+
+                tuttiGiocatori.get(x).finalizaTurno();
+
             }
+            //RITROVAMENTO INDICE DEL VINCITORE e PRESA DEI PUNTI NELLA SUA SQUADRA
+            sfasamento = vincitoreScontro(banco) + sfasamento;
+            if (sfasamento >= tuttiGiocatori.size()) {
+                sfasamento -= tuttiGiocatori.size();
+            }
+
+            giocatoreChePrende = tuttiGiocatori.get(sfasamento);
+            System.out.println("GIOCATORE VINCENTE " + giocatoreChePrende.getNome());
+            giocatoreChePrende.getSquadra().prendiBanco(banco);
+
         }
         
     }

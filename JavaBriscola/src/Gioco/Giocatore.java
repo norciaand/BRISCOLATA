@@ -5,35 +5,30 @@ import java.util.ArrayList;
 public class Giocatore {
     
     private String nome;
-    private ArrayList<Carta> mano = new ArrayList<>();
+    private final ArrayList<Carta> mano = new ArrayList<>();
 
     private FinestraDiGioco gameFrame;
-    private Partita partita;
-    private Squadra squadra;
+    private final Partita partita;
+    private final Squadra squadra;
+    
+    private boolean PLAYER_STATE; //turno true/false
 
     public Giocatore(String nome,Squadra squadra, Partita partita) {
         this.nome = nome;
         this.partita = partita;
         this.squadra = squadra;
+        PLAYER_STATE = false;
     }
 
-    public void prendi(Carta x) {
+    public void prendiCarta(Carta x) {
         mano.add(x);
-    }
-
-    public Carta getCarta(int index)
-    {
-        return mano.get(index);
     }
 
     public Carta giocaCarta() {
         if (gameFrame.getPannelloDiGioco().isPressingEnter()) {
             Carta cartaGiocata = mano.get(gameFrame.getPannelloDiGioco().getSelettore());
             mano.remove(gameFrame.getPannelloDiGioco().getSelettore());
-            if (gameFrame.getPannelloDiGioco().getSelettore() >= mano.size())
-            {
-                gameFrame.getPannelloDiGioco().setSelettore(mano.size()-1);
-            }
+            gameFrame.getPannelloDiGioco().setSelettore(0);
             return cartaGiocata;
         }
         return null;
@@ -48,7 +43,29 @@ public class Giocatore {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public ArrayList<Carta> getMano() {
         return mano;
+    }
+
+    public boolean getPLAYER_STATE() {
+        return PLAYER_STATE;
+    }
+
+    public Squadra getSquadra() {
+        return squadra;
+    }
+
+    public void assegnaTurno(){
+        gameFrame.getPannelloDiGioco().setSelettore(1);
+        PLAYER_STATE = true;
+    }
+    
+    public void finalizaTurno(){
+        gameFrame.getPannelloDiGioco().setPressingEnter(false);
+        PLAYER_STATE = false;
     }
 }

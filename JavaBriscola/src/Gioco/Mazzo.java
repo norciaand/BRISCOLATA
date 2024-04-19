@@ -16,8 +16,11 @@ public class Mazzo {
     public static final String[] rankOriginali = {"Asso", "Due", "Tre", "Quattro", "Cinque", "Sei", "Sette", "Fante", "Cavallo", "Re"};
     public static final String[] semiOriginali = {"Denari", "Spade", "Coppe","Bastoni"};
 
+    private int semeDiBriscola;
+    
     public Mazzo() {
         riempi();
+        semeDiBriscola = deck.getFirst().getSeme();
     }
 
     private void riempi() {
@@ -37,7 +40,7 @@ public class Mazzo {
 
     public int semeBriscola()
     {
-        return deck.getFirst().getSeme();
+        return semeDiBriscola;
     }
 
     public String semeBriscolaToString()
