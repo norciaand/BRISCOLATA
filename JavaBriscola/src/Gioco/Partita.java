@@ -49,6 +49,7 @@ public abstract class Partita implements Runnable {
                 squadres.add(new Squadra(coloriSquadre[0]));
                 squadres.add(new Squadra(coloriSquadre[1]));
                 squadres.add(new Squadra(coloriSquadre[2]));
+                NORMAL_TURN = 10;
                 break;
             case 4:
                 //NON PENSIAMO DI FARLA
