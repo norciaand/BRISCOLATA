@@ -15,7 +15,6 @@ public class Giocatore {
         this.nome = nome;
         this.partita = partita;
         this.squadra = squadra;
-        mano.clear();
     }
 
     public void prendi(Carta x) {
@@ -48,10 +47,6 @@ public class Giocatore {
 
     public String getNome() {
         return nome;
-    }
-
-    public FinestraDiGioco getGameFrame() {
-        return gameFrame;
     }
 
     public ArrayList<Carta> getMano() {

@@ -11,7 +11,6 @@ public class Squadra {
     public Squadra(String nome) {
         this.nome = nome;
         giocatores = new ArrayList<>();
-        giocatores.clear();
     }
 
     public void PrendiBanco(ArrayList<Carta> Banco){
@@ -34,8 +33,5 @@ public class Squadra {
     public ArrayList<Giocatore> getGiocatores() {
         return giocatores;
     }
-
-    public String getNomeSquadra() {
-        return nome;
-    }
+    
 }

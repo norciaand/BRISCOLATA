@@ -95,7 +95,7 @@ public abstract class Partita implements Runnable {
         int s = 0;
         int g = 0;
 
-        for (g = 0; g < squadres.get(0).getGiocatores().size(); g++){
+        for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++){
             for (s = 0; s < squadres.size(); s++) {
 
                 //DEBUG A CHI TOCCA GIOCARE LA CARTA
@@ -124,7 +124,7 @@ public abstract class Partita implements Runnable {
     }
 
     public Carta getCartaBriscola() {
-        return mazzo1.getDeck().get(0);
+        return mazzo1.getDeck().getFirst();
     }
 
     public int getSemeBriscola(){
@@ -143,11 +143,5 @@ public abstract class Partita implements Runnable {
     public ArrayList<Squadra> getSquadres() {
         return squadres;
     }
-
-
-    public Thread getMatchThread() {
-        return matchThread;
-    }
     
-
 }
