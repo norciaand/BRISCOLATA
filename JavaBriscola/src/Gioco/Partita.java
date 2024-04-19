@@ -130,13 +130,18 @@ public abstract class Partita implements Runnable {
         int sfasamento = 0;
         int x;
             
-        for (int t = 17; t < NORMAL_TURN; t++){
+        for (int t = 0; t < NORMAL_TURN; t++){
             banco.clear();
             
             for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++) {
                 x = i;
                 if (x >= tuttiGiocatori.size()){
                     x -= tuttiGiocatori.size();
+                }
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
                 tuttiGiocatori.get(x).assegnaTurno();
 
@@ -188,6 +193,11 @@ public abstract class Partita implements Runnable {
                 if (x >= tuttiGiocatori.size()){
                     x -= tuttiGiocatori.size();
                 }
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 tuttiGiocatori.get(x).assegnaTurno();
 
                 Carta carta = null;
@@ -204,7 +214,7 @@ public abstract class Partita implements Runnable {
             if (sfasamento >= tuttiGiocatori.size()) {
                 sfasamento -= tuttiGiocatori.size();
             }
-
+            
             giocatoreChePrende = tuttiGiocatori.get(sfasamento);
             System.out.println("GIOCATORE VINCENTE " + giocatoreChePrende.getNome());
             giocatoreChePrende.getSquadra().prendiBanco(banco);
