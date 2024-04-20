@@ -7,51 +7,51 @@ public abstract class Partita implements Runnable {
     //COSTANTI COLORI di esempio
     private final String[] coloriSquadre = {"Rossa", "Blu", "Verde"};
     public final String[] nomiGiocatori = {"Andrea", "Alessandro","Giovanni","Filippo"};
-    
+
     //INFO PARTITA
-    private final int tipoPartita; // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: b5
-    private int nPlayer;
+    // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: b5
     private int NORMAL_TURN;
     private final int FINAL_TURN = 3;
     private int MATCH_STATE;
     private final int semeBriscola;
+    private int nPlayer;
 
-    private Mazzo mazzo1; //MAZZO DELLA PARTITA
-    private ArrayList<Carta> banco;
-    private ArrayList<Squadra> squadres;
+    private final Mazzo mazzo1; //MAZZO DELLA PARTITA
+    private final ArrayList<Carta> banco;
+    private final ArrayList<Squadra> squadres;
 
     //TOOLS PARTITA
-    private Thread matchThread;
+    private final Thread matchThread;
 
     //COSTRUTTORE PARTITA
     public Partita(int tipoPartita) {
-        this.tipoPartita = tipoPartita;
         squadres = new ArrayList<>();
         banco = new ArrayList<>();
         mazzo1 = new Mazzo();
         mazzo1.mischia();
         semeBriscola = mazzo1.getDeck().getFirst().getSeme();
         MATCH_STATE = 0;
+        
         switch (tipoPartita) {
             case 0:
-                nPlayer = 2;
                 squadres.add(new Squadra(coloriSquadre[0]));
                 squadres.add(new Squadra(coloriSquadre[1]));
                 NORMAL_TURN = 17;
+                nPlayer = 2;
                 break;
             case 1:
-                nPlayer = 4;
                 squadres.add(new Squadra(coloriSquadre[0]));
                 squadres.add(new Squadra(coloriSquadre[1]));
                 NORMAL_TURN = 7;
+                nPlayer = 4;
                 break;
             case 2:
             case 3:
-                nPlayer = 3;
                 squadres.add(new Squadra(coloriSquadre[0]));
                 squadres.add(new Squadra(coloriSquadre[1]));
                 squadres.add(new Squadra(coloriSquadre[2]));
                 NORMAL_TURN = 10;
+                nPlayer = 3;
                 break;
             case 4:
                 //NON PENSIAMO DI FARLA
@@ -82,7 +82,6 @@ public abstract class Partita implements Runnable {
         }
     }
     
-    //SCONTRO 1v1
     public int scontro(Carta cartaBase, Carta cartaSopra) {
         int risultato = cartaBase.getPunti() + cartaSopra.getPunti();
         if (risultato == 0) risultato = 1;
@@ -99,16 +98,15 @@ public abstract class Partita implements Runnable {
         return risultato;
     }
     
-    //SECONDA FUNZIONE SCONTRO DI PROVA
     public int vincitoreScontro(Carta cartaBase, Carta cartaSopra){
         int indice = 0;        
         
-        if (cartaBase.getSeme() == cartaSopra.getSeme()) {;
+        if (cartaBase.getSeme() == cartaSopra.getSeme()) {
             if ((cartaBase.getPunti() < cartaSopra.getPunti()) || (cartaBase.getPunti() == cartaSopra.getPunti() && cartaBase.getNumero() < cartaSopra.getNumero())) {
                 indice = 1;
             }
         } else if (cartaSopra.getSeme() == semeBriscola) {
-            indice = 1;;
+            indice = 1;
         }
         return indice;
     }
@@ -133,6 +131,7 @@ public abstract class Partita implements Runnable {
         /*
         *   INIZIO PARTITA
         */
+        
         MATCH_STATE = 1;
         int s,g;
         Entita giocatoreChePrende;
@@ -146,9 +145,9 @@ public abstract class Partita implements Runnable {
         int sfasamento = 0;
         int x;
             
-        for (int t = 0; t < NORMAL_TURN; t++){
+        for (int t = 0; t < NORMAL_TURN + FINAL_TURN; t++){
             banco.clear();
-            
+            System.out.println("carte nel mazzo" + mazzo1.getSize());
             for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++) {
                 x = i;
                 if (x >= tuttiGiocatori.size()){
@@ -168,11 +167,6 @@ public abstract class Partita implements Runnable {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-
-                    if (i == sfasamento){
-                        System.out.println("AGGIORNA MEMORIA BOT");
-                        ((Bot) tuttiGiocatori.get(x)).aggiornaMemoria(banco.getFirst());
-                    }
                 }
                 
                 Carta carta = null;
@@ -181,11 +175,16 @@ public abstract class Partita implements Runnable {
                 }
                 
                 banco.add(carta);
-
+                
+                if (tuttiGiocatori.get(x) instanceof Giocatore && this instanceof PartitaSP && banco.size() == 2) {
+                    Bot bot = (Bot) getSquadres().get(1).getGiocatores().getFirst();
+                    bot.aggiornaMemoria(banco.get(1));
+                    System.out.println("AGGIORNA MEMORIA BOT");
+                }
+                
                 tuttiGiocatori.get(x).finalizaTurno();
-                
-                
             }
+            
             //RITROVAMENTO INDICE DEL VINCITORE e PRESA DEI PUNTI NELLA SUA SQUADRA
             sfasamento = vincitoreScontro(banco) + sfasamento;
             if (sfasamento >= tuttiGiocatori.size()) {
@@ -202,67 +201,26 @@ public abstract class Partita implements Runnable {
             giocatoreChePrende.getSquadra().prendiBanco(banco);
             
             //PESCA CARTE x TURNO SUCCESSIVO
-            for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++){
-                x = i;
-                if (x >= tuttiGiocatori.size()){
-                    x -= tuttiGiocatori.size();
-                }
-                tuttiGiocatori.get(x).prendiCarta(getMazzo1().pesca());
-            }
-        }
-        /*
-        * ESAURIMENTO DEL MAZZO, inizio endgame
-        * */
-        
-        //IMPONIAMO AI FORM DI NON MOSTRARE PIU LA BRISCOLA E IL MAZZO
-        //TURNI FINALI
-        
-        
-        MATCH_STATE = 2;
-
-        for (int t = 0; t < FINAL_TURN; t++){
-            banco.clear();
-
-            for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++) {
-                x = i;
-                if (x >= tuttiGiocatori.size()){
-                    x -= tuttiGiocatori.size();
-                }
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                tuttiGiocatori.get(x).assegnaTurno();
-
-                Carta carta = null;
-                while (carta == null) {
-                    carta = tuttiGiocatori.get(x).giocaCarta();
-                }
-                banco.add(carta);
-
-                tuttiGiocatori.get(x).finalizaTurno();
-
-            }
-            //RITROVAMENTO INDICE DEL VINCITORE e PRESA DEI PUNTI NELLA SUA SQUADRA
-            sfasamento = vincitoreScontro(banco) + sfasamento;
-            if (sfasamento >= tuttiGiocatori.size()) {
-                sfasamento -= tuttiGiocatori.size();
+            
+            if (t == NORMAL_TURN){
+                MATCH_STATE = 2;
             }
             
-            giocatoreChePrende = tuttiGiocatori.get(sfasamento);
-            System.out.println("GIOCATORE VINCENTE " + giocatoreChePrende.getNome());
-            giocatoreChePrende.getSquadra().prendiBanco(banco);
-
+            if (t < NORMAL_TURN){
+                for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++){
+                    x = i;
+                    if (x >= tuttiGiocatori.size()){
+                        x -= tuttiGiocatori.size();
+                    }
+                    tuttiGiocatori.get(x).prendiCarta(getMazzo1().pesca());
+                }
+            }
+            
         }
         
+        
     }
-
     
-    public int getnPlayer() {
-        return nPlayer;
-    }
-
     public Mazzo getMazzo1() {
         return mazzo1;
     }
@@ -274,7 +232,6 @@ public abstract class Partita implements Runnable {
     public int getSemeBriscola(){
         return semeBriscola;
     }
-
     
     public Carta getBanco(int index) {
         return banco.get(index);
@@ -290,5 +247,9 @@ public abstract class Partita implements Runnable {
 
     public int getMATCH_STATE() {
         return MATCH_STATE;
+    }
+
+    public int getnPlayer() {
+        return nPlayer;
     }
 }
