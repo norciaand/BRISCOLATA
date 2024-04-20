@@ -14,13 +14,10 @@ public class Mazzo {
     public static final int DECK = 10;
 
     public static final String[] rankOriginali = {"Asso", "Due", "Tre", "Quattro", "Cinque", "Sei", "Sette", "Fante", "Cavallo", "Re"};
-    public static final String[] semiOriginali = {"Denari", "Spade", "Coppe","Bastoni"};
-
-    private int semeDiBriscola;
+    public static final String[] semiOriginali = {"Denari", "Spade", "Coppe", "Bastoni"};
     
     public Mazzo() {
         riempi();
-        semeDiBriscola = deck.getFirst().getSeme();
     }
 
     private void riempi() {
@@ -37,16 +34,7 @@ public class Mazzo {
     public void mischia() {
         Collections.shuffle(deck);
     }
-
-    public int semeBriscola()
-    {
-        return semeDiBriscola;
-    }
-
-    public String semeBriscolaToString()
-    {
-        return semiOriginali[semeBriscola()];
-    }
+    
 
     public Carta pesca(){          //ESTRAE E RIMUOVE LA CARTA
         Carta x = deck.getLast();

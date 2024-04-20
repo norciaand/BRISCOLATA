@@ -32,7 +32,7 @@ public class Squadra {
     }
     
     public void aggiungiNuovoBot(Partita partita, int difficolta) {
-        giocatores.add(new Bot("BOT" + " - Squadra" + nome , this, partita, difficolta));
+        giocatores.add(new Bot("BOT - Squadra " + nome, this, partita, difficolta));
     }
 
     public ArrayList<Entita> getGiocatores() {

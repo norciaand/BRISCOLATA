@@ -11,7 +11,6 @@ public class Bot extends Entita{
     Carta lastFirstBot = null;
     private int strategia = 0;
     private int distanza = 0;
-    private String nome;
     private int difficolta;
 
     public Bot(String nome,Squadra squadra, Partita p,int difficolta) {
@@ -24,11 +23,6 @@ public class Bot extends Entita{
     public void prendiCarta(Carta x) {
         mano.add(x);
         memoria.getDeck().remove(x);
-    }
-    
-
-    public String getNome() {
-        return nome;
     }
 
     public ArrayList<Carta> getMano() {

@@ -14,6 +14,7 @@ public abstract class Partita implements Runnable {
     private int NORMAL_TURN;
     private final int FINAL_TURN = 3;
     private int MATCH_STATE;
+    private final int semeBriscola;
 
     private Mazzo mazzo1; //MAZZO DELLA PARTITA
     private ArrayList<Carta> banco;
@@ -29,6 +30,7 @@ public abstract class Partita implements Runnable {
         banco = new ArrayList<>();
         mazzo1 = new Mazzo();
         mazzo1.mischia();
+        semeBriscola = mazzo1.getDeck().getFirst().getSeme();
         MATCH_STATE = 0;
         switch (tipoPartita) {
             case 0:
@@ -86,10 +88,12 @@ public abstract class Partita implements Runnable {
         if (risultato == 0) risultato = 1;
 
         if (cartaBase.getSeme() == cartaSopra.getSeme()) {
+            
             if ((cartaBase.getPunti() < cartaSopra.getPunti()) || (cartaBase.getPunti() == cartaSopra.getPunti() && cartaBase.getNumero() < cartaSopra.getNumero())) {
                 risultato *= -1;
             }
-        } else if (cartaSopra.getSeme() == mazzo1.semeBriscola()) {
+            
+        } else if (cartaSopra.getSeme() == semeBriscola) {
             risultato *= -1;
         }
         return risultato;
@@ -97,16 +101,15 @@ public abstract class Partita implements Runnable {
     
     //SECONDA FUNZIONE SCONTRO DI PROVA
     public int vincitoreScontro(Carta cartaBase, Carta cartaSopra){
-        int indice = 0;
-
-        if (cartaBase.getSeme() == cartaSopra.getSeme()) {
-            if ((cartaBase.getPunti() < cartaSopra.getPunti()) || (cartaBase.getPunti() == cartaSopra.getPunti() && cartaBase.getNumero() < cartaSopra.getNumero())) {
-                indice++;
-            }
-        } else if (cartaSopra.getSeme() == mazzo1.semeBriscola()) {
-            indice++;
-        }
+        int indice = 0;        
         
+        if (cartaBase.getSeme() == cartaSopra.getSeme()) {;
+            if ((cartaBase.getPunti() < cartaSopra.getPunti()) || (cartaBase.getPunti() == cartaSopra.getPunti() && cartaBase.getNumero() < cartaSopra.getNumero())) {
+                indice = 1;
+            }
+        } else if (cartaSopra.getSeme() == semeBriscola) {
+            indice = 1;;
+        }
         return indice;
     }
     
@@ -130,7 +133,6 @@ public abstract class Partita implements Runnable {
         /*
         *   INIZIO PARTITA
         */
-        
         MATCH_STATE = 1;
         int s,g;
         Entita giocatoreChePrende;
@@ -159,21 +161,28 @@ public abstract class Partita implements Runnable {
                 }
                 
                 tuttiGiocatori.get(x).assegnaTurno();
-
+                
+                /*if (tuttiGiocatori.get(x) instanceof Bot && i == sfasamento + 1){
+                    System.out.println("AGGIORNA MEMORIA BOT");
+                    ((Bot) tuttiGiocatori.get(x)).aggiornaMemoria(banco.getFirst());
+                }*/
+                
                 Carta carta = null;
                 while (carta == null) {
                     carta = tuttiGiocatori.get(x).giocaCarta();
                 }
+                
                 banco.add(carta);
 
                 tuttiGiocatori.get(x).finalizaTurno();
-                                
+                
+                
             }
             //RITROVAMENTO INDICE DEL VINCITORE e PRESA DEI PUNTI NELLA SUA SQUADRA
             sfasamento = vincitoreScontro(banco) + sfasamento;
             if (sfasamento >= tuttiGiocatori.size()) {
                 sfasamento -= tuttiGiocatori.size();
-            }
+            }            
             
             giocatoreChePrende = tuttiGiocatori.get(sfasamento);
 
@@ -182,8 +191,6 @@ public abstract class Partita implements Runnable {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-
-            System.out.println("GIOCATORE VINCENTE " + giocatoreChePrende.getNome());
             giocatoreChePrende.getSquadra().prendiBanco(banco);
             
             //PESCA CARTE x TURNO SUCCESSIVO
@@ -257,7 +264,7 @@ public abstract class Partita implements Runnable {
     }
 
     public int getSemeBriscola(){
-        return mazzo1.semeBriscola();
+        return semeBriscola;
     }
 
     
