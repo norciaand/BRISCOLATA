@@ -2,28 +2,25 @@ package Gioco;
 
 import java.util.ArrayList;
 
-public class Giocatore {
+public class Giocatore extends Entita {
     
-    private String nome;
     private final ArrayList<Carta> mano = new ArrayList<>();
 
     private FinestraDiGioco gameFrame;
-    private final Partita partita;
-    private final Squadra squadra;
     
     private boolean PLAYER_STATE; //turno true/false
 
     public Giocatore(String nome,Squadra squadra, Partita partita) {
-        this.nome = nome;
-        this.partita = partita;
-        this.squadra = squadra;
+        super(nome, squadra, partita);
         PLAYER_STATE = false;
     }
-
+    
+    @Override
     public void prendiCarta(Carta x) {
         mano.add(x);
     }
-
+    
+    @Override
     public Carta giocaCarta() {
         if (gameFrame.getPannelloDiGioco().isPressingEnter()) {
             Carta cartaGiocata = mano.get(gameFrame.getPannelloDiGioco().getSelettore());
@@ -58,12 +55,14 @@ public class Giocatore {
     public Squadra getSquadra() {
         return squadra;
     }
-
+    
+    @Override
     public void assegnaTurno(){
         gameFrame.getPannelloDiGioco().setSelettore(1);
         PLAYER_STATE = true;
     }
     
+    @Override
     public void finalizaTurno(){
         gameFrame.getPannelloDiGioco().setPressingEnter(false);
         PLAYER_STATE = false;

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class Bot{
+public class Bot extends Entita{
     private Mazzo memoria;
     private ArrayList<Carta> mano = new ArrayList<>();
     Random rd = new Random();
@@ -14,11 +14,18 @@ public class Bot{
     private String nome;
     private int difficolta;
 
-    public Bot(String nome, int difficolta) {
-        this.nome = nome;
+    public Bot(String nome,Squadra squadra, Partita p,int difficolta) {
+        super(nome, squadra, p);
         this.difficolta = difficolta;
         memoria = new Mazzo();
     }
+
+    @Override
+    public void prendiCarta(Carta x) {
+        mano.add(x);
+        memoria.getDeck().remove(x);
+    }
+    
 
     public String getNome() {
         return nome;
@@ -27,19 +34,18 @@ public class Bot{
     public ArrayList<Carta> getMano() {
         return mano;
     }
-
+    
+    
+    //DOPO OGNI GIOCATA di un giocatore
     public void aggiornaMemoria(Carta x){       //da implementare nel game loop quando l'avversario gioca per secondo
         this.memoria.getDeck().remove(x);
         lastEnemy = x;
     }
-
-    public void prendiBot(Carta x){
-        mano.add(x);
-        memoria.getDeck().remove(x);
-    }
-
-    public Carta giocaBot(boolean firstMano , PartitaSP p){
-
+    
+    
+    //GIOCATA DELLA CARTA
+    @Override
+    public Carta giocaCarta(){
         /*
         Appunti
           aggiungi parte fase finale per quando giochi per secondo e per primo
@@ -56,7 +62,7 @@ public class Bot{
         //creazione array CartaBot
         for (Carta c : mano){
             CartaBot cb = new CartaBot(c.getSeme(), c.getNumero());
-            if (c.getSeme() == p.getSemeBriscola()){
+            if (c.getSeme() == partita.getSemeBriscola()){
                 cb.setBriscola(true);
                 nBri++;
             }else
@@ -66,15 +72,15 @@ public class Bot{
             //quante carte possono mangiare la carta considerando lo stesso seme;
             for(Carta b : memoria.getDeck()){
                 if(c.getSeme() == b.getSeme())
-                    if(p.scontro(c , b) < 0)
+                    if(partita.scontro(c , b) < 0)
                         cb.setnCarPred(cb.getnCarPred() + 1);
             }
         }
         //------------------------------------------------
         //se si e primi di mano
-        if(firstMano){
+        if(partita.getAllBanco().isEmpty()){
             //se e la primissima mano si cerca di far prendere al avversario
-            if(p.getMazzo1().getSize() == 33){
+            if(partita.getMazzo1().getSize() == 33){
                 for(CartaBot cb:bMano){
                     if(cb.getPunti()>=1 && cb.getPunti()<=4 && !cb.isBriscola())      //punticini non di briscola
                         cb.setGiocabilita(100 - cb.getPunti());
@@ -89,9 +95,9 @@ public class Bot{
                 }
             }
             //procedura se ottenere o meno lultima carta
-            else if(p.getMazzo1().getDeck().size() == 2) {
+            else if(partita.getMazzo1().getDeck().size() == 2) {
                 for (CartaBot cb : bMano) {
-                    if (p.getMazzo1().getDeck().getFirst().getPunti() >= cb.getPunti() || !cb.isBriscola() && cb.getPunti()<10)
+                    if (partita.getMazzo1().getDeck().getFirst().getPunti() >= cb.getPunti() || !cb.isBriscola() && cb.getPunti()<10)
                         if (!cb.isBriscola() && cb.getPunti() < 10)
                             cb.setGiocabilita(100 +cb.getPunti());
                         else
@@ -100,7 +106,7 @@ public class Bot{
                         cb.setGiocabilita(-40 -cb.getPunti()*2 - cb.getNumero()/2);
                 }
             }
-            else if(p.getMazzo1().getDeck().isEmpty()){
+            else if(partita.getMazzo1().getDeck().isEmpty()){
                 if(bMano.size() == 3){
                     //da fare
                 }
@@ -163,22 +169,22 @@ public class Bot{
         //se si e secondi di mano
         else {
             //rimuove dalla memoria la carta messa dal aversario
-            memoria.getDeck().remove(p.getBanco(0));
+            memoria.getDeck().remove(partita.getBanco(0));
             //controllo se ci sono carte vincenti
             for (CartaBot cb : bMano) {
-                if (p.scontro(p.getBanco(0), mano.get(bMano.indexOf(cb))) < 0) {
+                if (partita.scontro(partita.getBanco(0), mano.get(bMano.indexOf(cb))) < 0) {
                     if (!(cb.isBriscola() && cb.getPunti() >= 10))
                         nWin++;
                     cb.setWin(true);
                 }
             }
             //fine paritta
-            if(p.getMazzo1().getDeck().size() == 2) {
+            if(partita.getMazzo1().getDeck().size() == 2) {
                 //la voglio devo perdere
 
                 //non la voglio devo vincere
             }
-            else if(p.getMazzo1().getDeck().isEmpty()){
+            else if(partita.getMazzo1().getDeck().isEmpty()){
                 if(bMano.size() == 3){
                     //da fare
                 }
@@ -188,7 +194,7 @@ public class Bot{
             }
             //partita normale
             //se laversario gioca liscio
-            else if (p.getBanco(0).getPunti() == 0) {
+            else if (partita.getBanco(0).getPunti() == 0) {
                 for (CartaBot cb : bMano) {
                     if (cb.getPunti() >= 10 && !cb.isBriscola() && cb.isWin()) //carico non di briscola puo prendere
                         cb.setGiocabilita(120 + cb.getPunti());
@@ -202,13 +208,13 @@ public class Bot{
                 }
             }
             //se laversario gioca punticini
-            else if (p.getBanco(0).getPunti() > 0 && p.getBanco(0).getPunti() <= 4) {
+            else if (partita.getBanco(0).getPunti() > 0 && partita.getBanco(0).getPunti() <= 4) {
                 for (CartaBot cb : bMano) {
-                    if (!cb.isBriscola() && cb.isWin() && (p.getBanco(0).getPunti() + cb.getPunti()) >= 6) //non di briscola puo prendere se punti decente
+                    if (!cb.isBriscola() && cb.isWin() && (partita.getBanco(0).getPunti() + cb.getPunti()) >= 6) //non di briscola puo prendere se punti decente
                         cb.setGiocabilita(160 + cb.getPunti() + cb.getnCarPred());
                     else if (!cb.isWin() && cb.getPunti() <= 4)    //si preferisce giocare per secondi
                         cb.setGiocabilita(120 - cb.getPunti() - cb.getNumero() / 2 + cb.getnCarPred());
-                    else if (!cb.isBriscola() && cb.isWin() && (p.getBanco(0).getPunti() + cb.getPunti()) < 6)
+                    else if (!cb.isBriscola() && cb.isWin() && (partita.getBanco(0).getPunti() + cb.getPunti()) < 6)
                         cb.setGiocabilita(80 + cb.getPunti() + cb.getnCarPred());
                     else if (nBri > 1 && cb.isWin() && cb.getPunti() < 10) //prendere con una briscola non carico
                         cb.setGiocabilita(40 + cb.getPunti() - cb.getnCarPred());
@@ -217,7 +223,7 @@ public class Bot{
                 }
             }
             //in caso giochi carichi
-            else if (p.getBanco(0).getPunti() >= 10) {
+            else if (partita.getBanco(0).getPunti() >= 10) {
                 for (CartaBot cb : bMano) {
                     if (cb.isWin()) {     //si sceglie la carta piu conveniente con cui prendere
                         if (!cb.isBriscola())
@@ -245,9 +251,19 @@ public class Bot{
         //effetua la giocata
         x = mano.get(index);
         distanza++;
-        if(firstMano)
+        if(partita.getAllBanco().isEmpty())
             lastFirstBot = x;
         mano.remove(x);
         return x;
+    }
+
+    @Override
+    public void assegnaTurno() {
+        
+    }
+
+    @Override
+    public void finalizaTurno() {
+
     }
 }

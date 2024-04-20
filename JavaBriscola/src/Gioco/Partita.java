@@ -69,7 +69,6 @@ public abstract class Partita implements Runnable {
     }
 
     public abstract void setup();
-
     //SCONTRO 1v1
     public int scontro(Carta cartaBase, Carta cartaSopra) {
         int risultato = cartaBase.getPunti() + cartaSopra.getPunti();
@@ -120,8 +119,8 @@ public abstract class Partita implements Runnable {
         
         MATCH_STATE = 1;
         int s,g;
-        Giocatore giocatoreChePrende;
-        final ArrayList<Giocatore> tuttiGiocatori = new ArrayList<>();
+        Entita giocatoreChePrende;
+        final ArrayList<Entita> tuttiGiocatori = new ArrayList<>();
         for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++) {
             for (s = 0; s < squadres.size(); s++) {
                 tuttiGiocatori.add(squadres.get(s).getGiocatores().get(g));
@@ -144,6 +143,7 @@ public abstract class Partita implements Runnable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                
                 tuttiGiocatori.get(x).assegnaTurno();
 
                 Carta carta = null;
@@ -162,6 +162,7 @@ public abstract class Partita implements Runnable {
             }
             
             giocatoreChePrende = tuttiGiocatori.get(sfasamento);
+            
             System.out.println("GIOCATORE VINCENTE " + giocatoreChePrende.getNome());
             giocatoreChePrende.getSquadra().prendiBanco(banco);
             
@@ -173,7 +174,12 @@ public abstract class Partita implements Runnable {
                 }
                 tuttiGiocatori.get(x).prendiCarta(getMazzo1().pesca());
             }
-            
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         /*
         * ESAURIMENTO DEL MAZZO, inizio endgame
@@ -181,7 +187,6 @@ public abstract class Partita implements Runnable {
         
         //IMPONIAMO AI FORM DI NON MOSTRARE PIU LA BRISCOLA E IL MAZZO
         //TURNI FINALI
-        
         
         
         MATCH_STATE = 2;
