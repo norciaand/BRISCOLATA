@@ -1,5 +1,8 @@
 package Menu;
 
+import Gioco.PartitaMP;
+import Gioco.PartitaSP;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -50,7 +53,7 @@ public class MenuPrincipale extends MioFrame {
         spButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MenuSP();
+                new PartitaSP();
                 dispose();
             }
         });

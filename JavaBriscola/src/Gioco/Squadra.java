@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Squadra {
     
-    private ArrayList<Giocatore> giocatores;
+    private ArrayList<Entita> giocatores;
     private ArrayList<Carta> carteVinte;
     private String nome;
 
@@ -30,8 +30,12 @@ public class Squadra {
     public void aggiungiNuovoGiocatore(String gName, Partita partita) {
         giocatores.add(new Giocatore(gName + " - Squadra " + nome,this, partita));
     }
+    
+    public void aggiungiNuovoBot(Partita partita, int difficolta) {
+        giocatores.add(new Bot("BOT" + " - Squadra" + nome , this, partita, difficolta));
+    }
 
-    public ArrayList<Giocatore> getGiocatores() {
+    public ArrayList<Entita> getGiocatores() {
         return giocatores;
     }
     

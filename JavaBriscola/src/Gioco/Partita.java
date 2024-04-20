@@ -69,6 +69,17 @@ public abstract class Partita implements Runnable {
     }
 
     public abstract void setup();
+    
+    public void distribuisci(){
+        for (int i = 0; i < 3; i++) {
+            for (int g = 0; g < getSquadres().getFirst().getGiocatores().size(); g++) {
+                for (int s = 0; s < getSquadres().size(); s++) {
+                    getSquadres().get(s).getGiocatores().get(g).prendiCarta(getMazzo1().pesca());
+                }
+            }
+        }
+    }
+    
     //SCONTRO 1v1
     public int scontro(Carta cartaBase, Carta cartaSopra) {
         int risultato = cartaBase.getPunti() + cartaSopra.getPunti();
@@ -232,8 +243,7 @@ public abstract class Partita implements Runnable {
         
     }
 
-
-
+    
     public int getnPlayer() {
         return nPlayer;
     }
