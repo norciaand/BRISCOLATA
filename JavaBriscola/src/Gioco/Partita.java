@@ -162,10 +162,18 @@ public abstract class Partita implements Runnable {
                 
                 tuttiGiocatori.get(x).assegnaTurno();
                 
-                /*if (tuttiGiocatori.get(x) instanceof Bot && i == sfasamento + 1){
-                    System.out.println("AGGIORNA MEMORIA BOT");
-                    ((Bot) tuttiGiocatori.get(x)).aggiornaMemoria(banco.getFirst());
-                }*/
+                if (tuttiGiocatori.get(x) instanceof Bot){
+                    try {
+                        Thread.sleep(300); //aumentiamo il delay del bot
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    if (i == sfasamento + 1){
+                        System.out.println("AGGIORNA MEMORIA BOT");
+                        ((Bot) tuttiGiocatori.get(x)).aggiornaMemoria(banco.getFirst());
+                    }
+                }
                 
                 Carta carta = null;
                 while (carta == null) {
