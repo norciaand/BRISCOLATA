@@ -169,7 +169,7 @@ public abstract class Partita implements Runnable {
                         throw new RuntimeException(e);
                     }
 
-                    if (i == sfasamento + 1){
+                    if (i == sfasamento){
                         System.out.println("AGGIORNA MEMORIA BOT");
                         ((Bot) tuttiGiocatori.get(x)).aggiornaMemoria(banco.getFirst());
                     }

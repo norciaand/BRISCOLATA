@@ -28,11 +28,28 @@ public class PartitaMP extends Partita{
         //DISTRIBUZIONE PRIME 3 CARTE
         distribuisci();
         
-        //MOSTRA FRAME
-        for (int i = 0; i < getSquadres().size(); i++) {
-            for (int j = 0; j < getSquadres().get(i).getGiocatores().size(); j++) {
-                Giocatore giocatore = (Giocatore) getSquadres().get(i).getGiocatores().get(j);
-                giocatore.mostraFrame(i,j);
+        
+        for (int s = 0; s < getSquadres().size(); s++) {
+            for (int g = 0; g < getSquadres().get(s).getGiocatores().size(); g++) {
+
+                int x,y;
+
+                if (s == 0 && g == 0){
+                    x = 0;
+                    y = 0;
+                } else if (s == 1 && g == 1){
+                    x = 0;
+                    y = 1;
+                } else if (s == 0 && g == 1){
+                    x = 1;
+                    y = 1;
+                } else {
+                    x = 1;
+                    y = 0;
+                }
+                
+                Giocatore giocatore = (Giocatore) getSquadres().get(s).getGiocatores().get(g);
+                giocatore.mostraFrame(x, y);
             }
         }
         
