@@ -28,30 +28,39 @@ public class PartitaMP extends Partita{
         //DISTRIBUZIONE PRIME 3 CARTE
         distribuisci();
         
-        
-        for (int s = 0; s < getSquadres().size(); s++) {
-            for (int g = 0; g < getSquadres().get(s).getGiocatores().size(); g++) {
-
-                int x,y;
-
-                if (s == 0 && g == 0){
-                    x = 0;
-                    y = 0;
-                } else if (s == 1 && g == 1){
-                    x = 0;
-                    y = 1;
-                } else if (s == 0 && g == 1){
-                    x = 1;
-                    y = 1;
-                } else {
-                    x = 1;
-                    y = 0;
-                }
-                
-                Giocatore giocatore = (Giocatore) getSquadres().get(s).getGiocatores().get(g);
-                giocatore.mostraFrame(x, y);
+        if (getnPlayer() == 2){
+            Giocatore g;
+            for (int i = 1; i >= 0; i--) {
+                g = (Giocatore) getSquadres().get(i).getGiocatores().getFirst();
+                g.mostraFrame(i,0);
             }
+            
+        } else if (getnPlayer() == 3){
+            Giocatore g;
+            
+            for (int i = 2; i >= 0; i--) {
+                g = (Giocatore) getSquadres().get(i).getGiocatores().getFirst();
+                g.mostraFrame(i,0);
+            }
+            
+            
+        } else if (getnPlayer() == 4){
+            Giocatore g;
+
+            g = (Giocatore) getSquadres().get(1).getGiocatores().get(1);
+            g.mostraFrame(0,1);
+            
+            g = (Giocatore) getSquadres().get(0).getGiocatores().get(1);
+            g.mostraFrame(1,1);
+
+            g = (Giocatore) getSquadres().get(1).getGiocatores().get(0);
+            g.mostraFrame(1,0);
+            
+            g = (Giocatore) getSquadres().get(0).getGiocatores().get(0);
+            g.mostraFrame(0,0);
         }
+        
+
         
     }
 

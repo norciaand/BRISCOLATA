@@ -14,6 +14,6 @@ public class PartitaSP extends Partita{
         distribuisci();
         
         Giocatore player = (Giocatore) getSquadres().getFirst().getGiocatores().getFirst();
-        player.mostraFrame(0,0);
+        player.mostraFrame(-1,0);
     }
 }

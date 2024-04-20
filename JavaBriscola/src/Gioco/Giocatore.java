@@ -34,6 +34,10 @@ public class Giocatore extends Entita {
     public void mostraFrame(int x, int y){
         gameFrame = new FinestraDiGioco(nome,partita, squadra,this);
         gameFrame.setBounds(60+500*x, 100*y+60, 900, 900);
+        
+        if (x == -1){
+            gameFrame.setLocationRelativeTo(null);
+        }
     }
 
     public String getNome() {
