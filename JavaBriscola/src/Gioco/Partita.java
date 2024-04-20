@@ -9,12 +9,12 @@ public abstract class Partita implements Runnable {
     public final String[] nomiGiocatori = {"Andrea", "Alessandro","Giovanni","Filippo"};
 
     //INFO PARTITA
-    // 0: 1v1 | 1: 2v2 | 2: 1v1v1 | 3: 1v1v1 BASTARDA | 4: b5
+    private int t;
     private int NORMAL_TURN;
     private final int FINAL_TURN = 3;
     private int MATCH_STATE;
     private final int semeBriscola;
-    private int nPlayer;
+    private int numGiocatori;
 
     private final Mazzo mazzo1; //MAZZO DELLA PARTITA
     private final ArrayList<Carta> banco;
@@ -37,13 +37,13 @@ public abstract class Partita implements Runnable {
                 squadres.add(new Squadra(coloriSquadre[0]));
                 squadres.add(new Squadra(coloriSquadre[1]));
                 NORMAL_TURN = 17;
-                nPlayer = 2;
+                numGiocatori = 2;
                 break;
             case 1:
                 squadres.add(new Squadra(coloriSquadre[0]));
                 squadres.add(new Squadra(coloriSquadre[1]));
                 NORMAL_TURN = 7;
-                nPlayer = 4;
+                numGiocatori = 4;
                 break;
             case 2:
             case 3:
@@ -51,11 +51,11 @@ public abstract class Partita implements Runnable {
                 squadres.add(new Squadra(coloriSquadre[1]));
                 squadres.add(new Squadra(coloriSquadre[2]));
                 NORMAL_TURN = 10;
-                nPlayer = 3;
+                numGiocatori = 3;
                 break;
             case 4:
                 //NON PENSIAMO DI FARLA
-                nPlayer = 5;
+                numGiocatori = 5;
                 break;
         }
 
@@ -145,10 +145,15 @@ public abstract class Partita implements Runnable {
         int sfasamento = 0;
         int x;
             
-        for (int t = 0; t < NORMAL_TURN + FINAL_TURN; t++){
+        for (t = 0; t < NORMAL_TURN + FINAL_TURN; t++){
             banco.clear();
             System.out.println("carte nel mazzo" + mazzo1.getSize());
             for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++) {
+
+                if (t == NORMAL_TURN){
+                    MATCH_STATE = 2;
+                }
+                
                 x = i;
                 if (x >= tuttiGiocatori.size()){
                     x -= tuttiGiocatori.size();
@@ -202,10 +207,6 @@ public abstract class Partita implements Runnable {
             
             //PESCA CARTE x TURNO SUCCESSIVO
             
-            if (t == NORMAL_TURN){
-                MATCH_STATE = 2;
-            }
-            
             if (t < NORMAL_TURN){
                 for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++){
                     x = i;
@@ -249,7 +250,11 @@ public abstract class Partita implements Runnable {
         return MATCH_STATE;
     }
 
-    public int getnPlayer() {
-        return nPlayer;
+    public int getNumGiocatori() {
+        return numGiocatori;
+    }
+
+    public int getT() {
+        return t;
     }
 }

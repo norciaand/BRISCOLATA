@@ -10,16 +10,16 @@ public class PartitaMP extends Partita{
     //SETUP PARTITA MP
     @Override
     public void setup() {
-        if(getnPlayer() == 2){
+        if(getNumGiocatori() == 2){
             getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0],this);
             getSquadres().get(1).aggiungiNuovoGiocatore(nomiGiocatori[1],this);
-        } else if (getnPlayer() == 4) {
+        } else if (getNumGiocatori() == 4) {
             getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0],this);
             getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[1],this);
             getSquadres().get(1).aggiungiNuovoGiocatore(nomiGiocatori[2],this);
             getSquadres().get(1).aggiungiNuovoGiocatore(nomiGiocatori[3],this);
         }
-        else if (getnPlayer() == 3){
+        else if (getNumGiocatori() == 3){
             getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0],this);
             getSquadres().get(1).aggiungiNuovoGiocatore(nomiGiocatori[1],this);
             getSquadres().get(2).aggiungiNuovoGiocatore(nomiGiocatori[2],this);
@@ -28,14 +28,14 @@ public class PartitaMP extends Partita{
         //DISTRIBUZIONE PRIME 3 CARTE
         distribuisci();
         
-        if (getnPlayer() == 2){
+        if (getNumGiocatori() == 2){
             Giocatore g;
             for (int i = 1; i >= 0; i--) {
                 g = (Giocatore) getSquadres().get(i).getGiocatores().getFirst();
                 g.mostraFrame(i,0);
             }
             
-        } else if (getnPlayer() == 3){
+        } else if (getNumGiocatori() == 3){
             Giocatore g;
             
             for (int i = 2; i >= 0; i--) {
@@ -44,7 +44,7 @@ public class PartitaMP extends Partita{
             }
             
             
-        } else if (getnPlayer() == 4){
+        } else if (getNumGiocatori() == 4){
             Giocatore g;
 
             g = (Giocatore) getSquadres().get(1).getGiocatores().get(1);

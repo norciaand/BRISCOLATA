@@ -40,10 +40,6 @@ public class Giocatore extends Entita {
         }
     }
 
-    public String getNome() {
-        return nome;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -56,13 +52,14 @@ public class Giocatore extends Entita {
         return PLAYER_STATE;
     }
 
-    public Squadra getSquadra() {
-        return squadra;
-    }
-    
     @Override
     public void assegnaTurno(){
-        gameFrame.getPannelloDiGioco().setSelettore(1);
+        if (partita.getMATCH_STATE() == 2){
+            gameFrame.getPannelloDiGioco().setSelettore(0);
+        } else {
+            gameFrame.getPannelloDiGioco().setSelettore(1);
+        }
+        
         PLAYER_STATE = true;
     }
     
