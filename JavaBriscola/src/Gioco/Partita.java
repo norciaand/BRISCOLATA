@@ -103,7 +103,10 @@ public abstract class Partita implements Runnable {
         int indice = 0;
         
         for (int x = 0; x < banco.size()-1; x++) {
-            indice += (x+1) * vincitoreScontro(banco.get(indice), banco.get(x+1));
+
+            if (vincitoreScontro(banco.get(indice),banco.get(x+1)) == 1)
+                indice = x + 1;
+
         }
         
         return indice;
@@ -162,7 +165,13 @@ public abstract class Partita implements Runnable {
             }
             
             giocatoreChePrende = tuttiGiocatori.get(sfasamento);
-            
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
             System.out.println("GIOCATORE VINCENTE " + giocatoreChePrende.getNome());
             giocatoreChePrende.getSquadra().prendiBanco(banco);
             
@@ -173,12 +182,6 @@ public abstract class Partita implements Runnable {
                     x -= tuttiGiocatori.size();
                 }
                 tuttiGiocatori.get(x).prendiCarta(getMazzo1().pesca());
-            }
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
         }
         /*
