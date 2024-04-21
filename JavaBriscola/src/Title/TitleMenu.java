@@ -9,13 +9,10 @@ public class TitleMenu extends MyMenu {
 
     public TitleMenu(String title) {
         super(title);
-        initComponents();
         mpPanel.setVisible(false);
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
     
-    private void initComponents() {
+    public void initComponents() {
 
         mpPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
