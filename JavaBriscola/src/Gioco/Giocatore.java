@@ -32,16 +32,12 @@ public class Giocatore extends Entita {
     }
     
     public void mostraFrame(int x, int y){
-        gameFrame = new FinestraDiGioco(nome,partita, squadra,this);
+        gameFrame = new FinestraDiGioco(getNome(),getPartita(), getSquadra(),this);
         gameFrame.setBounds(60+500*x, 100*y+60, 900, 900);
         
         if (x == -1){
             gameFrame.setLocationRelativeTo(null);
         }
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public ArrayList<Carta> getMano() {
@@ -54,7 +50,7 @@ public class Giocatore extends Entita {
 
     @Override
     public void assegnaTurno(){
-        if (partita.getMATCH_STATE() == 2){
+        if (getPartita().getMATCH_STATE() == 2){
             gameFrame.getPannelloDiGioco().setSelettore(0);
         } else {
             gameFrame.getPannelloDiGioco().setSelettore(1);

@@ -10,9 +10,9 @@ public abstract class Entita {
 
     public abstract void finalizaTurno();
     
-    public String nome;
-    public Partita partita;
-    public Squadra squadra;
+    private String nome;
+    private final Partita partita;
+    private final Squadra squadra;
 
     public Entita(String nome, Squadra squadra, Partita partita) {
         this.nome = nome;
@@ -30,5 +30,9 @@ public abstract class Entita {
 
     public Squadra getSquadra() {
         return squadra;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

@@ -166,4 +166,5 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     public void setSelettore(int selettore) {
         this.selettore = selettore;
     }
+    
 }
