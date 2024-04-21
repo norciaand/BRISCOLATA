@@ -216,10 +216,7 @@ public abstract class Partita implements Runnable {
                     tuttiGiocatori.get(x).prendiCarta(getMazzo1().pesca());
                 }
             }
-            
         }
-        
-        
     }
     
     public Mazzo getMazzo1() {

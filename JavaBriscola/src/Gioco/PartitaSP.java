@@ -8,7 +8,7 @@ public class PartitaSP extends Partita{
     @Override
     public void setup() {
         getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0], this);
-        getSquadres().get(1).aggiungiNuovoBot(this,1);
+        getSquadres().get(1).aggiungiNuovoBot(this,0);
 
         //DISTRIBUZIONE PRIME 3 CARTE
         distribuisci();
