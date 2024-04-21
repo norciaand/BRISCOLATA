@@ -147,7 +147,6 @@ public abstract class Partita implements Runnable {
             
         for (t = 0; t < NORMAL_TURN + FINAL_TURN; t++){
             banco.clear();
-            System.out.println("carte nel mazzo" + mazzo1.getSize());
             for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++) {
 
                 if (t == NORMAL_TURN){
@@ -184,7 +183,6 @@ public abstract class Partita implements Runnable {
                 if (tuttiGiocatori.get(x) instanceof Giocatore && this instanceof PartitaSP && banco.size() == 2) {
                     Bot bot = (Bot) getSquadres().get(1).getGiocatores().getFirst();
                     bot.aggiornaMemoria(banco.get(1));
-                    System.out.println("AGGIORNA MEMORIA BOT");
                 }
                 
                 tuttiGiocatori.get(x).finalizaTurno();
@@ -217,6 +215,10 @@ public abstract class Partita implements Runnable {
                 }
             }
         }
+        
+        banco.clear();
+        
+        MATCH_STATE = 3;
     }
     
     public Mazzo getMazzo1() {
@@ -253,5 +255,9 @@ public abstract class Partita implements Runnable {
 
     public int getT() {
         return t;
+    }
+
+    public int getNORMAL_TURN() {
+        return NORMAL_TURN;
     }
 }

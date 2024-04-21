@@ -1,5 +1,6 @@
 package Gioco;
 
+import javax.naming.SizeLimitExceededException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -78,6 +79,10 @@ public class PannelloDiGioco extends JPanel implements Runnable {
                 selettore = 2;
             }
             
+            if (selettore >= giocatore.getMano().size()) {
+                selettore = giocatore.getMano().size()-1;
+            }
+            
             isPressingEnter = keyHandler.isPressedEnter();
         }
         
@@ -143,9 +148,10 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         }
         
         graphics2D.setFont(new Font("Arial",Font.BOLD,20));
-        graphics2D.drawString(giocatore.getMano().get(selettore).getNome(),20,840);
+        if(selettore < giocatore.getMano().size())
+            graphics2D.drawString(giocatore.getMano().get(selettore).getNome(),20,840);
         graphics2D.drawString("PUNTI: " + giocatore.getSquadra().calcoloPunti(), 770,840);
-        
+        graphics2D.drawString("CARTE: " + partita.getMazzo1().getSize(),760,40);
         
         graphics2D.dispose();
     }

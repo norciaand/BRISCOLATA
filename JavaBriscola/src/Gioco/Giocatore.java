@@ -50,10 +50,10 @@ public class Giocatore extends Entita {
 
     @Override
     public void assegnaTurno(){
-        if (getPartita().getMATCH_STATE() == 2){
-            gameFrame.getPannelloDiGioco().setSelettore(0);
-        } else {
-            gameFrame.getPannelloDiGioco().setSelettore(1);
+        gameFrame.getPannelloDiGioco().setSelettore(1);
+        
+        if(gameFrame.getPannelloDiGioco().getSelettore() >= mano.size()){
+            gameFrame.getPannelloDiGioco().setSelettore(mano.size()-1);
         }
         
         PLAYER_STATE = true;
