@@ -2,6 +2,7 @@ package Gioco;
 
 public class CartaBot extends Carta{
 
+    //COSTRUTTORE
     private boolean briscola = false;
     private boolean liscio = false;
     private boolean win = false;
