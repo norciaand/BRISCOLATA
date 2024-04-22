@@ -1,5 +1,6 @@
 package Title;
 
+import Esperienza.Lingua;
 import Gioco.Partita;
 
 import javax.swing.*;
@@ -42,7 +43,7 @@ public class Options extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Utendo", 1, 24)); // NOI18N
-        jLabel1.setText("Opzioni");
+        jLabel1.setText(Lingua.getStringhe(3));
 
         jSlider1.setMajorTickSpacing(1);
         jSlider1.setMaximum(2);
@@ -52,19 +53,19 @@ public class Options extends javax.swing.JFrame {
         jSlider1.setInverted(true);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText("Difficoltà");
+        jLabel2.setText(Lingua.getStringhe(9));
 
-        Facile.setText("Facile");
+        Facile.setText(Lingua.getStringhe(10));
         Facile.setToolTipText("");
 
-        Facile1.setText("Medio");
+        Facile1.setText(Lingua.getStringhe(11));
         Facile1.setToolTipText("");
 
-        Facile2.setText("Difficile");
+        Facile2.setText(Lingua.getStringhe(12));
         Facile2.setToolTipText("");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setText("Giocatori");
+        jLabel3.setText(Lingua.getStringhe(13));
 
         Facile3.setText("G1");
         Facile3.setToolTipText("");
@@ -78,7 +79,7 @@ public class Options extends javax.swing.JFrame {
         Facile6.setText("G4");
         Facile6.setToolTipText("");
 
-        save.setText("SALVA");
+        save.setText(Lingua.getStringhe(14));
         save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveActionPerformed(evt);

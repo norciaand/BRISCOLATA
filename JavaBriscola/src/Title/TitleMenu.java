@@ -1,5 +1,6 @@
 package Title;
 
+import Esperienza.Lingua;
 import Gioco.PartitaMP;
 import Gioco.PartitaSP;
 
@@ -36,27 +37,27 @@ public class TitleMenu extends MyMenu {
 
         jLabel2.setFont(new java.awt.Font("Utendo", Font.BOLD, 48)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("MultiPlayer");
+        jLabel2.setText(Lingua.getStringhe(1));
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         p2Button.setFont(new java.awt.Font("Courier New", Font.PLAIN, 14)); // NOI18N
-        p2Button.setText("1 vs 1");
+        p2Button.setText(Lingua.getStringhe(4));
         p2Button.addActionListener(this::p2ButtonActionPerformed);
 
         p4Button.setFont(new java.awt.Font("Courier New", Font.PLAIN, 14)); // NOI18N
-        p4Button.setText("2 vs 2");
+        p4Button.setText(Lingua.getStringhe(5));
         p4Button.addActionListener(this::p4ButtonActionPerformed);
 
         p3Button.setFont(new java.awt.Font("Courier New", Font.PLAIN, 14)); // NOI18N
-        p3Button.setText("1 vs 1 vs 1");
+        p3Button.setText(Lingua.getStringhe(6));
         p3Button.addActionListener(this::p3ButtonActionPerformed);
 
         p3bButton.setFont(new java.awt.Font("Courier New", Font.PLAIN, 14)); // NOI18N
-        p3bButton.setText("BASTARDA");
+        p3bButton.setText(Lingua.getStringhe(7));
         p3bButton.addActionListener(this::p3bButtonActionPerformed);
 
         backButton.setFont(new java.awt.Font("Courier New", Font.PLAIN, 14)); // NOI18N
-        backButton.setText("Menu Principale");
+        backButton.setText(Lingua.getStringhe(8));
         backButton.addActionListener(this::backButtonActionPerformed);
 
         javax.swing.GroupLayout mpPanelLayout = new javax.swing.GroupLayout(mpPanel);
@@ -101,19 +102,19 @@ public class TitleMenu extends MyMenu {
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         spButton.setFont(new java.awt.Font("Courier New", Font.PLAIN, 14)); // NOI18N
-        spButton.setText("SinglePlayer");
+        spButton.setText(Lingua.getStringhe(0));
         spButton.addActionListener(this::spButtonActionPerformed);
 
         mpButton.setFont(new java.awt.Font("Courier New", Font.PLAIN, 14)); // NOI18N
-        mpButton.setText("MultiPlayer");
+        mpButton.setText(Lingua.getStringhe(1));
         mpButton.addActionListener(this::mpButtonActionPerformed);
 
         crButton.setFont(new java.awt.Font("Courier New", Font.PLAIN, 14)); // NOI18N
-        crButton.setText("Credits");
+        crButton.setText(Lingua.getStringhe(2));
         crButton.addActionListener(this::crButtonActionPerformed);
 
         opButton.setFont(new java.awt.Font("Courier New", Font.PLAIN, 14)); // NOI18N
-        opButton.setText("Options");
+        opButton.setText(Lingua.getStringhe(3));
         opButton.addActionListener(this::opButtonActionPerformed);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);

@@ -15,6 +15,10 @@ public class Mazzo {
 
     public static final String[] rankOriginali = {"Asso", "Due", "Tre", "Quattro", "Cinque", "Sei", "Sette", "Fante", "Cavallo", "Re"};
     public static final String[] semiOriginali = {"Denari", "Spade", "Coppe", "Bastoni"};
+
+    public static final String[] rankOriginaliEN = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Jack", "Horse", "King"};
+    public static final String[] semiOriginaliEN = {"Money", "Sword", "Cups", "Sticks"};
+    
     
     public Mazzo() {
         riempi();

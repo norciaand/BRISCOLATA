@@ -1,5 +1,7 @@
 package Gioco;
 
+import Esperienza.Lingua;
+
 public class Carta {
     private int seme;
     private int numero;
@@ -25,7 +27,14 @@ public class Carta {
     public Carta(int seme, int numero) {
         this.seme = seme;
         this.numero = numero;
-        nome = Mazzo.rankOriginali[numero] + " di " + Mazzo.semiOriginali[seme];
+        
+        if(Lingua.getLang() == 0){
+            nome = Mazzo.rankOriginaliEN[numero] + " of " + Mazzo.semiOriginaliEN[seme];
+        } else {
+            nome = Mazzo.rankOriginali[numero] + " di " + Mazzo.semiOriginali[seme];
+        }
+        
+        
         switch (numero)
         {
         case 0:

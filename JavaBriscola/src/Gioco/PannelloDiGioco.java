@@ -1,5 +1,7 @@
 package Gioco;
 
+import Esperienza.Lingua;
+
 import javax.sound.midi.Soundbank;
 import javax.swing.*;
 import java.awt.*;
@@ -221,8 +223,8 @@ public class PannelloDiGioco extends JPanel implements Runnable {
             graphics2D.setFont(new Font("Utendo", Font.BOLD, 20));
             if (selettore < giocatore.getMano().size())
                 graphics2D.drawString(giocatore.getMano().get(selettore).getNome(), 20, 840);
-            graphics2D.drawString("PUNTI: " + giocatore.getSquadra().calcoloPunti(), 770, 840);
-            graphics2D.drawString("CARTE: " + partita.getMazzo1().getSize(), 760, 40);
+            graphics2D.drawString(Lingua.getStringhe(15) + " " + giocatore.getSquadra().calcoloPunti(), 770, 840);
+            graphics2D.drawString(Lingua.getStringhe(16) + " " + partita.getMazzo1().getSize(), 760, 40);
         }
         
         graphics2D.dispose();

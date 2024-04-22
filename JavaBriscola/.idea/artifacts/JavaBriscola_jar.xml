@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/JavaBriscola_jar</output-path>
     <root id="archive" name="JavaBriscola.jar">
       <element id="module-output" name="JavaBriscola" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/src/Libraries/flatlaf-3.4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/Esperienza/flatlaf-3.4.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
