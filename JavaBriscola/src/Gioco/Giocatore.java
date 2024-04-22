@@ -9,10 +9,12 @@ public class Giocatore extends Entita {
     private FinestraDiGioco gameFrame;
     
     private boolean PLAYER_STATE; //turno true/false
+    private boolean FINISHED = false;
 
     public Giocatore(String nome,Squadra squadra, Partita partita) {
         super(nome, squadra, partita);
         PLAYER_STATE = false;
+        FINISHED = false;
     }
     
     @Override
@@ -63,5 +65,14 @@ public class Giocatore extends Entita {
     public void finalizaTurno(){
         gameFrame.getPannelloDiGioco().setPressingEnter(false);
         PLAYER_STATE = false;
+    }
+    
+    public void cancellaFrame(){
+        gameFrame.dispose();
+        FINISHED = true;
+    }
+    
+    public boolean isFINISHED() {
+        return FINISHED;
     }
 }

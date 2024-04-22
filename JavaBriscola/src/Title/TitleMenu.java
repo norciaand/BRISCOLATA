@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class TitleMenu extends MyMenu {
 
-    public TitleMenu(String title) {
-        super(title);
+    public TitleMenu() {
+        super("BRISCOLATA");
         mpPanel.setVisible(false);
     }
     
@@ -199,6 +199,7 @@ public class TitleMenu extends MyMenu {
     }
 
     private void opButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        new Options(this);
     }
 
     private void p2ButtonActionPerformed(java.awt.event.ActionEvent evt) {

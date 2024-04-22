@@ -55,7 +55,7 @@ public class Bot extends Entita{
         int index;
         //creazione array CartaBot
         for (Carta c : mano){
-            System.out.println(c.toString());
+//            System.out.println(c.toString());
             CartaBot cb = new CartaBot(c.getSeme(), c.getNumero());
             if (c.getSeme() == getPartita().getSemeBriscola()){
                 cb.setBriscola(true);
@@ -74,7 +74,7 @@ public class Bot extends Entita{
         //------------------------------------------------
         //normale
         if(difficult == 0){
-            System.out.println("difficolta normale");
+//            System.out.println("difficolta normale");
             //se si e primi di mano
             if (getPartita().getAllBanco().isEmpty()) {
                 //se e la primissima mano si cerca di far prendere al avversario
@@ -382,7 +382,7 @@ public class Bot extends Entita{
         //_______________________________________________
         //facile
         else if(difficult == 1){
-            System.out.println("difficolta facile");
+//            System.out.println("difficolta facile");
             if(getPartita().getAllBanco().isEmpty()){
                 for (CartaBot cb : bMano){
                     if(cb.getPunti() >= 10 && cb.isBriscola())

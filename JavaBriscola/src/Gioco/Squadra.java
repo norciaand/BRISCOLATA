@@ -38,5 +38,8 @@ public class Squadra {
     public ArrayList<Entita> getGiocatores() {
         return giocatores;
     }
-    
+
+    public ArrayList<Carta> getCarteVinte() {
+        return carteVinte;
+    }
 }

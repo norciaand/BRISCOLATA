@@ -1,6 +1,6 @@
 package Gioco;
 
-import javax.naming.SizeLimitExceededException;
+import javax.sound.midi.Soundbank;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,7 +23,14 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     private BufferedImage immagineBriscola, immagineMazzo, immagineAnonima;
     private final BufferedImage[] immaginiMano;
     private final BufferedImage[] immaginiBanco;
-        
+    private BufferedImage[] immaginiCarteVinte;
+    private BufferedImage immagineCartaVinta;
+    
+    private int puntiCartaVinta;
+    private int puntiContatore;
+    private boolean contaFinita;
+    private String risultatoPartita;
+    
     //CARTE MANO
     private int selettore;
     private boolean isPressingEnter;
@@ -61,11 +68,61 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        while (paneThread != null){
+        
+        
+        while (partita.getMATCH_STATE() >= 1 && partita.getMATCH_STATE() <= 2){
             update();
             repaint();
         }
+        
+        //MATCH STATE = 3
+        
+        immaginiCarteVinte = new BufferedImage[giocatore.getSquadra().getCarteVinte().size()];
+        for (int i = 0; i < giocatore.getSquadra().getCarteVinte().size(); i++) {
+            try {
+                immaginiCarteVinte[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + giocatore.getSquadra().getCarteVinte().get(i).toString() + ".png")));
+            } catch (IOException e) {
+                System.out.println("ECCEZIONE CARICAMENTO PUNTI - " + paneThread.getName());
+            }
+        }
+        
+        contaFinita = false;
+        puntiContatore = 0;
+        for (int i = 0; i < giocatore.getSquadra().getCarteVinte().size(); i++) {
+            immagineCartaVinta = immaginiCarteVinte[i];
+            puntiCartaVinta = giocatore.getSquadra().getCarteVinte().get(i).getPunti();
+            puntiContatore += puntiCartaVinta;
+            repaint();
+            try {
+                Thread.sleep(Long.parseLong("700"));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        try {
+            Thread.sleep(Long.parseLong("1000"));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        
+        contaFinita = true;
+        if(puntiContatore > 60){
+            risultatoPartita = "VITTORIA!";
+        } else if (puntiContatore == 60){
+            risultatoPartita = "PAREGGIO";
+        } else {
+            risultatoPartita = "SCONFITTA";
+        }
+        repaint();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        giocatore.cancellaFrame();
+        paneThread.interrupt();
+        
     }
 
     public void update() {
@@ -104,10 +161,9 @@ public class PannelloDiGioco extends JPanel implements Runnable {
             }
         }
         
-        if (partita.getMATCH_STATE() == 2) {
+        if (partita.getMATCH_STATE() == 2 || partita.getMATCH_STATE() == 3) {
             immagineMazzo = immagineBriscola = null;
         }
-                
     }
 
     @Override
@@ -117,47 +173,62 @@ public class PannelloDiGioco extends JPanel implements Runnable {
 
         graphics2D.setColor(Color.WHITE);
         
-        //DISEGNO SELECTOR
-        if (giocatore.getPLAYER_STATE()){
-            graphics2D.setStroke(new BasicStroke(2.5f));
-            graphics2D.drawLine(260 + (selettore *130),840, 260 + (selettore *130) + 120, 840);
-        }
-        
-        
-        //DISEGNO CARTE IN MANO
-        for(int i = 0; i < giocatore.getMano().size(); i++){
-            if (immaginiMano[i] != null)
-                graphics2D.drawImage(immaginiMano[i],270 + (i*130),660,100,160,null);
-        }
-        
-        //DISEGNO CARTE SUL BANCONE
-        for (int i = 0; i < partita.getAllBanco().size();i++){
-            if (immaginiBanco[i] != null)
-                graphics2D.drawImage(immaginiBanco[i],400 + (i*40),350,100,160,null);
-        }
-        
-        //DISEGNO CARTE ANONIME SOPRA
-        graphics2D.drawImage(immagineAnonima, 270,20,100,160,null);
-        graphics2D.drawImage(immagineAnonima, 400,20,100,160,null);
-        graphics2D.drawImage(immagineAnonima, 530,20,100,160,null);
+        //painter se la partita è finita, calcolo punti;
+        if (partita.getMATCH_STATE() == 3){
+            
+            if (!contaFinita){
+                graphics2D.drawImage(immagineCartaVinta, 200, 290,200,320, null);
+                graphics2D.setFont(new Font("Utendo", Font.BOLD, 30));
+                graphics2D.drawString("+ " + puntiCartaVinta,275,660);
+                graphics2D.setFont(new Font("Utendo", Font.BOLD, 100));
+                graphics2D.drawString(String.valueOf(puntiContatore),580,485);
+                
+            } else {
+                graphics2D.setFont(new Font("Utendo", Font.BOLD, 100));
+                graphics2D.drawString(risultatoPartita,100,485);
+            }
+        } else {
+            //DISEGNO SELECTOR
+            if (giocatore.getPLAYER_STATE()) {
+                graphics2D.setStroke(new BasicStroke(2.5f));
+                graphics2D.drawLine(260 + (selettore * 130), 840, 260 + (selettore * 130) + 120, 840);
+            }
 
-        //DISEGNO BRISCOLA E MAZZO
-        if (immagineMazzo != null){
-            graphics2D.drawImage(immagineBriscola, 150,350,100,160,null);
-            graphics2D.drawImage(immagineMazzo,50,340,120,180,null);
+
+            //DISEGNO CARTE IN MANO
+            for (int i = 0; i < giocatore.getMano().size(); i++) {
+                if (immaginiMano[i] != null)
+                    graphics2D.drawImage(immaginiMano[i], 270 + (i * 130), 660, 100, 160, null);
+            }
+
+            //DISEGNO CARTE SUL BANCONE
+            for (int i = 0; i < partita.getAllBanco().size(); i++) {
+                if (immaginiBanco[i] != null)
+                    graphics2D.drawImage(immaginiBanco[i], 400 + (i * 40), 350, 100, 160, null);
+            }
+
+            //DISEGNO CARTE ANONIME SOPRA
+            graphics2D.drawImage(immagineAnonima, 270, 20, 100, 160, null);
+            graphics2D.drawImage(immagineAnonima, 400, 20, 100, 160, null);
+            graphics2D.drawImage(immagineAnonima, 530, 20, 100, 160, null);
+
+            //DISEGNO BRISCOLA E MAZZO
+            if (immagineMazzo != null) {
+                graphics2D.drawImage(immagineBriscola, 150, 350, 100, 160, null);
+                graphics2D.drawImage(immagineMazzo, 50, 340, 120, 180, null);
+            }
+
+            graphics2D.setFont(new Font("Utendo", Font.BOLD, 20));
+            if (selettore < giocatore.getMano().size())
+                graphics2D.drawString(giocatore.getMano().get(selettore).getNome(), 20, 840);
+            graphics2D.drawString("PUNTI: " + giocatore.getSquadra().calcoloPunti(), 770, 840);
+            graphics2D.drawString("CARTE: " + partita.getMazzo1().getSize(), 760, 40);
         }
-        
-        graphics2D.setFont(new Font("Arial",Font.BOLD,20));
-        if(selettore < giocatore.getMano().size())
-            graphics2D.drawString(giocatore.getMano().get(selettore).getNome(),20,840);
-        graphics2D.drawString("PUNTI: " + giocatore.getSquadra().calcoloPunti(), 770,840);
-        graphics2D.drawString("CARTE: " + partita.getMazzo1().getSize(),760,40);
         
         graphics2D.dispose();
     }
     
-    public boolean isPressingEnter() 
-    { 
+    public boolean isPressingEnter() { 
         return isPressingEnter; 
     }
 
@@ -172,5 +243,4 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     public void setSelettore(int selettore) {
         this.selettore = selettore;
     }
-    
 }

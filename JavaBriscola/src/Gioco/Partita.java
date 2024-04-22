@@ -1,12 +1,19 @@
 package Gioco;
 
+import Title.TitleMenu;
+
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public abstract class Partita implements Runnable {
-
+    
+    //STATIC - SETTINGS
+    private static int difficoltà = 0;    
+    
+    
     //COSTANTI COLORI di esempio
-    private final String[] coloriSquadre = {"Rossa", "Blu", "Verde"};
-    public final String[] nomiGiocatori = {"Andrea", "Alessandro","Giovanni","Filippo"};
+    private final static String[] coloriSquadre = {"Rossa", "Blu", "Verde"};
+    public static String[] nomiGiocatori = {"g1", "g2","g3","g4"};
 
     //INFO PARTITA
     private int t;
@@ -67,7 +74,6 @@ public abstract class Partita implements Runnable {
         
         //START THREAD
         matchThread.start();
-        
     }
 
     public abstract void setup();
@@ -217,8 +223,23 @@ public abstract class Partita implements Runnable {
         }
         
         banco.clear();
-        
+        //FASE CONTA PUNTEGGIO
         MATCH_STATE = 3;
+        
+        boolean finito = false;
+        while (!finito){
+            finito = true;
+            for (Entita giocatore : tuttiGiocatori) {
+                if (giocatore instanceof Giocatore){
+                    if (!((Giocatore) giocatore).isFINISHED()) {
+                        finito = false;
+                    }
+                }
+            }
+        }
+
+        new TitleMenu();
+        matchThread.interrupt();
     }
     
     public Mazzo getMazzo1() {
@@ -259,5 +280,17 @@ public abstract class Partita implements Runnable {
 
     public int getNORMAL_TURN() {
         return NORMAL_TURN;
+    }
+
+    public static int getDifficoltà() {
+        return difficoltà;
+    }
+
+    public static void setDifficoltà(int difficoltà) {
+        Partita.difficoltà = difficoltà;
+    }
+
+    public static String[] getNomiGiocatori() {
+        return nomiGiocatori;
     }
 }
