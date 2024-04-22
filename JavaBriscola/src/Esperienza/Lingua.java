@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Lingua {
 
-    private static String[] stringhe = new String[17];
+    private static String[] stringhe = new String[18];
     
     private static int lang;
 

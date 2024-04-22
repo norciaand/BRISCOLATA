@@ -1,5 +1,7 @@
 package Gioco;
 
+import Esperienza.Lingua;
+
 import java.util.ArrayList;
 
 public class Squadra {
@@ -28,7 +30,7 @@ public class Squadra {
     }
     
     public void aggiungiNuovoGiocatore(String gName, Partita partita) {
-        giocatores.add(new Giocatore(gName + " - Squadra " + nome,this, partita));
+        giocatores.add(new Giocatore(gName + " - " + Lingua.getStringhe(17) + " " + nome,this, partita));
     }
     
     public void aggiungiNuovoBot(Partita partita, int difficolta) {

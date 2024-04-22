@@ -1,5 +1,6 @@
 package Gioco;
 
+import Esperienza.Lingua;
 import Title.TitleMenu;
 
 import java.io.FileInputStream;
@@ -12,7 +13,7 @@ public abstract class Partita implements Runnable {
     
     
     //COSTANTI COLORI di esempio
-    private final static String[] coloriSquadre = {"Rossa", "Blu", "Verde"};
+    private static String[] coloriSquadre;
     public static String[] nomiGiocatori = {"g1", "g2","g3","g4"};
 
     //INFO PARTITA
@@ -38,6 +39,12 @@ public abstract class Partita implements Runnable {
         mazzo1.mischia();
         semeBriscola = mazzo1.getDeck().getFirst().getSeme();
         MATCH_STATE = 0;
+        
+        if (Lingua.getLang() == 0){
+            coloriSquadre = new String[]{"Red", "Blue", "Black"};
+        } else {
+            coloriSquadre = new String[]{"Rossa", "Blu", "Nera"};
+        }
         
         switch (tipoPartita) {
             case 0:
