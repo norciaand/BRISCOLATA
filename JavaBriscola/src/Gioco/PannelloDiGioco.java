@@ -5,13 +5,15 @@ import Esperienza.Lingua;
 import javax.sound.midi.Soundbank;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
 import static javax.imageio.ImageIO.read;
 
-public class PannelloDiGioco extends JPanel implements Runnable {
+public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
 
     //PANEL TOOLS
     private Thread paneThread;
@@ -49,6 +51,7 @@ public class PannelloDiGioco extends JPanel implements Runnable {
         
         keyHandler = new KeyHandler();
         addKeyListener(keyHandler);
+        addMouseListener(this);
         
         immaginiMano = new BufferedImage[3];
         immaginiBanco = new BufferedImage[4];
@@ -244,5 +247,54 @@ public class PannelloDiGioco extends JPanel implements Runnable {
     
     public void setSelettore(int selettore) {
         this.selettore = selettore;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int x = e.getPoint().x;
+        int y = e.getPoint().y;
+        
+        if (y > 660 && y < 820 && giocatore.getPLAYER_STATE()){
+            
+            if (e.getButton() == MouseEvent.BUTTON1){
+                if (x > 270 && x < 370){
+                    selettore = 0;
+                } else if (x > 400 && x < 500){
+                    selettore = 1;
+                } else if (x > 530 && x < 630) {
+                    selettore = 2;
+                }
+
+                if (selettore >= giocatore.getMano().size()) {
+                    selettore = giocatore.getMano().size()-1;
+                }
+            }
+            
+            else {
+                isPressingEnter = true;
+            }
+            
+        }
+        
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
