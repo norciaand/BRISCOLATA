@@ -6,7 +6,7 @@ public class PartitaSP extends Partita{
     }
 
     @Override
-    public void setup() {
+    public void setupGameMode() {
         getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0], this);
         getSquadres().get(1).aggiungiNuovoBot(this,0);
 

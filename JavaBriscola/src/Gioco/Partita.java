@@ -3,7 +3,6 @@ package Gioco;
 import Esperienza.Lingua;
 import Title.TitleMenu;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public abstract class Partita implements Runnable {
@@ -11,22 +10,22 @@ public abstract class Partita implements Runnable {
     //STATIC - SETTINGS
     private static int difficoltà = 0;    
     
-    
     //COSTANTI COLORI di esempio
     private static String[] coloriSquadre;
     public static String[] nomiGiocatori = {"g1", "g2","g3","g4"};
 
     //INFO PARTITA
-    private int t;
-    private int NORMAL_TURN;
-    private final int FINAL_TURN = 3;
-    private int MATCH_STATE;
+    private int t;  //turni
+    private int NORMAL_TURN; //turni di gioco "normali"
+    private final int FINAL_TURN = 3; //turni di gioco "finali"
+    private int MATCH_STATE;    //fase della partita
     private final int semeBriscola;
     private int numGiocatori;
 
-    private final Mazzo mazzo1; //MAZZO DELLA PARTITA
+    private final Mazzo mazzo1;
     private final ArrayList<Carta> banco;
     private final ArrayList<Squadra> squadres;
+    private final Chat chat;
 
     //TOOLS PARTITA
     private final Thread matchThread;
@@ -38,12 +37,15 @@ public abstract class Partita implements Runnable {
         mazzo1 = new Mazzo();
         mazzo1.mischia();
         semeBriscola = mazzo1.getDeck().getFirst().getSeme();
+        chat = new Chat();
+        
+        //FASE 0, setup
         MATCH_STATE = 0;
         
         if (Lingua.getLang() == 0){
             coloriSquadre = new String[]{"Red", "Blue", "Black"};
         } else {
-            coloriSquadre = new String[]{"Rossa", "Blu", "Nera"};
+            coloriSquadre = new String[]{"Rossa" , "Blu", "Nera"};
         }
         
         switch (tipoPartita) {
@@ -77,13 +79,13 @@ public abstract class Partita implements Runnable {
         matchThread = new Thread(this);
 
         //METODO DI SETUP appartenente a MP o SP
-        setup();
+        setupGameMode();
         
         //START THREAD
         matchThread.start();
     }
 
-    public abstract void setup();
+    public abstract void setupGameMode();
     
     public void distribuisci(){
         for (int i = 0; i < 3; i++) {
@@ -95,6 +97,7 @@ public abstract class Partita implements Runnable {
         }
     }
     
+    //DEPRECATED
     public int scontro(Carta cartaBase, Carta cartaSopra) {
         int risultato = cartaBase.getPunti() + cartaSopra.getPunti();
         if (risultato == 0) risultato = 1;
@@ -111,7 +114,7 @@ public abstract class Partita implements Runnable {
         return risultato;
     }
     
-    public int vincitoreScontro(Carta cartaBase, Carta cartaSopra){
+    private int vincitoreScontro(Carta cartaBase, Carta cartaSopra){
         int indice = 0;        
         
         if (cartaBase.getSeme() == cartaSopra.getSeme()) {
@@ -124,7 +127,7 @@ public abstract class Partita implements Runnable {
         return indice;
     }
     
-    public int vincitoreScontro(ArrayList<Carta> banco){
+    private int vincitoreScontro(ArrayList<Carta> banco){
         int indice = 0;
         
         for (int x = 0; x < banco.size()-1; x++) {
@@ -136,15 +139,16 @@ public abstract class Partita implements Runnable {
         
         return indice;
     }
-
-
+    
     //FUCNTION MATCH THREAD
     @Override
     public void run() {
+        
         /*
         *   INIZIO PARTITA
         */
         
+        //FASE 1, gioco
         MATCH_STATE = 1;
         int s,g;
         Entita giocatoreChePrende;
@@ -156,12 +160,12 @@ public abstract class Partita implements Runnable {
         }
         
         int sfasamento = 0;
-        int x;
+        int x; //giocatore puntato
             
         for (t = 0; t < NORMAL_TURN + FINAL_TURN; t++){
             banco.clear();
             for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++) {
-
+                
                 if (t == NORMAL_TURN){
                     MATCH_STATE = 2;
                 }
@@ -193,6 +197,7 @@ public abstract class Partita implements Runnable {
                 
                 banco.add(carta);
                 
+                //aggiornamento memoria bot
                 if (tuttiGiocatori.get(x) instanceof Giocatore && this instanceof PartitaSP && banco.size() == 2) {
                     Bot bot = (Bot) getSquadres().get(1).getGiocatores().getFirst();
                     bot.aggiornaMemoria(banco.get(1));
@@ -207,6 +212,7 @@ public abstract class Partita implements Runnable {
                 sfasamento -= tuttiGiocatori.size();
             }            
             
+            //vincitore
             giocatoreChePrende = tuttiGiocatori.get(sfasamento);
 
             try {
@@ -230,8 +236,12 @@ public abstract class Partita implements Runnable {
         }
         
         banco.clear();
-        //FASE CONTA PUNTEGGIO
+        //FASE 3, la conta
         MATCH_STATE = 3;
+        
+        /*
+         * operazioni eseguite nei vari thread
+         */
         
         boolean finito = false;
         while (!finito){
@@ -299,5 +309,9 @@ public abstract class Partita implements Runnable {
 
     public static String[] getNomiGiocatori() {
         return nomiGiocatori;
+    }
+
+    public Chat getChat() {
+        return chat;
     }
 }

@@ -9,7 +9,7 @@ public class PartitaMP extends Partita{
 
     //SETUP PARTITA MP
     @Override
-    public void setup() {
+    public void setupGameMode() {
         if(getNumGiocatori() == 2){
             getSquadres().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0],this);
             getSquadres().get(1).aggiungiNuovoGiocatore(nomiGiocatori[1],this);

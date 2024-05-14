@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     
-    private boolean pressed1, pressed2, pressed3, pressedEnter;
+    private boolean pressed1, pressed2, pressed3, pressedEnter, pressedT;
 
     public boolean isPressed1() {
         return pressed1;
@@ -22,6 +22,10 @@ public class KeyHandler implements KeyListener {
 
     public boolean isPressedEnter() {
         return pressedEnter;
+    }
+
+    public boolean isPressedT() {
+        return pressedT;
     }
 
     @Override
@@ -41,7 +45,10 @@ public class KeyHandler implements KeyListener {
             pressed3 = true;
         } else if (code == KeyEvent.VK_ENTER) {
             pressedEnter = true;
+        } else if (code == KeyEvent.VK_T) {
+            pressedT = true;
         }
+        
     }
 
     @Override
@@ -55,6 +62,8 @@ public class KeyHandler implements KeyListener {
             pressed3 = false;
         } else if (code == KeyEvent.VK_ENTER) {
             pressedEnter = false;
+        } else if (code == KeyEvent.VK_T) {
+            pressedT = false;
         }
     }
     

@@ -2,7 +2,6 @@ package Gioco;
 
 import Esperienza.Lingua;
 
-import javax.sound.midi.Soundbank;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -18,6 +17,12 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     //PANEL TOOLS
     private Thread paneThread;
     private final KeyHandler keyHandler;
+
+    //INTERAZIONI
+    private boolean chatMode;
+    private int selettore;
+    private boolean isPressingEnter;
+    private String messaggio;
     
     //COMPONENTI PARTITA
     private final Partita partita;
@@ -30,25 +35,26 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     private BufferedImage[] immaginiCarteVinte;
     private BufferedImage immagineCartaVinta;
     
+    //VARIABILI FASE 3
     private int puntiCartaVinta;
     private int puntiContatore;
     private boolean contaFinita;
     private String risultatoPartita;
     
-    //CARTE MANO
-    private int selettore;
-    private boolean isPressingEnter;
     
     public PannelloDiGioco(Partita partita,Squadra squadra, Giocatore giocatore) {
         this.partita = partita;
         this.giocatore = giocatore;
-
+        
+        chatMode = false;
+        messaggio = "";
         selettore = 1;
         
         setBackground(new Color(53,101,77));
         setDoubleBuffered(true);
         setFocusable(true);
         
+        //LISTENER
         keyHandler = new KeyHandler();
         addKeyListener(keyHandler);
         addMouseListener(this);
@@ -65,7 +71,8 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     }
 
     @Override
-    public void run() {        
+    public void run() {     
+        
         try {
             immagineAnonima = read(Objects.requireNonNull(getClass().getClassLoader().getResource("anonima.png")));
             immagineMazzo = read(Objects.requireNonNull(getClass().getClassLoader().getResource("mazzo.png")));
@@ -74,6 +81,8 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             throw new RuntimeException(e);
         }
         
+        
+        //FASE 1 (gioco), 2 (endgame), loop di update, repaint
         
         while (partita.getMATCH_STATE() >= 1 && partita.getMATCH_STATE() <= 2){
             update();
@@ -131,21 +140,44 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     }
 
     public void update() {
-        //LETTURA INPUT, solo se siamo nello stato true
-        if (giocatore.getPLAYER_STATE()){
-            if (keyHandler.isPressed1()){
-                selettore = 0;
-            } else if (keyHandler.isPressed2()){
-                selettore = 1;
-            } else if (keyHandler.isPressed3()){
-                selettore = 2;
+        //lettura input - chat
+        if (!chatMode) {
+            if (keyHandler.isPressedT()){
+                chatMode = true;
+            } else if (giocatore.getPLAYER_STATE()){
+                if (keyHandler.isPressed1()){
+                    selettore = 0;
+                } else if (keyHandler.isPressed2()){
+                    selettore = 1;
+                } else if (keyHandler.isPressed3()){
+                    selettore = 2;
+                }
+
+                if (selettore >= giocatore.getMano().size()) {
+                    selettore = giocatore.getMano().size()-1;
+                }
+
+                isPressingEnter = keyHandler.isPressedEnter();
             }
             
-            if (selettore >= giocatore.getMano().size()) {
-                selettore = giocatore.getMano().size()-1;
+        } else if (chatMode) {
+            
+            if (keyHandler.isPressedEnter()){
+                
+                
+                
+                partita.getChat().scrivi(giocatore, messaggio);
+                
+                
+                chatMode = false;
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                
             }
             
-            isPressingEnter = keyHandler.isPressedEnter();
         }
         
         //CARICAMENTO IMMAGINI NELLA MANO
@@ -174,13 +206,12 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
         Graphics2D graphics2D = (Graphics2D) g;
-
         graphics2D.setColor(Color.WHITE);
         
         //painter se la partita è finita, calcolo punti;
         if (partita.getMATCH_STATE() == 3){
-            
             if (!contaFinita){
                 graphics2D.drawImage(immagineCartaVinta, 200, 290,200,320, null);
                 graphics2D.setFont(new Font("Utendo", Font.BOLD, 30));
@@ -192,14 +223,15 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
                 graphics2D.setFont(new Font("Utendo", Font.BOLD, 100));
                 graphics2D.drawString(risultatoPartita,100,485);
             }
-        } else {
+        } 
+        else 
+        {
             //DISEGNO SELECTOR
             if (giocatore.getPLAYER_STATE()) {
                 graphics2D.setStroke(new BasicStroke(2.5f));
                 graphics2D.drawLine(260 + (selettore * 130), 840, 260 + (selettore * 130) + 120, 840);
             }
-
-
+            
             //DISEGNO CARTE IN MANO
             for (int i = 0; i < giocatore.getMano().size(); i++) {
                 if (immaginiMano[i] != null)
@@ -228,6 +260,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
                 graphics2D.drawString(giocatore.getMano().get(selettore).getNome(), 20, 840);
             graphics2D.drawString(Lingua.getStringhe(15) + " " + giocatore.getSquadra().calcoloPunti(), 770, 840);
             graphics2D.drawString(Lingua.getStringhe(16) + " " + partita.getMazzo1().getSize(), 760, 40);
+            
         }
         
         graphics2D.dispose();
@@ -254,9 +287,8 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         int x = e.getPoint().x;
         int y = e.getPoint().y;
         
-        if (y > 660 && y < 820 && giocatore.getPLAYER_STATE()){
-            
-            if (e.getButton() == MouseEvent.BUTTON1){
+        if (e.getButton() == MouseEvent.BUTTON1){
+            if (y > 660 && y < 820 && giocatore.getPLAYER_STATE()){
                 if (x > 270 && x < 370){
                     selettore = 0;
                 } else if (x > 400 && x < 500){
@@ -269,13 +301,10 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
                     selettore = giocatore.getMano().size()-1;
                 }
             }
-            
-            else {
-                isPressingEnter = true;
-            }
-            
         }
-        
+        else {
+            isPressingEnter = true;
+        }
     }
 
     @Override
