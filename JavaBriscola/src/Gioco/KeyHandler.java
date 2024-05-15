@@ -1,12 +1,17 @@
 package Gioco;
 
-import javax.sound.midi.Soundbank;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     
     private boolean pressed1, pressed2, pressed3, pressedEnter, pressedT;
+    private String messaggio = "";
+    private boolean chatMode;
+
+    public void setChatMode(boolean chatMode) {
+        this.chatMode = chatMode;
+    }
 
     public boolean isPressed1() {
         return pressed1;
@@ -28,9 +33,26 @@ public class KeyHandler implements KeyListener {
         return pressedT;
     }
 
+    public String getMessaggio() {
+        return messaggio;
+    }
+
+    public void resetMessaggio() {
+        this.messaggio = "";
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
-        
+        if (chatMode){
+            char x = e.getKeyChar();
+            if (x == 8){
+                if(!messaggio.equals("")){
+                    messaggio = messaggio.substring(0,messaggio.length()-1);
+                }
+            } else {
+                messaggio = messaggio + x;
+            }
+        }
     }
 
     @Override
@@ -48,6 +70,7 @@ public class KeyHandler implements KeyListener {
         } else if (code == KeyEvent.VK_T) {
             pressedT = true;
         }
+        
         
     }
 

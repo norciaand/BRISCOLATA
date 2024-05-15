@@ -22,7 +22,6 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     private boolean chatMode;
     private int selettore;
     private boolean isPressingEnter;
-    private String messaggio;
     
     //COMPONENTI PARTITA
     private final Partita partita;
@@ -47,7 +46,6 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         this.giocatore = giocatore;
         
         chatMode = false;
-        messaggio = "";
         selettore = 1;
         
         setBackground(new Color(53,101,77));
@@ -144,6 +142,14 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         if (!chatMode) {
             if (keyHandler.isPressedT()){
                 chatMode = true;
+                keyHandler.setChatMode(true);
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
             } else if (giocatore.getPLAYER_STATE()){
                 if (keyHandler.isPressed1()){
                     selettore = 0;
@@ -164,12 +170,10 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             
             if (keyHandler.isPressedEnter()){
                 
-                
-                
-                partita.getChat().scrivi(giocatore, messaggio);
-                
-                
+                partita.getChat().scrivi(giocatore, keyHandler.getMessaggio());
+                keyHandler.resetMessaggio();
                 chatMode = false;
+                keyHandler.setChatMode(false);
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -260,6 +264,25 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
                 graphics2D.drawString(giocatore.getMano().get(selettore).getNome(), 20, 840);
             graphics2D.drawString(Lingua.getStringhe(15) + " " + giocatore.getSquadra().calcoloPunti(), 770, 840);
             graphics2D.drawString(Lingua.getStringhe(16) + " " + partita.getMazzo1().getSize(), 760, 40);
+            
+            //DISEGNO CHAT;
+            int nLines = partita.getChat().getContenuto().size();
+
+            graphics2D.setFont(new Font("Utendo", Font.PLAIN, 14));
+            
+            for (int i = 0; i < nLines; i++) {
+                
+                graphics2D.setColor(giocatore.getSquadra().getColore());
+                graphics2D.setFont(new Font("Utendo", Font.BOLD, 14));
+                graphics2D.drawString(partita.getChat().getContenuto().get(i).getGiocatore().getNome().split(" - ")[0], 640,40 + 20*i);
+                graphics2D.setColor(Color.WHITE);
+                graphics2D.setFont(new Font("Utendo", Font.PLAIN, 14));
+                graphics2D.drawString(partita.getChat().getContenuto().get(i).getTesto(),690,40 + 20*i);
+                
+            }
+            
+            
+            graphics2D.drawString(keyHandler.getMessaggio(),640,500);
             
         }
         

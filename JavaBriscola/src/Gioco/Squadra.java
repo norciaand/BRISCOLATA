@@ -2,6 +2,8 @@ package Gioco;
 
 import Esperienza.Lingua;
 
+import javax.swing.plaf.ColorUIResource;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Squadra {
@@ -9,9 +11,11 @@ public class Squadra {
     private ArrayList<Entita> giocatores;
     private ArrayList<Carta> carteVinte;
     private String nome;
+    private Color colore;
 
-    public Squadra(String nome) {
+    public Squadra(String nome, Color colore) {
         this.nome = nome;
+        this.colore = colore;
         giocatores = new ArrayList<>();
         carteVinte = new ArrayList<>();
     }
@@ -43,5 +47,9 @@ public class Squadra {
 
     public ArrayList<Carta> getCarteVinte() {
         return carteVinte;
+    }
+
+    public Color getColore() {
+        return colore;
     }
 }

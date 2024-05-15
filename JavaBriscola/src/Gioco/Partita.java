@@ -3,6 +3,7 @@ package Gioco;
 import Esperienza.Lingua;
 import Title.TitleMenu;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Partita implements Runnable {
@@ -13,6 +14,7 @@ public abstract class Partita implements Runnable {
     //COSTANTI COLORI di esempio
     private static String[] coloriSquadre;
     public static String[] nomiGiocatori = {"g1", "g2","g3","g4"};
+    private static Color[] coloriSquadreC = {new Color(246,7,10), new Color(0,51,153), new Color(10,10,10)};
 
     //INFO PARTITA
     private int t;  //turni
@@ -50,22 +52,22 @@ public abstract class Partita implements Runnable {
         
         switch (tipoPartita) {
             case 0:
-                squadres.add(new Squadra(coloriSquadre[0]));
-                squadres.add(new Squadra(coloriSquadre[1]));
+                squadres.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
+                squadres.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
                 NORMAL_TURN = 17;
                 numGiocatori = 2;
                 break;
             case 1:
-                squadres.add(new Squadra(coloriSquadre[0]));
-                squadres.add(new Squadra(coloriSquadre[1]));
+                squadres.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
+                squadres.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
                 NORMAL_TURN = 7;
                 numGiocatori = 4;
                 break;
             case 2:
             case 3:
-                squadres.add(new Squadra(coloriSquadre[0]));
-                squadres.add(new Squadra(coloriSquadre[1]));
-                squadres.add(new Squadra(coloriSquadre[2]));
+                squadres.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
+                squadres.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
+                squadres.add(new Squadra(coloriSquadre[2],coloriSquadreC[2]));
                 NORMAL_TURN = 10;
                 numGiocatori = 3;
                 break;
