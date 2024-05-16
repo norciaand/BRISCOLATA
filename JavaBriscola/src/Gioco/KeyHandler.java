@@ -54,7 +54,12 @@ public class KeyHandler implements KeyListener {
                 if(!messaggio.isEmpty()){
                     messaggio = messaggio.substring(0,messaggio.length()-1);
                 }
-            } else if (messaggio.length() < 14 && x != '\n'){
+            } else if (x == 127) {
+                if(!messaggio.isEmpty()){
+                    messaggio = "";
+                }
+            }
+            else if (messaggio.length() < 14 && x != 10){
                 messaggio = messaggio + x;
             }
         }

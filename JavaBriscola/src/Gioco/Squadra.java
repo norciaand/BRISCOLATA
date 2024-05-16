@@ -32,8 +32,8 @@ public class Squadra {
         return totPunti;
     }
     
-    public void aggiungiNuovoGiocatore(String gName, Partita partita) {
-        giocatori.add(new Giocatore(gName + " - " + Lingua.getStringhe(17) + " " + nome,this, partita));
+    public void aggiungiNuovoGiocatore(String gName, Partita partita, int indiceGiocatore) {
+        giocatori.add(new Giocatore(gName + " - " + Lingua.getStringhe(17) + " " + nome,this, partita, indiceGiocatore));
     }
     
     public void aggiungiNuovoBot(Partita partita, int difficolta) {
@@ -51,4 +51,5 @@ public class Squadra {
     public Color getColore() {
         return colore;
     }
+    
 }

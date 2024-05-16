@@ -10,7 +10,7 @@ public class Lingua {
     
     private static int lang;
 
-    public static void setupLanguage(int lang) throws IOException {
+    public static void setupLingua(int lang) throws IOException {
         
         Lingua.lang = lang;
         InputStream allText;

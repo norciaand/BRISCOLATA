@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.Objects;
 
 import static javax.imageio.ImageIO.read;
@@ -62,6 +63,10 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         
         immaginiMano = new BufferedImage[3];
         immaginiBanco = new BufferedImage[4];
+        
+        
+        
+        
         startGameThread();
     }
 
@@ -77,7 +82,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         try {
             immagineAnonima = read(Objects.requireNonNull(getClass().getClassLoader().getResource("anonima.png")));
             immagineMazzo = read(Objects.requireNonNull(getClass().getClassLoader().getResource("mazzo.png")));
-            immagineBriscola = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getCartaBriscola().toString() + ".png")));
+            immagineBriscola = read(Objects.requireNonNull(getClass().getResourceAsStream(Tema.getTipoCarta() + partita.getCartaBriscola().toString() + ".png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -95,7 +100,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         immaginiCarteVinte = new BufferedImage[giocatore.getSquadra().getCarteVinte().size()];
         for (int i = 0; i < giocatore.getSquadra().getCarteVinte().size(); i++) {
             try {
-                immaginiCarteVinte[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + giocatore.getSquadra().getCarteVinte().get(i).toString() + ".png")));
+                immaginiCarteVinte[i] = read(Objects.requireNonNull(getClass().getResourceAsStream(Tema.getTipoCarta() + giocatore.getSquadra().getCarteVinte().get(i).toString() + ".png")));
             } catch (IOException e) {
                 System.out.println("ECCEZIONE CARICAMENTO PUNTI - " + paneThread.getName());
             }
@@ -225,13 +230,13 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         if (partita.getMATCH_STATE() == 3){
             if (!contaFinita){
                 graphics2D.drawImage(immagineCartaVinta, 200, 290,200,320, null);
-                graphics2D.setFont(new Font("Utendo", Font.BOLD, 30));
+                graphics2D.setFont(Carattere.getUtendoBold30());
                 graphics2D.drawString("+ " + puntiCartaVinta,275,660);
-                graphics2D.setFont(new Font("Utendo", Font.BOLD, 100));
+                graphics2D.setFont(Carattere.getUtendoBold100());
                 graphics2D.drawString(String.valueOf(puntiContatore),580,485);
                 
             } else {
-                graphics2D.setFont(new Font("Utendo", Font.BOLD, 100));
+                graphics2D.setFont(Carattere.getUtendoBold100());
                 graphics2D.drawString(risultatoPartita,100,485);
             }
         } 
@@ -256,17 +261,20 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             }
 
             //DISEGNO CARTE ANONIME SOPRA
-            graphics2D.drawImage(immagineAnonima, 270, 20, 100, 160, null);
-            graphics2D.drawImage(immagineAnonima, 400, 20, 100, 160, null);
-            graphics2D.drawImage(immagineAnonima, 530, 20, 100, 160, null);
-
+            if (giocatore.getAvversarioFrontale() != null)
+            {
+                for (int i = 0; i < giocatore.getAvversarioFrontale().getMano().size(); i++) {
+                    graphics2D.drawImage(immagineAnonima, 270 + (130 * i), 20, 100, 160, null);
+                }
+            }
+            
             //DISEGNO BRISCOLA E MAZZO
             if (immagineMazzo != null) {
                 graphics2D.drawImage(immagineBriscola, 150, 350, 100, 160, null);
                 graphics2D.drawImage(immagineMazzo, 50, 340, 120, 180, null);
             }
-
-            graphics2D.setFont(new Font("Utendo", Font.BOLD, 20));
+            
+            graphics2D.setFont(Carattere.getUtendoBold20());
             if (selettore < giocatore.getMano().size())
                 graphics2D.drawString(giocatore.getMano().get(selettore).getNome(), 20, 840);
             graphics2D.drawString(Lingua.getStringhe(15) + " " + giocatore.getSquadra().calcoloPunti(), 770, 840);
@@ -276,7 +284,6 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             partita.getChat().draw(graphics2D);
             
             if (keyHandler.isChatMode()) {
-                
                 graphics2D.setColor(Tema.getSfondoChat());
                 
                 int x1 = 660, x2 = 870;
@@ -294,7 +301,6 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
                 if (frameCursor > 30 && keyHandler.getMessaggio().length() < 14){
                     graphics2D.drawLine(x0 + fontMetrics.stringWidth(keyHandler.getMessaggio()),partita.getChat().posizioneFinale() + 20, x0 + fontMetrics.stringWidth(keyHandler.getMessaggio()), partita.getChat().posizioneFinale() + 10);
                 }
-                                
             }
         }
         

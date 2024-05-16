@@ -452,4 +452,9 @@ public class Bot extends Entita{
     public void finalizaTurno() {
 
     }
+    
+    @Override
+    public ArrayList<Carta> getMano() {
+        return mano;
+    }
 }

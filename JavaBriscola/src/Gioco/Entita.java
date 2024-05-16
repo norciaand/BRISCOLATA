@@ -1,5 +1,7 @@
 package Gioco;
 
+import java.util.ArrayList;
+
 public abstract class Entita {
     
     public abstract void prendiCarta(Carta x);
@@ -31,4 +33,6 @@ public abstract class Entita {
     public Squadra getSquadra() {
         return squadra;
     }
+    
+    public abstract ArrayList<Carta> getMano();
 }

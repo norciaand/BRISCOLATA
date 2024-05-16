@@ -9,3 +9,4 @@
 - briscola a 3
 - ~~chat~~
 - finire il bot
+- quando il bot gioca una carta si deve vedere scomparire

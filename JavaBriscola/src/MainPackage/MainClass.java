@@ -9,17 +9,17 @@ import java.io.IOException;
 
 public class MainClass {
     
-    public static boolean playing = false;
-    
     public static void main(String[] args) {
         
-        playing = true;
+        //TODO LETTURA DA FILE
+        
+        
         //TEMA
         Tema.setupTema(1,0); //0-1: tema chiaro o scuro, 0-2 napoletane piacentine o siciliane
 
         //LINGUA
         try {
-            Lingua.setupLanguage(0);
+            Lingua.setupLingua(0);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

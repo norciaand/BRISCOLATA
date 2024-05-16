@@ -10,11 +10,26 @@ public class Giocatore extends Entita {
     
     private boolean PLAYER_STATE; //turno true/false
     private boolean FINISHED;
+    private Entita avversarioFrontale;
+    private int indice;
+    private Partita partita;
 
-    public Giocatore(String nome,Squadra squadra, Partita partita) {
+    public Giocatore(String nome,Squadra squadra, Partita partita, int indice) {
         super(nome, squadra, partita);
         PLAYER_STATE = false;
         FINISHED = false;
+        this.partita = partita;
+        this.indice = indice;
+    }
+    
+    public void determinaAvversario(){
+        
+        int indiceAvversario = indice + 1;
+        if (indiceAvversario >= partita.getTuttiGiocatori().size()){
+            indiceAvversario = 0;
+        }
+        
+        avversarioFrontale = partita.getTuttiGiocatori().get(indiceAvversario);
     }
     
     @Override
@@ -42,6 +57,7 @@ public class Giocatore extends Entita {
         }
     }
 
+    @Override
     public ArrayList<Carta> getMano() {
         return mano;
     }
@@ -78,5 +94,9 @@ public class Giocatore extends Entita {
     
     public void chiusuraForzata(){
         gameFrame.getPannelloDiGioco().exitGameThread();
+    }
+
+    public Entita getAvversarioFrontale() {
+        return avversarioFrontale;
     }
 }

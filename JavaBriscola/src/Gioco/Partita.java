@@ -23,6 +23,7 @@ public abstract class Partita implements Runnable {
     private final Mazzo mazzo;
     private final ArrayList<Carta> banco;
     private final ArrayList<Squadra> squadre;
+    private ArrayList<Entita> tuttiGiocatori;
     private final Chat chat;
 
     //TOOLS PARTITA
@@ -72,7 +73,7 @@ public abstract class Partita implements Runnable {
 
         //assegnazione THREAD al metodo RUN della classe
         matchThread = new Thread(this);
-
+        
         //METODO DI SETUP appartenente a MP o SP
         setupGameMode();
         
@@ -81,6 +82,15 @@ public abstract class Partita implements Runnable {
     }
 
     public abstract void setupGameMode();
+    
+    public void formazioneGiocatori() {
+        tuttiGiocatori = new ArrayList<>();
+        for (int g = 0; g < squadre.getFirst().getGiocatori().size(); g++) {
+            for (int s = 0; s < squadre.size(); s++) {
+                tuttiGiocatori.add(squadre.get(s).getGiocatori().get(g));
+            }
+        }
+    }
     
     public void distribuisci(){
         for (int i = 0; i < 3; i++) {
@@ -143,14 +153,7 @@ public abstract class Partita implements Runnable {
         
         //FASE 1, gioco
         MATCH_STATE = 1;
-        int s,g;
         Entita giocatoreChePrende;
-        final ArrayList<Entita> tuttiGiocatori = new ArrayList<>();
-        for (g = 0; g < squadre.getFirst().getGiocatori().size(); g++) {
-            for (s = 0; s < squadre.size(); s++) {
-                tuttiGiocatori.add(squadre.get(s).getGiocatori().get(g));
-            }
-        }
         
         int sfasamento = 0;
         int x; //giocatore puntato
@@ -315,6 +318,9 @@ public abstract class Partita implements Runnable {
         }
         
         matchThread.interrupt();
-        
+    }
+
+    public ArrayList<Entita> getTuttiGiocatori() {
+        return tuttiGiocatori;
     }
 }
