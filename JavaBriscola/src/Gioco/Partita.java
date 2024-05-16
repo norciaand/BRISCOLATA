@@ -1,6 +1,7 @@
 package Gioco;
 
 import Esperienza.Lingua;
+import Esperienza.Tema;
 import Title.TitleMenu;
 
 import java.awt.*;
@@ -12,7 +13,6 @@ public abstract class Partita implements Runnable {
     private static int difficolta = 0;
 
     public static String[] nomiGiocatori = {"g1", "g2","g3","g4"};
-    private static final Color[] coloriSquadreC = {new Color(246,7,10), new Color(0,51,153), new Color(10,10,10)};
 
     private int NORMAL_TURN; //turni di gioco "normali"
     private int MATCH_STATE;    //fase della partita
@@ -44,22 +44,22 @@ public abstract class Partita implements Runnable {
         
         switch (tipoPartita) {
             case 0:
-                squadre.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
-                squadre.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
+                squadre.add(new Squadra(coloriSquadre[0], Tema.getRosso()));
+                squadre.add(new Squadra(coloriSquadre[1], Tema.getBlu()));
                 NORMAL_TURN = 17;
                 numGiocatori = 2;
                 break;
             case 1:
-                squadre.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
-                squadre.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
+                squadre.add(new Squadra(coloriSquadre[0],Tema.getRosso()));
+                squadre.add(new Squadra(coloriSquadre[1],Tema.getBlu()));
                 NORMAL_TURN = 7;
                 numGiocatori = 4;
                 break;
             case 2:
             case 3:
-                squadre.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
-                squadre.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
-                squadre.add(new Squadra(coloriSquadre[2],coloriSquadreC[2]));
+                squadre.add(new Squadra(coloriSquadre[0],Tema.getRosso()));
+                squadre.add(new Squadra(coloriSquadre[1],Tema.getBlu()));
+                squadre.add(new Squadra(coloriSquadre[2],Tema.getGiallo()));
                 NORMAL_TURN = 10;
                 numGiocatori = 3;
                 break;
@@ -303,5 +303,18 @@ public abstract class Partita implements Runnable {
 
     public Chat getChat() {
         return chat;
+    }
+    
+    public void chiusuraForzata (){
+        for (int s = 0; s < squadre.size(); s++) {
+            for (Entita giocatore : squadre.get(s).getGiocatori()) {
+                if (giocatore instanceof Giocatore) {
+                    ((Giocatore) giocatore).chiusuraForzata();
+                }
+            }
+        }
+        
+        matchThread.interrupt();
+        
     }
 }

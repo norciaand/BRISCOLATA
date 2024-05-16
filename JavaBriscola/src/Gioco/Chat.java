@@ -1,6 +1,7 @@
 package Gioco;
 
 import Esperienza.Carattere;
+import Esperienza.Tema;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class Chat {
         final int yEnd = yStart + 20 * contenuto.size();
         final int xStart = 670; final int xEnd = 860;
         
-        g2.setColor(new Color(255, 255, 255, 50));
+        g2.setColor(Tema.getSfondoChat());
         
         if (!contenuto.isEmpty()){
             g2.fillRoundRect(xStart - 10 ,yStart - 20, xEnd-xStart + 20 , yEnd-yStart + 10 , 10, 10);

@@ -2,6 +2,7 @@ package Gioco;
 
 import Esperienza.Carattere;
 import Esperienza.Lingua;
+import Esperienza.Tema;
 
 import javax.swing.*;
 import java.awt.*;
@@ -110,7 +111,6 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             try {
                 Thread.sleep(Long.parseLong("700"));
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
         }
 
@@ -167,7 +167,8 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
                 isPressingEnter = keyHandler.isPressedEnter();
             }
             
-        } else {
+        } 
+        else {
             if (frameCursor > 60)
             {
                 frameCursor = 0;
@@ -193,18 +194,18 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         //CARICAMENTO IMMAGINI NELLA MANO
         for (int i = 0; i < giocatore.getMano().size(); i++) {
             try {
-                immaginiMano[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + giocatore.getMano().get(i).toString() + ".png")));
+                immaginiMano[i] = read(Objects.requireNonNull(getClass().getResourceAsStream(Tema.getTipoCarta() + giocatore.getMano().get(i).toString() + ".png")));
             } catch (IOException e) {
-                System.out.println("ECCEZIONE IN IMMAGINI MANO GAME PANEL - " + paneThread.getName());
+                // System.out.println("ECCEZIONE IN IMMAGINI MANO GAME PANEL - " + paneThread.getName());
             }
         }
         
         //CARICAMENTO IMMAGINI NEL BANCO
         for (int i = 0; i < partita.getAllBanco().size(); i++){
             try {
-                immaginiBanco[i] = read(Objects.requireNonNull(getClass().getResourceAsStream("/napoletane/" + partita.getBanco(i).toString() + ".png")));
+                immaginiBanco[i] = read(Objects.requireNonNull(getClass().getResourceAsStream(Tema.getTipoCarta() + partita.getBanco(i).toString() + ".png")));
             } catch (IOException e) {
-                System.out.println("ECCEZIONE IN BANCO MANO GAME PANEL - " + paneThread.getName());
+                // System.out.println("ECCEZIONE IN BANCO MANO GAME PANEL - " + paneThread.getName());
             }
         }
         
@@ -276,7 +277,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             
             if (keyHandler.isChatMode()) {
                 
-                graphics2D.setColor(new Color(255, 255, 255, 50));
+                graphics2D.setColor(Tema.getSfondoChat());
                 
                 int x1 = 660, x2 = 870;
                 graphics2D.fillRoundRect(x1, partita.getChat().posizioneFinale(), x2-x1, 30,10,10);
@@ -343,7 +344,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
                 }
             }
 
-            if (selettore >= giocatore.getMano().size()) {
+            if (selettore >= giocatore.getMano().size() && !isPressingEnter) {
                 selettore = giocatore.getMano().size()-1;
             }
         }
@@ -368,5 +369,13 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+    
+    public void exitGameThread () {
+        paneThread.interrupt();
+    }
+
+    public Partita getPartita() {
+        return partita;
     }
 }

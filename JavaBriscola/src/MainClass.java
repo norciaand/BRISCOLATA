@@ -1,14 +1,15 @@
 import Esperienza.Lingua;
+import Esperienza.Tema;
 import Title.*;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+
 
 import java.io.IOException;
 
 public class MainClass {
     public static void main(String[] args) {
-        
+                
         //TEMA
-        FlatMacDarkLaf.setup();
+        Tema.setupTema(1,0); //0-1: tema chiaro o scuro, 0-2 napoletane piacentine o siciliane
         
         //LINGUA
         try {

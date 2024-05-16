@@ -75,4 +75,8 @@ public class Giocatore extends Entita {
     public boolean isFINISHED() {
         return FINISHED;
     }
+    
+    public void chiusuraForzata(){
+        gameFrame.getPannelloDiGioco().exitGameThread();
+    }
 }
