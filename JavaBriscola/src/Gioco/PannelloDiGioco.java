@@ -167,21 +167,20 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             }
             
         } else if (chatMode) {
-            
             if (keyHandler.isPressedEnter()){
-                
-                partita.getChat().scrivi(giocatore, keyHandler.getMessaggio());
-                keyHandler.resetMessaggio();
-                chatMode = false;
-                keyHandler.setChatMode(false);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                if (!keyHandler.getMessaggio().equals("")){
+                    partita.getChat().scrivi(giocatore, keyHandler.getMessaggio());
+                    chatMode = false;
+                    keyHandler.resetMessaggio();
+                    keyHandler.setChatMode(false);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                
+                keyHandler.setChatMode(false);
             }
-            
         }
         
         //CARICAMENTO IMMAGINI NELLA MANO
@@ -269,16 +268,19 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             int nLines = partita.getChat().getContenuto().size();
 
             graphics2D.setFont(new Font("Utendo", Font.PLAIN, 14));
-            
+
+            Font bold = new Font("Utendo", Font.BOLD, 14);
+            Font plain = new Font("Utendo", Font.PLAIN, 14);
+
             for (int i = 0; i < nLines; i++) {
                 
                 graphics2D.setColor(partita.getChat().getContenuto().get(i).getGiocatore().getSquadra().getColore());
-                graphics2D.setFont(new Font("Utendo", Font.BOLD, 14));
-                graphics2D.drawString(partita.getChat().getContenuto().get(i).getGiocatore().getNome().split(" - ")[0], 640,40 + 20*i);
+                graphics2D.setFont(bold);
+                graphics2D.drawString(partita.getChat().getContenuto().get(i).getGiocatore().getNome().split(" - ")[0], 670,200 + 20*i);
                 graphics2D.setColor(Color.WHITE);
-                graphics2D.setFont(new Font("Utendo", Font.PLAIN, 14));
-                graphics2D.drawString(partita.getChat().getContenuto().get(i).getTesto(),690,40 + 20*i);
-                
+                graphics2D.setFont(plain);
+                graphics2D.drawString(partita.getChat().getContenuto().get(i).getTesto(),840 - getFontMetrics(plain).stringWidth(partita.getChat().getContenuto().get(i).getTesto()) ,200 + 20*i);
+
             }
             
             
