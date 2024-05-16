@@ -2,14 +2,17 @@ package Title;
 
 import Esperienza.Lingua;
 import Gioco.Partita;
+import MainPackage.MainClass;
 
 import javax.swing.*;
 
 public class Options extends javax.swing.JFrame {
 
+    private JFrame x;
 
     public Options(JFrame x) {
         initComponents();
+        this.x = x;
         jSlider1.setValue(Partita.getDifficolta());
         giocatore1.setText(Partita.getNomiGiocatori()[0]);
         giocatore2.setText(Partita.getNomiGiocatori()[1]);
@@ -182,6 +185,8 @@ public class Options extends javax.swing.JFrame {
         Partita.getNomiGiocatori()[2] = giocatore3.getText();
         Partita.getNomiGiocatori()[3] = giocatore4.getText();
         dispose();
+        x.dispose();
+        MainClass.main(null);
     }
     
 

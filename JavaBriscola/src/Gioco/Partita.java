@@ -2,7 +2,8 @@ package Gioco;
 
 import Esperienza.Lingua;
 import Esperienza.Tema;
-import Title.TitleMenu;
+import MainPackage.MainClass;
+import com.sun.tools.javac.Main;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -138,9 +139,7 @@ public abstract class Partita implements Runnable {
     @Override
     public void run() {
         
-        /*
-        *   INIZIO PARTITA
-        */
+        //INIZIO PARTITA
         
         //FASE 1, gioco
         MATCH_STATE = 1;
@@ -237,9 +236,9 @@ public abstract class Partita implements Runnable {
         //FASE 3, la conta
         MATCH_STATE = 3;
         
-        /*
-         * operazioni eseguite nei vari thread
-         */
+       
+        // operazioni eseguite nei vari thread
+         
         
         boolean finito = false;
         while (!finito){
@@ -252,9 +251,10 @@ public abstract class Partita implements Runnable {
                 }
             }
         }
-
-        new TitleMenu();
-        matchThread.interrupt();
+        
+    
+        
+        MainClass.main(null);
     }
     
     public Mazzo getMazzo() {
@@ -306,8 +306,8 @@ public abstract class Partita implements Runnable {
     }
     
     public void chiusuraForzata (){
-        for (int s = 0; s < squadre.size(); s++) {
-            for (Entita giocatore : squadre.get(s).getGiocatori()) {
+        for (Squadra squadra : squadre) {
+            for (Entita giocatore : squadra.getGiocatori()) {
                 if (giocatore instanceof Giocatore) {
                     ((Giocatore) giocatore).chiusuraForzata();
                 }

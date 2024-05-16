@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Start" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="MainClass" />
+    <option name="MAIN_CLASS_NAME" value="MainPackage.MainClass" />
     <module name="JavaBriscola" />
     <method v="2">
       <option name="Make" enabled="true" />

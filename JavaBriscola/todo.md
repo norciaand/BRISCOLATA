@@ -1,0 +1,11 @@
+# TO DO -  BRISCOLATA
+- carte di diverso tipo
+- menu opzioni
+  - ~~difficolta~~
+  - ~~nomi giocatori~~
+  - lingua
+  - tema
+  - salvataggio su file
+- briscola a 3
+- ~~chat~~
+- finire il bot
