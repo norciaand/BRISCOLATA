@@ -16,4 +16,5 @@ public class Chat {
     public ArrayList<Messaggio> getContenuto() {
         return contenuto;
     }
+
 }

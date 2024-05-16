@@ -70,8 +70,6 @@ public class KeyHandler implements KeyListener {
         } else if (code == KeyEvent.VK_T) {
             pressedT = true;
         }
-        
-        
     }
 
     @Override

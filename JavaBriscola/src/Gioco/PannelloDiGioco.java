@@ -272,7 +272,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             
             for (int i = 0; i < nLines; i++) {
                 
-                graphics2D.setColor(giocatore.getSquadra().getColore());
+                graphics2D.setColor(partita.getChat().getContenuto().get(i).getGiocatore().getSquadra().getColore());
                 graphics2D.setFont(new Font("Utendo", Font.BOLD, 14));
                 graphics2D.drawString(partita.getChat().getContenuto().get(i).getGiocatore().getNome().split(" - ")[0], 640,40 + 20*i);
                 graphics2D.setColor(Color.WHITE);
