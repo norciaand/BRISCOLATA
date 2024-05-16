@@ -9,24 +9,19 @@ import java.util.ArrayList;
 public abstract class Partita implements Runnable {
     
     //STATIC - SETTINGS
-    private static int difficoltà = 0;    
-    
-    //COSTANTI COLORI di esempio
-    private static String[] coloriSquadre;
-    public static String[] nomiGiocatori = {"g1", "g2","g3","g4"};
-    private static Color[] coloriSquadreC = {new Color(246,7,10), new Color(0,51,153), new Color(10,10,10)};
+    private static int difficolta = 0;
 
-    //INFO PARTITA
-    private int t;  //turni
+    public static String[] nomiGiocatori = {"g1", "g2","g3","g4"};
+    private static final Color[] coloriSquadreC = {new Color(246,7,10), new Color(0,51,153), new Color(10,10,10)};
+
     private int NORMAL_TURN; //turni di gioco "normali"
-    private final int FINAL_TURN = 3; //turni di gioco "finali"
     private int MATCH_STATE;    //fase della partita
     private final int semeBriscola;
     private int numGiocatori;
 
-    private final Mazzo mazzo1;
+    private final Mazzo mazzo;
     private final ArrayList<Carta> banco;
-    private final ArrayList<Squadra> squadres;
+    private final ArrayList<Squadra> squadre;
     private final Chat chat;
 
     //TOOLS PARTITA
@@ -34,40 +29,37 @@ public abstract class Partita implements Runnable {
 
     //COSTRUTTORE PARTITA
     public Partita(int tipoPartita) {
-        squadres = new ArrayList<>();
+        squadre = new ArrayList<>();
         banco = new ArrayList<>();
-        mazzo1 = new Mazzo();
-        mazzo1.mischia();
-        semeBriscola = mazzo1.getDeck().getFirst().getSeme();
+        mazzo = new Mazzo();
+        mazzo.mischia();
+        semeBriscola = mazzo.getDeck().getFirst().getSeme();
         chat = new Chat();
         
         //FASE 0, setup
         MATCH_STATE = 0;
         
-        if (Lingua.getLang() == 0){
-            coloriSquadre = new String[]{"Red", "Blue", "Black"};
-        } else {
-            coloriSquadre = new String[]{"Rossa" , "Blu", "Nera"};
-        }
+        //COSTANTI COLORI di esempio
+        String[] coloriSquadre = new String[]{Lingua.getStringhe(18), Lingua.getStringhe(19), Lingua.getStringhe(20)};
         
         switch (tipoPartita) {
             case 0:
-                squadres.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
-                squadres.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
+                squadre.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
+                squadre.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
                 NORMAL_TURN = 17;
                 numGiocatori = 2;
                 break;
             case 1:
-                squadres.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
-                squadres.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
+                squadre.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
+                squadre.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
                 NORMAL_TURN = 7;
                 numGiocatori = 4;
                 break;
             case 2:
             case 3:
-                squadres.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
-                squadres.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
-                squadres.add(new Squadra(coloriSquadre[2],coloriSquadreC[2]));
+                squadre.add(new Squadra(coloriSquadre[0],coloriSquadreC[0]));
+                squadre.add(new Squadra(coloriSquadre[1],coloriSquadreC[1]));
+                squadre.add(new Squadra(coloriSquadre[2],coloriSquadreC[2]));
                 NORMAL_TURN = 10;
                 numGiocatori = 3;
                 break;
@@ -91,9 +83,9 @@ public abstract class Partita implements Runnable {
     
     public void distribuisci(){
         for (int i = 0; i < 3; i++) {
-            for (int g = 0; g < getSquadres().getFirst().getGiocatores().size(); g++) {
-                for (int s = 0; s < getSquadres().size(); s++) {
-                    getSquadres().get(s).getGiocatores().get(g).prendiCarta(getMazzo1().pesca());
+            for (int g = 0; g < getSquadre().getFirst().getGiocatori().size(); g++) {
+                for (int s = 0; s < getSquadre().size(); s++) {
+                    getSquadre().get(s).getGiocatori().get(g).prendiCarta(getMazzo().pesca());
                 }
             }
         }
@@ -155,20 +147,24 @@ public abstract class Partita implements Runnable {
         int s,g;
         Entita giocatoreChePrende;
         final ArrayList<Entita> tuttiGiocatori = new ArrayList<>();
-        for (g = 0; g < squadres.getFirst().getGiocatores().size(); g++) {
-            for (s = 0; s < squadres.size(); s++) {
-                tuttiGiocatori.add(squadres.get(s).getGiocatores().get(g));
+        for (g = 0; g < squadre.getFirst().getGiocatori().size(); g++) {
+            for (s = 0; s < squadre.size(); s++) {
+                tuttiGiocatori.add(squadre.get(s).getGiocatori().get(g));
             }
         }
         
         int sfasamento = 0;
         int x; //giocatore puntato
-            
-        for (t = 0; t < NORMAL_TURN + FINAL_TURN; t++){
+
+        //turni di gioco "finali"
+        int FINAL_TURN = 3;
+        int turno;
+        
+        for (turno = 0; turno < NORMAL_TURN + FINAL_TURN; turno++){
             banco.clear();
             for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++) {
                 
-                if (t == NORMAL_TURN){
+                if (turno == NORMAL_TURN){
                     MATCH_STATE = 2;
                 }
                 
@@ -201,7 +197,7 @@ public abstract class Partita implements Runnable {
                 
                 //aggiornamento memoria bot
                 if (tuttiGiocatori.get(x) instanceof Giocatore && this instanceof PartitaSP && banco.size() == 2) {
-                    Bot bot = (Bot) getSquadres().get(1).getGiocatores().getFirst();
+                    Bot bot = (Bot) getSquadre().get(1).getGiocatori().getFirst();
                     bot.aggiornaMemoria(banco.get(1));
                 }
                 
@@ -226,13 +222,13 @@ public abstract class Partita implements Runnable {
             
             //PESCA CARTE x TURNO SUCCESSIVO
             
-            if (t < NORMAL_TURN){
+            if (turno < NORMAL_TURN){
                 for (int i = sfasamento; i < tuttiGiocatori.size() + sfasamento; i++){
                     x = i;
                     if (x >= tuttiGiocatori.size()){
                         x -= tuttiGiocatori.size();
                     }
-                    tuttiGiocatori.get(x).prendiCarta(getMazzo1().pesca());
+                    tuttiGiocatori.get(x).prendiCarta(getMazzo().pesca());
                 }
             }
         }
@@ -261,12 +257,12 @@ public abstract class Partita implements Runnable {
         matchThread.interrupt();
     }
     
-    public Mazzo getMazzo1() {
-        return mazzo1;
+    public Mazzo getMazzo() {
+        return mazzo;
     }
 
     public Carta getCartaBriscola() {
-        return mazzo1.getDeck().getFirst();
+        return mazzo.getDeck().getFirst();
     }
 
     public int getSemeBriscola(){
@@ -281,8 +277,8 @@ public abstract class Partita implements Runnable {
         return banco;
     }
 
-    public ArrayList<Squadra> getSquadres() {
-        return squadres;
+    public ArrayList<Squadra> getSquadre() {
+        return squadre;
     }
 
     public int getMATCH_STATE() {
@@ -293,20 +289,12 @@ public abstract class Partita implements Runnable {
         return numGiocatori;
     }
 
-    public int getT() {
-        return t;
+    public static int getDifficolta() {
+        return difficolta;
     }
 
-    public int getNORMAL_TURN() {
-        return NORMAL_TURN;
-    }
-
-    public static int getDifficoltà() {
-        return difficoltà;
-    }
-
-    public static void setDifficoltà(int difficoltà) {
-        Partita.difficoltà = difficoltà;
+    public static void setDifficolta(int difficolta) {
+        Partita.difficolta = difficolta;
     }
 
     public static String[] getNomiGiocatori() {

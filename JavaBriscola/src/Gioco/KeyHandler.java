@@ -7,6 +7,11 @@ public class KeyHandler implements KeyListener {
     
     private boolean pressed1, pressed2, pressed3, pressedEnter, pressedT;
     private String messaggio = "";
+
+    public boolean isChatMode() {
+        return chatMode;
+    }
+
     private boolean chatMode;
 
     public void setChatMode(boolean chatMode) {
@@ -46,10 +51,10 @@ public class KeyHandler implements KeyListener {
         if (chatMode){
             char x = e.getKeyChar();
             if (x == 8){
-                if(!messaggio.equals("")){
+                if(!messaggio.isEmpty()){
                     messaggio = messaggio.substring(0,messaggio.length()-1);
                 }
-            } else {
+            } else if (messaggio.length() < 14 && x != '\n'){
                 messaggio = messaggio + x;
             }
         }

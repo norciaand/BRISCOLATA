@@ -9,7 +9,7 @@ public class Giocatore extends Entita {
     private FinestraDiGioco gameFrame;
     
     private boolean PLAYER_STATE; //turno true/false
-    private boolean FINISHED = false;
+    private boolean FINISHED;
 
     public Giocatore(String nome,Squadra squadra, Partita partita) {
         super(nome, squadra, partita);
@@ -34,7 +34,7 @@ public class Giocatore extends Entita {
     }
     
     public void mostraFrame(int x, int y){
-        gameFrame = new FinestraDiGioco(getNome(),getPartita(), getSquadra(),this);
+        gameFrame = new FinestraDiGioco(getNome(),getPartita(),this);
         gameFrame.setBounds(60+500*x, 100*y+60, 900, 900);
         
         if (x == -1){

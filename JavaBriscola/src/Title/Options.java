@@ -10,7 +10,7 @@ public class Options extends javax.swing.JFrame {
 
     public Options(JFrame x) {
         initComponents();
-        jSlider1.setValue(Partita.getDifficoltà());
+        jSlider1.setValue(Partita.getDifficolta());
         giocatore1.setText(Partita.getNomiGiocatori()[0]);
         giocatore2.setText(Partita.getNomiGiocatori()[1]);
         giocatore3.setText(Partita.getNomiGiocatori()[2]);
@@ -176,7 +176,7 @@ public class Options extends javax.swing.JFrame {
     }
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {
-        Partita.setDifficoltà(jSlider1.getValue());
+        Partita.setDifficolta(jSlider1.getValue());
         Partita.getNomiGiocatori()[0] = giocatore1.getText();
         Partita.getNomiGiocatori()[1] = giocatore2.getText();
         Partita.getNomiGiocatori()[2] = giocatore3.getText();

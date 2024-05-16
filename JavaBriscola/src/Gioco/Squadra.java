@@ -2,21 +2,20 @@ package Gioco;
 
 import Esperienza.Lingua;
 
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Squadra {
     
-    private ArrayList<Entita> giocatores;
-    private ArrayList<Carta> carteVinte;
-    private String nome;
-    private Color colore;
+    private final ArrayList<Entita> giocatori;
+    private final ArrayList<Carta> carteVinte;
+    private final String nome;
+    private final Color colore;
 
     public Squadra(String nome, Color colore) {
         this.nome = nome;
         this.colore = colore;
-        giocatores = new ArrayList<>();
+        giocatori = new ArrayList<>();
         carteVinte = new ArrayList<>();
     }
 
@@ -34,15 +33,15 @@ public class Squadra {
     }
     
     public void aggiungiNuovoGiocatore(String gName, Partita partita) {
-        giocatores.add(new Giocatore(gName + " - " + Lingua.getStringhe(17) + " " + nome,this, partita));
+        giocatori.add(new Giocatore(gName + " - " + Lingua.getStringhe(17) + " " + nome,this, partita));
     }
     
     public void aggiungiNuovoBot(Partita partita, int difficolta) {
-        giocatores.add(new Bot("BOT - Squadra " + nome, this, partita, difficolta));
+        giocatori.add(new Bot("BOT - Squadra " + nome, this, partita, difficolta));
     }
 
-    public ArrayList<Entita> getGiocatores() {
-        return giocatores;
+    public ArrayList<Entita> getGiocatori() {
+        return giocatori;
     }
 
     public ArrayList<Carta> getCarteVinte() {

@@ -10,9 +10,9 @@ public abstract class Entita {
 
     public abstract void finalizaTurno();
     
-    private String nome;
-    private Partita partita;
-    private Squadra squadra;
+    private final String nome;
+    private final Partita partita;
+    private final Squadra squadra;
 
     public Entita(String nome, Squadra squadra, Partita partita) {
         this.nome = nome;

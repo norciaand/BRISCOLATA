@@ -3,10 +3,10 @@ package Gioco;
 import Esperienza.Lingua;
 
 public class Carta {
-    private int seme;
-    private int numero;
-    private String nome;
-    private int punti;
+    private final int seme;
+    private final int numero;
+    private final String nome;
+    private final int punti;
 
     public int getSeme() {
         return seme;
@@ -33,7 +33,6 @@ public class Carta {
         } else {
             nome = Mazzo.rankOriginali[numero] + " di " + Mazzo.semiOriginali[seme];
         }
-        
         
         switch (numero)
         {

@@ -4,18 +4,24 @@ import java.util.Random;
 
 
 public class Bot extends Entita{
-    private Mazzo memoria;
-    private ArrayList<Carta> mano = new ArrayList<>();
-    Random rd = new Random();
-    Carta lastEnemy = null;     //quando il nemico gioca per secondo questa carta va settata con la carta giocata da lui;
-    Carta lastFirstBot = null;
-    private int strategia = 0;
-    private int distanza = 0;
-    private int difficult = 0;
+    private final Mazzo memoria;
+    private final ArrayList<Carta> mano;
+    Random rd;
+    Carta lastEnemy;     //quando il nemico gioca per secondo questa carta va settata con la carta giocata da lui;
+    Carta lastFirstBot;
+    private int strategia;
+    private int distanza;
+    private final int difficult;
 
     public Bot(String nome,Squadra squadra, Partita p,int difficult) {
         super(nome, squadra, p);
         this.difficult = difficult;
+        strategia = 0;
+        distanza = 0;
+        lastEnemy = null;
+        lastFirstBot = null;
+        mano = new ArrayList<>();
+        rd = new Random();
         memoria = new Mazzo();
     }
 
@@ -23,10 +29,6 @@ public class Bot extends Entita{
     public void prendiCarta(Carta x) {
         mano.add(x);
         memoria.getDeck().remove(x);
-    }
-
-    public ArrayList<Carta> getMano() {
-        return mano;
     }
 
 
@@ -78,7 +80,7 @@ public class Bot extends Entita{
             //se si e primi di mano
             if (getPartita().getAllBanco().isEmpty()) {
                 //se e la primissima mano si cerca di far prendere al avversario
-                if (getPartita().getMazzo1().getSize() == 34) {
+                if (getPartita().getMazzo().getSize() == 34) {
                     for (CartaBot cb : bMano) {
                         if (cb.getPunti() >= 1 && cb.getPunti() <= 4 && !cb.isBriscola())      //punticini non di briscola
                             cb.setGiocabilita(100 - cb.getPunti());
@@ -93,9 +95,9 @@ public class Bot extends Entita{
                     }
                 }
                 //procedura se ottenere o meno lultima carta
-                else if (getPartita().getMazzo1().getDeck().size() == 2) {
+                else if (getPartita().getMazzo().getDeck().size() == 2) {
                     for (CartaBot cb : bMano) {
-                        if (getPartita().getMazzo1().getDeck().getFirst().getPunti() >= cb.getPunti() || !cb.isBriscola() && cb.getPunti() < 10)
+                        if (getPartita().getMazzo().getDeck().getFirst().getPunti() >= cb.getPunti() || !cb.isBriscola() && cb.getPunti() < 10)
                             if (!cb.isBriscola() && cb.getPunti() < 10)
                                 cb.setGiocabilita(100 + cb.getPunti());
                             else
@@ -103,16 +105,16 @@ public class Bot extends Entita{
                         else
                             cb.setGiocabilita(-40 - cb.getPunti() * 2 - cb.getNumero() / 2);
                     }
-                } else if (getPartita().getMazzo1().getDeck().isEmpty()) {
+                } else if (getPartita().getMazzo().getDeck().isEmpty()) {
                     if (bMano.size() == 3) {
-                        //da fare
+                        //TODO da fare
                     } else if (bMano.size() == 2) {
-                        //da fare
+                        //TODO da fare
                     }
                 }
                 //situazione emergenza laversario non deve mai prendere punti
                 //aggiungi else prima del if qunado le 2 sopra saranno concluse
-                if (getPartita().getSquadres().getFirst().calcoloPunti() >= 49) {
+                if (getPartita().getSquadre().getFirst().calcoloPunti() >= 49) {
                     for (CartaBot cb : bMano) {
                         if (cb.isBriscola()) {
                             //liscio briscola top
@@ -173,7 +175,6 @@ public class Bot extends Entita{
                             }
                         }
                     } else {
-                        conStrate = true;
                         strategia = 0;
                         distanza = 0;
                     }
@@ -207,20 +208,20 @@ public class Bot extends Entita{
                         cb.setWin(true);
                 }
                 //fine paritta
-                if (getPartita().getMazzo1().getDeck().size() == 2) {
-                    //la voglio devo perdere
+                if (getPartita().getMazzo().getDeck().size() == 2) {
+                    //TODO la voglio devo perdere
 
-                    //non la voglio devo vincere
-                } else if (getPartita().getMazzo1().getDeck().isEmpty()) {
+                    //TODO non la voglio devo vincere
+                } else if (getPartita().getMazzo().getDeck().isEmpty()) {
                     if (bMano.size() == 3) {
-                        //da fare
+                        //TODO da fare
                     } else if (bMano.size() == 2) {
-                        //da fare
+                        //TODO da fare
                     }
                 }
                 //situazione emergenza laversario non deve mai prendere punti
                 //aggiungi else prima del if qunado le 2 sopra saranno concluse
-                if (getPartita().getSquadres().getFirst().calcoloPunti() >= 49) {
+                if (getPartita().getSquadre().getFirst().calcoloPunti() >= 49) {
                     if (getPartita().getBanco(0).getPunti() == 0) {
                         for (CartaBot cb : bMano) {
                             if (cb.isWin()) {

@@ -1,5 +1,6 @@
 package Gioco;
 
+import Esperienza.Carattere;
 import Esperienza.Lingua;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     private final KeyHandler keyHandler;
 
     //INTERAZIONI
-    private boolean chatMode;
+    private int frameCursor;
     private int selettore;
     private boolean isPressingEnter;
     
@@ -41,11 +42,11 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     private String risultatoPartita;
     
     
-    public PannelloDiGioco(Partita partita,Squadra squadra, Giocatore giocatore) {
+    public PannelloDiGioco(Partita partita, Giocatore giocatore) {
         this.partita = partita;
         this.giocatore = giocatore;
         
-        chatMode = false;
+        frameCursor = 0;
         selettore = 1;
         
         setBackground(new Color(53,101,77));
@@ -55,6 +56,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         //LISTENER
         keyHandler = new KeyHandler();
         addKeyListener(keyHandler);
+        keyHandler.setChatMode(false);
         addMouseListener(this);
         
         immaginiMano = new BufferedImage[3];
@@ -139,9 +141,8 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
 
     public void update() {
         //lettura input - chat
-        if (!chatMode) {
+        if (!keyHandler.isChatMode()) {
             if (keyHandler.isPressedT()){
-                chatMode = true;
                 keyHandler.setChatMode(true);
 
                 try {
@@ -166,20 +167,26 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
                 isPressingEnter = keyHandler.isPressedEnter();
             }
             
-        } else if (chatMode) {
+        } else {
+            if (frameCursor > 60)
+            {
+                frameCursor = 0;
+            } else {
+                frameCursor++;
+            }
+            
             if (keyHandler.isPressedEnter()){
-                if (!keyHandler.getMessaggio().equals("")){
+                if (!keyHandler.getMessaggio().isEmpty()){
                     partita.getChat().scrivi(giocatore, keyHandler.getMessaggio());
-                    chatMode = false;
                     keyHandler.resetMessaggio();
                     keyHandler.setChatMode(false);
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
                 }
                 keyHandler.setChatMode(false);
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         
@@ -244,7 +251,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             //DISEGNO CARTE SUL BANCONE
             for (int i = 0; i < partita.getAllBanco().size(); i++) {
                 if (immaginiBanco[i] != null)
-                    graphics2D.drawImage(immaginiBanco[i], 400 + (i * 40), 350, 100, 160, null);
+                    graphics2D.drawImage(immaginiBanco[i], 380 + (i * 40), 350, 100, 160, null);
             }
 
             //DISEGNO CARTE ANONIME SOPRA
@@ -262,30 +269,32 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             if (selettore < giocatore.getMano().size())
                 graphics2D.drawString(giocatore.getMano().get(selettore).getNome(), 20, 840);
             graphics2D.drawString(Lingua.getStringhe(15) + " " + giocatore.getSquadra().calcoloPunti(), 770, 840);
-            graphics2D.drawString(Lingua.getStringhe(16) + " " + partita.getMazzo1().getSize(), 760, 40);
+            graphics2D.drawString(Lingua.getStringhe(16) + " " + partita.getMazzo().getSize(), 760, 40);
             
-            //DISEGNO CHAT;
-            int nLines = partita.getChat().getContenuto().size();
-
-            graphics2D.setFont(new Font("Utendo", Font.PLAIN, 14));
-
-            Font bold = new Font("Utendo", Font.BOLD, 14);
-            Font plain = new Font("Utendo", Font.PLAIN, 14);
-
-            for (int i = 0; i < nLines; i++) {
+            //DISEGNA CHAT
+            partita.getChat().draw(graphics2D);
+            
+            if (keyHandler.isChatMode()) {
                 
-                graphics2D.setColor(partita.getChat().getContenuto().get(i).getGiocatore().getSquadra().getColore());
-                graphics2D.setFont(bold);
-                graphics2D.drawString(partita.getChat().getContenuto().get(i).getGiocatore().getNome().split(" - ")[0], 670,200 + 20*i);
-                graphics2D.setColor(Color.WHITE);
-                graphics2D.setFont(plain);
-                graphics2D.drawString(partita.getChat().getContenuto().get(i).getTesto(),840 - getFontMetrics(plain).stringWidth(partita.getChat().getContenuto().get(i).getTesto()) ,200 + 20*i);
+                graphics2D.setColor(new Color(255, 255, 255, 50));
+                
+                int x1 = 660, x2 = 870;
+                graphics2D.fillRoundRect(x1, partita.getChat().posizioneFinale(), x2-x1, 30,10,10);
 
+                graphics2D.setFont(Carattere.getPlain20());
+                graphics2D.setColor(Color.WHITE);
+                
+                FontMetrics fontMetrics = graphics2D.getFontMetrics(Carattere.getPlain20());
+                
+                int x0 = x1 + (x2 - x1 - fontMetrics.stringWidth(keyHandler.getMessaggio()))/2;
+                
+                graphics2D.drawString(keyHandler.getMessaggio(),x0,partita.getChat().posizioneFinale() + 20);
+                
+                if (frameCursor > 30 && keyHandler.getMessaggio().length() < 14){
+                    graphics2D.drawLine(x0 + fontMetrics.stringWidth(keyHandler.getMessaggio()),partita.getChat().posizioneFinale() + 20, x0 + fontMetrics.stringWidth(keyHandler.getMessaggio()), partita.getChat().posizioneFinale() + 10);
+                }
+                                
             }
-            
-            
-            graphics2D.drawString(keyHandler.getMessaggio(),640,500);
-            
         }
         
         graphics2D.dispose();
@@ -312,24 +321,33 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         int x = e.getPoint().x;
         int y = e.getPoint().y;
         
-        if (e.getButton() == MouseEvent.BUTTON1){
-            if (y > 660 && y < 820 && giocatore.getPLAYER_STATE()){
-                if (x > 270 && x < 370){
+        if (e.getButton() == MouseEvent.BUTTON1 && y > 660 && y < 820 && giocatore.getPLAYER_STATE()){
+            
+            if (x > 270 && x < 370){
+                if (selettore != 0) {
                     selettore = 0;
-                } else if (x > 400 && x < 500){
-                    selettore = 1;
-                } else if (x > 530 && x < 630) {
-                    selettore = 2;
+                } else {
+                    isPressingEnter  = true;
                 }
-
-                if (selettore >= giocatore.getMano().size()) {
-                    selettore = giocatore.getMano().size()-1;
+            } else if (x > 400 && x < 500){
+                if (selettore != 1) {
+                    selettore = 1;
+                } else {
+                    isPressingEnter  = true;
+                }
+            } else if (x > 530 && x < 630) {
+                if (selettore != 2) {
+                    selettore = 2;
+                } else {
+                    isPressingEnter  = true;
                 }
             }
+
+            if (selettore >= giocatore.getMano().size()) {
+                selettore = giocatore.getMano().size()-1;
+            }
         }
-        else {
-            isPressingEnter = true;
-        }
+
     }
 
     @Override

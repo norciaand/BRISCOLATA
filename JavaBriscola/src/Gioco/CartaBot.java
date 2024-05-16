@@ -3,15 +3,20 @@ package Gioco;
 public class CartaBot extends Carta{
 
     //COSTRUTTORE
-    private boolean briscola = false;
-    private boolean liscio = false;
-    private boolean win = false;
-    private int giocabilita = 0;
+    private boolean briscola;
+    private boolean liscio;
+    private boolean win;
+    private int giocabilita;
 
     private int nCarPred = 0;
 
     public CartaBot(int seme, int numero) {
         super(seme, numero);
+        briscola = false;
+        liscio = false;
+        win = false;
+        giocabilita = 0;
+        
     }
 
     public boolean isBriscola() {

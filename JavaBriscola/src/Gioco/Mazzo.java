@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Mazzo {
-    private ArrayList<Carta> deck = new ArrayList<>();
+    private final ArrayList<Carta> deck = new ArrayList<>();
 
     public ArrayList<Carta> getDeck() {
         return deck;
@@ -47,15 +47,6 @@ public class Mazzo {
     }
     public int getSize(){
         return deck.size();
-    }
-
-    public int nSeme(int seme){
-        int count = 0;
-        for(Carta c : this.deck){
-            if(c.getSeme() == seme)
-                count++;
-        }
-        return count;
     }
 
 }
