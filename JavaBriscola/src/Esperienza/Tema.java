@@ -14,8 +14,12 @@ public class Tema {
     private static String tipoCarta;
     
     private static Color sfondoChat;
+    private static int tema;
+    private static int regione;
     
     public static void setupTema(int tema, int regione){
+        Tema.tema = tema;
+        Tema.regione = regione;
         if (tema == 0) {
             FlatMacLightLaf.setup();
             sfondoChat = new Color(255, 255, 255, 50);
@@ -56,5 +60,21 @@ public class Tema {
 
     public static String getTipoCarta() {
         return tipoCarta;
+    }
+
+    public static int getTema() {
+        return tema;
+    }
+
+    public static int getRegione() {
+        return regione;
+    }
+
+    public static void setTema(int tema) {
+        Tema.tema = tema;
+    }
+
+    public static void setRegione(int regione) {
+        Tema.regione = regione;
     }
 }

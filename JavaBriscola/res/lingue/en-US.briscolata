@@ -7,11 +7,11 @@ Options
 1 vs 1 vs 1
 Bastard
 Main Menu
-Difficulty
+Difficulty:
 Easy
 Medium
 Hard
-Players
+Players:
 SAVE
 SCORE: 
 CARDS:
@@ -19,3 +19,12 @@ Team
 Red
 Blue
 Yellow
+Language:
+Theme:
+Import Configuration
+Export Configuration
+Game
+UI
+Configuration
+Light
+Dark

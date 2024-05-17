@@ -200,7 +200,7 @@ public class TitleMenu extends MyMenu {
     }
 
     private void opButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        new Options(this);
+        new Settings(this);
     }
 
     private void p2ButtonActionPerformed(java.awt.event.ActionEvent evt) {

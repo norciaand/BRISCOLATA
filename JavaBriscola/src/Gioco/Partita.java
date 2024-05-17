@@ -174,6 +174,8 @@ public abstract class Partita implements Runnable {
                 if (x >= tuttiGiocatori.size()){
                     x -= tuttiGiocatori.size();
                 }
+                
+                //TEMPO DI SLEEP PRIMA DI ASSEGNARE IL TURNO
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException e) {
@@ -184,7 +186,7 @@ public abstract class Partita implements Runnable {
                 
                 if (tuttiGiocatori.get(x) instanceof Bot){
                     try {
-                        Thread.sleep(300); //aumentiamo il delay del bot
+                        Thread.sleep(300); //tempo pensiero del bot
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -216,7 +218,7 @@ public abstract class Partita implements Runnable {
             giocatoreChePrende = tuttiGiocatori.get(sfasamento);
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(800); //TEMPO DI ATTESA VISUALIZZAZIONE CARTE
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -239,9 +241,7 @@ public abstract class Partita implements Runnable {
         //FASE 3, la conta
         MATCH_STATE = 3;
         
-       
         // operazioni eseguite nei vari thread
-         
         
         boolean finito = false;
         while (!finito){
@@ -254,8 +254,6 @@ public abstract class Partita implements Runnable {
                 }
             }
         }
-        
-    
         
         MainClass.main(null);
     }

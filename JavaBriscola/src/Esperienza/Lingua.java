@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Lingua {
 
-    private static final String[] stringhe = new String[21];
+    private static final String[] stringhe = new String[31];
     
     private static int lang;
 
@@ -37,5 +37,9 @@ public class Lingua {
 
     public static int getLang() {
         return lang;
+    }
+
+    public static void setLang(int lang) {
+        Lingua.lang = lang;
     }
 }

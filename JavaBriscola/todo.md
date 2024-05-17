@@ -1,12 +1,13 @@
 # TO DO -  BRISCOLATA
 - carte di diverso tipo
-- menu opzioni
+- briscola a 3
+- finire il bot
+- schermata crediti
+- quando il bot gioca una carta si deve vedere scomparire
+- ~~chat~~
+- ~~menu opzioni~~
   - ~~difficolta~~
   - ~~nomi giocatori~~
-  - lingua
-  - tema
-  - salvataggio su file
-- briscola a 3
-- ~~chat~~
-- finire il bot
-- quando il bot gioca una carta si deve vedere scomparire
+  - ~~lingua~~
+  - ~~tema e tipologia carte~~
+  - ~~salvataggio su file~~

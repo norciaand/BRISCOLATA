@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.util.Objects;
 
 import static javax.imageio.ImageIO.read;
@@ -34,7 +33,6 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     private BufferedImage immagineBriscola, immagineMazzo, immagineAnonima;
     private final BufferedImage[] immaginiMano;
     private final BufferedImage[] immaginiBanco;
-    private BufferedImage[] immaginiCarteVinte;
     private BufferedImage immagineCartaVinta;
     
     //VARIABILI FASE 3
@@ -77,8 +75,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
     }
 
     @Override
-    public void run() {     
-        
+    public void run() {
         try {
             immagineAnonima = read(Objects.requireNonNull(getClass().getClassLoader().getResource("anonima.png")));
             immagineMazzo = read(Objects.requireNonNull(getClass().getClassLoader().getResource("mazzo.png")));
@@ -87,8 +84,7 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             throw new RuntimeException(e);
         }
         
-        
-        //FASE 1 (gioco), 2 (endgame), loop di update, repaint
+        //FASE 1 (gioco), 2 (endgame), loop di update e repaint
         
         while (partita.getMATCH_STATE() >= 1 && partita.getMATCH_STATE() <= 2){
             update();
@@ -96,8 +92,8 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         }
         
         //MATCH STATE = 3
-        
-        immaginiCarteVinte = new BufferedImage[giocatore.getSquadra().getCarteVinte().size()];
+
+        BufferedImage[] immaginiCarteVinte = new BufferedImage[giocatore.getSquadra().getCarteVinte().size()];
         for (int i = 0; i < giocatore.getSquadra().getCarteVinte().size(); i++) {
             try {
                 immaginiCarteVinte[i] = read(Objects.requireNonNull(getClass().getResourceAsStream(Tema.getTipoCarta() + giocatore.getSquadra().getCarteVinte().get(i).toString() + ".png")));
@@ -114,15 +110,14 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
             puntiContatore += puntiCartaVinta;
             repaint();
             try {
-                Thread.sleep(Long.parseLong("700"));
-            } catch (InterruptedException e) {
+                Thread.sleep(700);
+            } catch (InterruptedException ignored) {
             }
         }
 
         try {
-            Thread.sleep(Long.parseLong("1000"));
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
         }
         
         contaFinita = true;

@@ -6,7 +6,11 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
     
     private boolean pressed1, pressed2, pressed3, pressedEnter, pressedT;
-    private String messaggio = "";
+    private String messaggio;
+
+    public KeyHandler() {
+        messaggio = "";
+    }
 
     public boolean isChatMode() {
         return chatMode;
