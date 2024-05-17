@@ -10,7 +10,6 @@ import java.awt.*;
 public class TitleMenu extends JFrame {
 
     public TitleMenu() {
-        setTitle("BRISCOLATA");
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
