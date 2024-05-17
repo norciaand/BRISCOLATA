@@ -4,12 +4,19 @@ import Esperienza.Lingua;
 import Gioco.PartitaMP;
 import Gioco.PartitaSP;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class TitleMenu extends MyMenu {
+public class TitleMenu extends JFrame {
 
     public TitleMenu() {
-        super("BRISCOLATA");
+        setTitle("BRISCOLATA");
+        initComponents();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+        
         mpPanel.setVisible(false);
     }
     
