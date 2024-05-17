@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class Settings extends javax.swing.JFrame {
     
-    private JFrame parent;
+    private final JFrame parent;
     
     public Settings(JFrame parent) {
         initComponents();
@@ -395,7 +395,7 @@ public class Settings extends javax.swing.JFrame {
 
         BufferedWriter bufferedWriter;
         try {
-            bufferedWriter  = new BufferedWriter(new FileWriter(new File("settings.briscolata")));
+            bufferedWriter  = new BufferedWriter(new FileWriter("settings.briscolata"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
