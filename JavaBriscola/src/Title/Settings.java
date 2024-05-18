@@ -419,10 +419,13 @@ public class Settings extends javax.swing.JFrame {
     }
 
     private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        
+        
+        MainClass.main(null);
     }
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
+        
     }
 
     private javax.swing.JRadioButton ItRadio;

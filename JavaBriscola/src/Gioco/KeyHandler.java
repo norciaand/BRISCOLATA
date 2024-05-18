@@ -54,7 +54,10 @@ public class KeyHandler implements KeyListener {
     public void keyTyped(KeyEvent e) {
         if (chatMode){
             char x = e.getKeyChar();
-            if (x == 8){
+            if (x == 27) {
+                setChatMode(false);
+            }
+            else if (x == 8){
                 if(!messaggio.isEmpty()){
                     messaggio = messaggio.substring(0,messaggio.length()-1);
                 }
