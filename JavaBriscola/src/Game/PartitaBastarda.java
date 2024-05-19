@@ -1,5 +1,6 @@
 package Game;
 
+import Experience.Lingua;
 import Experience.Tema;
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class PartitaBastarda extends PartitaMP {
             bastardo.setSquadra(squadraBastarda);
             squadraBastarda.setCarteVinte(carteBastardo);
             
-            bastardo.refreshFrameTitle("Briscolata - " + bastardo.getNome().split(" - ")[0] + " - Team Bastardo");
+            bastardo.refreshFrameTitle("Briscolata - " + bastardo.getNome().split(" - ")[0] + " - " + Lingua.getStringhe(32));
 
             ArrayList<Carta> carteAlleati = new ArrayList<>();
             
@@ -48,7 +49,7 @@ public class PartitaBastarda extends PartitaMP {
             
             for (Giocatore g: giocatori) {
                 g.setSquadra(squaraAlleati);
-                g.refreshFrameTitle("Briscolata - " + g.getNome().split(" - ")[0] + " - Team Alleati");
+                g.refreshFrameTitle("Briscolata - " + g.getNome().split(" - ")[0] + " - " + Lingua.getStringhe(31));
             }
             
             squaraAlleati.getGiocatori().add(giocatori[0]);
