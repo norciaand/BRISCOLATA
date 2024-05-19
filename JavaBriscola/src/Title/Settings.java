@@ -367,8 +367,6 @@ public class Settings extends JFrame {
         }
     }
     
-    
-
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
         Partita.setDifficolta(slider.getValue());
         
