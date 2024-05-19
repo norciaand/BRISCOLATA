@@ -6,12 +6,11 @@ import Gioco.Partita;
 import MainPackage.MainClass;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-public class Settings extends javax.swing.JFrame {
+public class Settings extends JFrame {
     
     private final JFrame parent;
     
@@ -24,6 +23,7 @@ public class Settings extends javax.swing.JFrame {
         p3Field.setText(Partita.getNomiGiocatori()[2]);
         p4Field.setText(Partita.getNomiGiocatori()[3]);
         slider.setValue(Partita.getDifficolta());
+        
         
         switch (Tema.getRegione()){
             case 0:
@@ -419,6 +419,7 @@ public class Settings extends javax.swing.JFrame {
     }
 
     private void importButtonActionPerformed(java.awt.event.ActionEvent evt)  {
+        
         JFileChooser fc = new JFileChooser();
         int flag = fc.showOpenDialog(this);
         if(flag == JFileChooser.APPROVE_OPTION) {

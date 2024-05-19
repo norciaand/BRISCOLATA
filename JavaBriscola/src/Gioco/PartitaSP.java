@@ -18,4 +18,9 @@ public class PartitaSP extends Partita{
         player.determinaAvversario();
         player.mostraFrame(-1,0);
     }
+
+    @Override
+    public void controlloBastarda(Carta carta, Giocatore giocatore) {
+        
+    }
 }

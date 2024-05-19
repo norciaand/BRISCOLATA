@@ -62,9 +62,6 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         immaginiMano = new BufferedImage[3];
         immaginiBanco = new BufferedImage[4];
         
-        
-        
-        
         startGameThread();
     }
 
@@ -128,6 +125,30 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
         } else {
             risultatoPartita = "SCONFITTA";
         }
+        
+        if (getPartita().getNumGiocatori() == 3) {
+            if (puntiContatore < 40){
+                risultatoPartita = "SCONFITTA";
+            } else if (puntiContatore > 60){
+                risultatoPartita = "VITTORIA!";
+            } else {
+                Giocatore vincente = null;
+                for (Squadra squadra: partita.getSquadre()) {
+                    int max = 0;
+                    
+                    if (squadra.calcoloPunti() > max){
+                        max = squadra.calcoloPunti();
+                        vincente = (Giocatore) squadra.getGiocatori().getFirst();
+                    }
+                }
+                if (giocatore == vincente){
+                    risultatoPartita = "VITTORIA!";
+                } else {
+                    risultatoPartita = "SCONFITTA";
+                }
+            }
+        }
+        
         repaint();
         try {
             Thread.sleep(2000);

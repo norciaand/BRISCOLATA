@@ -14,7 +14,7 @@ public abstract class Entita {
     
     private final String nome;
     private final Partita partita;
-    private final Squadra squadra;
+    private Squadra squadra;
 
     public Entita(String nome, Squadra squadra, Partita partita) {
         this.nome = nome;
@@ -35,4 +35,8 @@ public abstract class Entita {
     }
     
     public abstract ArrayList<Carta> getMano();
+
+    public void setSquadra(Squadra squadra) {
+        this.squadra = squadra;
+    }
 }

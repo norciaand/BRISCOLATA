@@ -99,4 +99,8 @@ public class Giocatore extends Entita {
     public Entita getAvversarioFrontale() {
         return avversarioFrontale;
     }
+    
+    public void refreshFrameTitle(String s){
+        gameFrame.setTitle(s);
+    }
 }

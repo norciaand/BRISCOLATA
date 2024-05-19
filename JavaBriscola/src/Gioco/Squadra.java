@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class Squadra {
     
-    private final ArrayList<Entita> giocatori;
-    private final ArrayList<Carta> carteVinte;
+    private ArrayList<Entita> giocatori;
+    private ArrayList<Carta> carteVinte;
     private final String nome;
     private final Color colore;
 
@@ -52,4 +52,7 @@ public class Squadra {
         return colore;
     }
     
+    public void setCarteVinte (ArrayList<Carta> carteVinte) {
+        this.carteVinte = carteVinte;
+    }
 }

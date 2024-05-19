@@ -1,6 +1,7 @@
 package Title;
 
 import Esperienza.Lingua;
+import Gioco.PartitaBastarda;
 import Gioco.PartitaMP;
 import Gioco.PartitaSP;
 
@@ -225,7 +226,7 @@ public class TitleMenu extends JFrame {
     }
 
     private void p3bButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        new PartitaMP(3);
+        new PartitaBastarda();
         dispose();
     }
 

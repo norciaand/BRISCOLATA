@@ -34,14 +34,16 @@ public abstract class Partita implements Runnable {
         squadre = new ArrayList<>();
         banco = new ArrayList<>();
         mazzo = new Mazzo();
+        
         mazzo.mischia();
         semeBriscola = mazzo.getDeck().getFirst().getSeme();
+        
         chat = new Chat();
         
         //FASE 0, setup
         MATCH_STATE = 0;
         
-        //COSTANTI COLORI di esempio
+        //COSTANTI COLORI
         String[] coloriSquadre = new String[]{Lingua.getStringhe(18), Lingua.getStringhe(19), Lingua.getStringhe(20)};
         
         switch (tipoPartita) {
@@ -197,6 +199,10 @@ public abstract class Partita implements Runnable {
                     carta = tuttiGiocatori.get(x).giocaCarta();
                 }
                 
+                if (tuttiGiocatori.get(x) instanceof Giocatore && numGiocatori == 3){
+                    controlloBastarda(carta,(Giocatore) tuttiGiocatori.get(x));
+                }
+                
                 banco.add(carta);
                 
                 //aggiornamento memoria bot
@@ -325,4 +331,6 @@ public abstract class Partita implements Runnable {
     public ArrayList<Entita> getTuttiGiocatori() {
         return tuttiGiocatori;
     }
+    
+    public abstract void controlloBastarda (Carta carta, Giocatore giocatore);
 }

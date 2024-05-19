@@ -6,6 +6,9 @@ public class PartitaMP extends Partita{
         super(tipoPartita);
     }
 
+    @Override
+    public void controlloBastarda(Carta carta, Giocatore giocatore){
+    }
 
     //SETUP PARTITA MP
     @Override
@@ -23,7 +26,19 @@ public class PartitaMP extends Partita{
             getSquadre().get(0).aggiungiNuovoGiocatore(nomiGiocatori[0],this,0);
             getSquadre().get(1).aggiungiNuovoGiocatore(nomiGiocatori[1],this,1);
             getSquadre().get(2).aggiungiNuovoGiocatore(nomiGiocatori[2],this,2);
+            
+            //BRISCOLA A 3?, no problem
+            
+            for (Carta carta : getMazzo().getDeck()){
+                if (carta.getNumero() == 1 && carta.getSeme() != getSemeBriscola()) {
+                    getMazzo().getDeck().remove(carta);
+                    break;
+                }
+            }
+            
+            
         }
+        
         
         //DISTRIBUZIONE PRIME 3 CARTE
         distribuisci();
