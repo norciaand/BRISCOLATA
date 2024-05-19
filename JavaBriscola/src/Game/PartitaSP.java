@@ -1,4 +1,4 @@
-package Gioco;
+package Game;
 
 public class PartitaSP extends Partita{
     public PartitaSP() {

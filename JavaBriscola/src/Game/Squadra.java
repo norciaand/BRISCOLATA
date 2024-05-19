@@ -1,6 +1,6 @@
-package Gioco;
+package Game;
 
-import Esperienza.Lingua;
+import Experience.Lingua;
 
 import java.awt.*;
 import java.util.ArrayList;

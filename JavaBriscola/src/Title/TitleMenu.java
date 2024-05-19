@@ -1,9 +1,9 @@
 package Title;
 
-import Esperienza.Lingua;
-import Gioco.PartitaBastarda;
-import Gioco.PartitaMP;
-import Gioco.PartitaSP;
+import Experience.Lingua;
+import Game.PartitaBastarda;
+import Game.PartitaMP;
+import Game.PartitaSP;
 
 import javax.swing.*;
 import java.awt.*;

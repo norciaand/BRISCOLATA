@@ -1,7 +1,7 @@
-package Gioco;
+package Game;
 
-import Esperienza.Carattere;
-import Esperienza.Tema;
+import Experience.Carattere;
+import Experience.Tema;
 
 import java.awt.*;
 import java.util.ArrayList;

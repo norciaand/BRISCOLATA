@@ -1,8 +1,8 @@
-package Gioco;
+package Game;
 
-import Esperienza.Carattere;
-import Esperienza.Lingua;
-import Esperienza.Tema;
+import Experience.Carattere;
+import Experience.Lingua;
+import Experience.Tema;
 
 import javax.swing.*;
 import java.awt.*;

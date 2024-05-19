@@ -1,8 +1,8 @@
 package Title;
 
-import Esperienza.Lingua;
-import Esperienza.Tema;
-import Gioco.Partita;
+import Experience.Lingua;
+import Experience.Tema;
+import Game.Partita;
 import MainPackage.MainClass;
 
 import javax.swing.*;

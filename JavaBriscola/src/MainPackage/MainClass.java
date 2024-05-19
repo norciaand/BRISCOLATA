@@ -1,8 +1,8 @@
 package MainPackage;
 
-import Esperienza.Lingua;
-import Esperienza.Tema;
-import Gioco.Partita;
+import Experience.Lingua;
+import Experience.Tema;
+import Game.Partita;
 import Title.*;
 
 

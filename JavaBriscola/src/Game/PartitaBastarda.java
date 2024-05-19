@@ -1,6 +1,6 @@
-package Gioco;
+package Game;
 
-import Esperienza.Tema;
+import Experience.Tema;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -9,14 +9,13 @@ public class PartitaBastarda extends PartitaMP {
 
     private Giocatore bastardo;
     private Squadra squadraBastarda;
-    private Squadra squadraAlleati;
+    private Squadra squaraAlleati;
     
     public PartitaBastarda() {
         super(3);
         bastardo = null;
         squadraBastarda = null;
-        squadraAlleati = null;
-        JOptionPane.showMessageDialog(null, "Partita bastarda!", "a", JOptionPane.ERROR_MESSAGE);
+        squaraAlleati = null;
     }
     
     @Override
@@ -27,7 +26,7 @@ public class PartitaBastarda extends PartitaMP {
             System.out.println("BECCATO IL BASTARDO");
             bastardo = giocatore;
             squadraBastarda = new Squadra("Bastardo", Tema.getRosso());
-            squadraAlleati = new Squadra("Alleati", Tema.getBlu());
+            squaraAlleati = new Squadra("Alleati", Tema.getBlu());
 
             ArrayList<Carta> carteBastardo = new ArrayList<>(bastardo.getSquadra().getCarteVinte());
             squadraBastarda.getGiocatori().add(bastardo);
@@ -50,18 +49,18 @@ public class PartitaBastarda extends PartitaMP {
             carteAlleati.addAll(giocatori[1].getSquadra().getCarteVinte());
             
             for (Giocatore g: giocatori) {
-                g.setSquadra(squadraAlleati);
+                g.setSquadra(squaraAlleati);
                 g.refreshFrameTitle("Briscolata - " + g.getNome().split(" - ")[0] + " - Team Alleati");
             }
             
             
-            squadraAlleati.getGiocatori().add(giocatori[0]);
-            squadraAlleati.getGiocatori().add(giocatori[1]);
-            squadraAlleati.setCarteVinte(carteAlleati);
+            squaraAlleati.getGiocatori().add(giocatori[0]);
+            squaraAlleati.getGiocatori().add(giocatori[1]);
+            squaraAlleati.setCarteVinte(carteAlleati);
             
             getSquadre().clear();
             getSquadre().add(squadraBastarda);
-            getSquadre().add(squadraAlleati);
+            getSquadre().add(squaraAlleati);
             
         }
         

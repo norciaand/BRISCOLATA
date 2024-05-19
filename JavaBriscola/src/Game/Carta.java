@@ -1,6 +1,6 @@
-package Gioco;
+package Game;
 
-import Esperienza.Lingua;
+import Experience.Lingua;
 
 public class Carta {
     private final int seme;

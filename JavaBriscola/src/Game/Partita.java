@@ -1,11 +1,9 @@
-package Gioco;
+package Game;
 
-import Esperienza.Lingua;
-import Esperienza.Tema;
+import Experience.Lingua;
+import Experience.Tema;
 import MainPackage.MainClass;
-import com.sun.tools.javac.Main;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Partita implements Runnable {

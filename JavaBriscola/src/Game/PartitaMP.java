@@ -1,4 +1,4 @@
-package Gioco;
+package Game;
 
 public class PartitaMP extends Partita{
     
