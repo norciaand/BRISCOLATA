@@ -1,6 +1,7 @@
 # TO DO -  BRISCOLATA
 - carte di diverso tipo
-- briscola a 3
+- ~~briscola a 3~~
+- ~~briscola bastarda~~
 - ~~finire il bot~~
 - schermata crediti
 - ~~quando il bot gioca una carta si deve vedere scomparire~~
