@@ -1,8 +1,6 @@
 package Game;
 
 import Experience.Tema;
-
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class PartitaBastarda extends PartitaMP {
@@ -53,7 +51,6 @@ public class PartitaBastarda extends PartitaMP {
                 g.refreshFrameTitle("Briscolata - " + g.getNome().split(" - ")[0] + " - Team Alleati");
             }
             
-            
             squaraAlleati.getGiocatori().add(giocatori[0]);
             squaraAlleati.getGiocatori().add(giocatori[1]);
             squaraAlleati.setCarteVinte(carteAlleati);
@@ -64,10 +61,5 @@ public class PartitaBastarda extends PartitaMP {
             
         }
         
-        
-    }
-    
-    
-    
-    
+    }    
 }

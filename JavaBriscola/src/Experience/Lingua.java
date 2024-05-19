@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Lingua {
 
-    private static final String[] stringhe = new String[31];
+    private static String[] stringhe;
     
     private static int lang;
 
@@ -20,15 +20,8 @@ public class Lingua {
         } else {
             allText = Lingua.class.getResourceAsStream("/lingue/it-IT.briscolata");
         }
-
         
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(allText)));
-        String linea;
-        int c = 0;
-        while ((linea = bufferedReader.readLine()) != null){
-            stringhe[c] = linea;
-            c++;
-        }
+        stringhe = new BufferedReader(new InputStreamReader(Objects.requireNonNull(allText))).lines().toArray(String[]::new);
     }
 
     public static String getStringhe(int index) {
