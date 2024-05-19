@@ -302,6 +302,10 @@ public abstract class Partita implements Runnable {
         return nomiGiocatori;
     }
 
+    public static void setNomiGiocatori(String nomeGiocatore,int n) {
+        Partita.nomiGiocatori[n] = nomeGiocatore;
+    }
+
     public Chat getChat() {
         return chat;
     }

@@ -6,10 +6,10 @@ import Gioco.Partita;
 import MainPackage.MainClass;
 
 import javax.swing.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class Settings extends javax.swing.JFrame {
     
@@ -418,14 +418,99 @@ public class Settings extends javax.swing.JFrame {
         MainClass.main(null);
     }
 
-    private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        
-        
+    private void importButtonActionPerformed(java.awt.event.ActionEvent evt)  {
+        JFileChooser fc = new JFileChooser();
+        int flag = fc.showOpenDialog(this);
+        if(flag == JFileChooser.APPROVE_OPTION) {
+
+            String nomeGiocatore = " ";
+            int nGiocatori = 0;
+
+            File f = fc.getSelectedFile();
+
+            FileReader fr = null;
+            try {
+                fr = new FileReader(f);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            BufferedReader br = new BufferedReader(fr);
+
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter("settings.briscolata");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            try {
+                Lingua.setLang(Integer.parseInt(br.readLine()));
+                Tema.setTema(Integer.parseInt(br.readLine()));
+                Partita.setDifficolta(Integer.parseInt(br.readLine()));
+                Tema.setRegione(Integer.parseInt(br.readLine()));
+                while((nomeGiocatore = br.readLine()) != null){
+                    Partita.setNomiGiocatori(nomeGiocatore,nGiocatori);
+                    nGiocatori++;
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            try {
+                bw.write(Lingua.getLang() + "\n");
+                bw.write(Tema.getTema() + "\n");
+                bw.write(Partita.getDifficolta() + "\n");
+                bw.write(Tema.getRegione() + "\n");
+                for (int i = 0; i < Partita.getNomiGiocatori().length; i++) {
+                    bw.write(Partita.getNomiGiocatori()[i]+"\n");
+                }
+                bw.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            try {
+                fr.close();
+                br.close();
+                fw.close();
+                bw.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(this  , "File selezionato non valido" , "ERRORE" , JOptionPane.ERROR_MESSAGE);
         MainClass.main(null);
     }
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        
+
+        String sourceFilePath = "settings.briscolata";
+
+        // Apri il file chooser per selezionare la directory di destinazione
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        int result = fileChooser.showSaveDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedDirectory = fileChooser.getSelectedFile();
+
+            //percorso completo per il file di destinazione
+            File sourceFile = new File(sourceFilePath);
+            File destFile = new File(selectedDirectory, sourceFile.getName());
+
+            // Copia il file
+            try {
+                Files.copy(sourceFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(this  , "Esportazione fallita" , "ERRORE" , JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private javax.swing.JRadioButton ItRadio;
