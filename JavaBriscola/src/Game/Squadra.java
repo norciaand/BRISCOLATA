@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Squadra {
     
-    private ArrayList<Entita> giocatori;
+    private final ArrayList<Entita> giocatori;
     private ArrayList<Carta> carteVinte;
     private final String nome;
     private final Color colore;
@@ -33,7 +33,13 @@ public class Squadra {
     }
     
     public void aggiungiNuovoGiocatore(String gName, Partita partita, int indiceGiocatore) {
-        giocatori.add(new Giocatore(gName + " - " + Lingua.getStringhe(17) + " " + nome,this, partita, indiceGiocatore));
+        
+        if (Lingua.getLang() == 0){
+            giocatori.add(new Giocatore(gName + " - " + nome + " " + Lingua.getStringhe(17)  ,this, partita, indiceGiocatore));
+        } else {
+            giocatori.add(new Giocatore(gName + " - " + Lingua.getStringhe(17) + " " + nome,this, partita, indiceGiocatore));
+        }
+                
     }
     
     public void aggiungiNuovoBot(Partita partita, int difficolta) {
