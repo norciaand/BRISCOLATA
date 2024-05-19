@@ -10,7 +10,7 @@ import java.io.*;
 
 public class MainClass {
     
-    public static void main(String[] args) {
+    public static void main(String... args) {
         
         BufferedReader bufferedReader;
         int lingua = 0, tema = 1, difficolta = 0, regione = 0;
@@ -28,8 +28,6 @@ public class MainClass {
                     Partita.getNomiGiocatori()[i] = bufferedReader.readLine();
                 }
 
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -50,6 +48,5 @@ public class MainClass {
 
         //MENU
         new TitleMenu();
-        
     }
 }

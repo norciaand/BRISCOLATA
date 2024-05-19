@@ -86,8 +86,8 @@ public abstract class Partita implements Runnable {
     public void formazioneGiocatori() {
         tuttiGiocatori = new ArrayList<>();
         for (int g = 0; g < squadre.getFirst().getGiocatori().size(); g++) {
-            for (int s = 0; s < squadre.size(); s++) {
-                tuttiGiocatori.add(squadre.get(s).getGiocatori().get(g));
+            for (Squadra squadra : squadre) {
+                tuttiGiocatori.add(squadra.getGiocatori().get(g));
             }
         }
     }
@@ -259,7 +259,7 @@ public abstract class Partita implements Runnable {
             }
         }
         
-        MainClass.main(null);
+        MainClass.main();
     }
     
     public Mazzo getMazzo() {

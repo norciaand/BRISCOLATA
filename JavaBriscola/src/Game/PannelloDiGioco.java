@@ -133,9 +133,8 @@ public class PannelloDiGioco extends JPanel implements Runnable, MouseListener {
                 risultatoPartita = "VITTORIA!";
             } else {
                 Giocatore vincente = null;
+                int max = 0;
                 for (Squadra squadra: partita.getSquadre()) {
-                    int max = 0;
-                    
                     if (squadra.calcoloPunti() > max){
                         max = squadra.calcoloPunti();
                         vincente = (Giocatore) squadra.getGiocatori().getFirst();

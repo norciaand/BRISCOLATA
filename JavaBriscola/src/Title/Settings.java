@@ -6,6 +6,7 @@ import Game.Partita;
 import MainPackage.MainClass;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -98,10 +99,10 @@ public class Settings extends JFrame {
         jTabbedPane2.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         jTabbedPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
         jLabel4.setText(Lingua.getStringhe(9));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
         jLabel5.setText(Lingua.getStringhe(13));
 
         slider.setMaximum(2);
@@ -200,10 +201,10 @@ public class Settings extends JFrame {
 
         jTabbedPane2.addTab(Lingua.getStringhe(25), game);
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
         jLabel13.setText(Lingua.getStringhe(21));
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
         jLabel14.setText(Lingua.getStringhe(22));
 
         langGroup.add(engRadio);
@@ -218,7 +219,7 @@ public class Settings extends JFrame {
         themeGroup.add(darkRadio);
         darkRadio.setText(Lingua.getStringhe(29));
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
         jLabel15.setText(Lingua.getStringhe(30));
 
         buttonGroup1.add(napoletane);
@@ -288,18 +289,10 @@ public class Settings extends JFrame {
         jTabbedPane2.addTab(Lingua.getStringhe(26), ui);
 
         importButton.setText(Lingua.getStringhe(23));
-        importButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importButtonActionPerformed(evt);
-            }
-        });
+        importButton.addActionListener(this::importButtonActionPerformed);
 
         exportButton.setText(Lingua.getStringhe(24));
-        exportButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportButtonActionPerformed(evt);
-            }
-        });
+        exportButton.addActionListener(this::exportButtonActionPerformed);
 
         javax.swing.GroupLayout import_settingsLayout = new javax.swing.GroupLayout(import_settings);
         import_settings.setLayout(import_settingsLayout);
@@ -324,15 +317,11 @@ public class Settings extends JFrame {
 
         jTabbedPane2.addTab(Lingua.getStringhe(27), import_settings);
 
-        jLabel1.setFont(new java.awt.Font("Utendo", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Utendo", Font.BOLD, 24)); // NOI18N
         jLabel1.setText(Lingua.getStringhe(3));
 
         saveButton.setText(Lingua.getStringhe(14));
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
-            }
-        });
+        saveButton.addActionListener(this::saveButtonActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -362,6 +351,23 @@ public class Settings extends JFrame {
 
         pack();
     }
+    
+    private void scrittoreFile (BufferedWriter bufferedWriter){
+        try {
+            bufferedWriter.write(Lingua.getLang() + "\n");
+            bufferedWriter.write(Tema.getTema() + "\n");
+            bufferedWriter.write(Partita.getDifficolta() + "\n");
+            bufferedWriter.write(Tema.getRegione() + "\n");
+            for (int i = 0; i < Partita.getNomiGiocatori().length; i++) {
+                bufferedWriter.write(Partita.getNomiGiocatori()[i]+"\n");
+            }
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
         Partita.setDifficolta(slider.getValue());
@@ -399,23 +405,12 @@ public class Settings extends JFrame {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        try {
-            bufferedWriter.write(Lingua.getLang() + "\n");
-            bufferedWriter.write(Tema.getTema() + "\n");
-            bufferedWriter.write(Partita.getDifficolta() + "\n");
-            bufferedWriter.write(Tema.getRegione() + "\n");
-            for (int i = 0; i < Partita.getNomiGiocatori().length; i++) {
-                bufferedWriter.write(Partita.getNomiGiocatori()[i]+"\n");
-            }
-            bufferedWriter.flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        
+        scrittoreFile(bufferedWriter);
         
         dispose();
         parent.dispose();
-        MainClass.main(null);
+        MainClass.main();
     }
 
     private void importButtonActionPerformed(java.awt.event.ActionEvent evt)  {
@@ -424,12 +419,12 @@ public class Settings extends JFrame {
         int flag = fc.showOpenDialog(this);
         if(flag == JFileChooser.APPROVE_OPTION) {
 
-            String nomeGiocatore = " ";
+            String nomeGiocatore;
             int nGiocatori = 0;
 
             File f = fc.getSelectedFile();
 
-            FileReader fr = null;
+            FileReader fr;
             try {
                 fr = new FileReader(f);
             } catch (FileNotFoundException e) {
@@ -437,14 +432,15 @@ public class Settings extends JFrame {
             }
             BufferedReader br = new BufferedReader(fr);
 
-            FileWriter fw = null;
+            FileWriter fw;
             try {
                 fw = new FileWriter("settings.briscolata");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             BufferedWriter bw = new BufferedWriter(fw);
-
+            
+            
             try {
                 Lingua.setLang(Integer.parseInt(br.readLine()));
                 Tema.setTema(Integer.parseInt(br.readLine()));
@@ -458,19 +454,8 @@ public class Settings extends JFrame {
                 throw new RuntimeException(e);
             }
 
-            try {
-                bw.write(Lingua.getLang() + "\n");
-                bw.write(Tema.getTema() + "\n");
-                bw.write(Partita.getDifficolta() + "\n");
-                bw.write(Tema.getRegione() + "\n");
-                for (int i = 0; i < Partita.getNomiGiocatori().length; i++) {
-                    bw.write(Partita.getNomiGiocatori()[i]+"\n");
-                }
-                bw.flush();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
+            scrittoreFile(bw);
+            
             try {
                 fr.close();
                 br.close();
@@ -482,7 +467,7 @@ public class Settings extends JFrame {
         }
         else
             JOptionPane.showMessageDialog(this  , "File selezionato non valido" , "ERRORE" , JOptionPane.ERROR_MESSAGE);
-        MainClass.main(null);
+        MainClass.main();
     }
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {
