@@ -2,21 +2,22 @@ package Gioco;
 
 import Esperienza.Tema;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class PartitaBastarda extends PartitaMP {
 
     private Giocatore bastardo;
     private Squadra squadraBastarda;
-    private Squadra squaraAlleati;
+    private Squadra squadraAlleati;
     
     public PartitaBastarda() {
         super(3);
         bastardo = null;
         squadraBastarda = null;
-        squaraAlleati = null;
+        squadraAlleati = null;
+        JOptionPane.showMessageDialog(null, "Partita bastarda!", "a", JOptionPane.ERROR_MESSAGE);
     }
-    
     
     @Override
     public void controlloBastarda(Carta carta, Giocatore giocatore) {
@@ -26,10 +27,9 @@ public class PartitaBastarda extends PartitaMP {
             System.out.println("BECCATO IL BASTARDO");
             bastardo = giocatore;
             squadraBastarda = new Squadra("Bastardo", Tema.getRosso());
-            squaraAlleati = new Squadra("Alleati", Tema.getBlu());
-            
-            ArrayList<Carta> carteBastardo = new ArrayList<>();
-            carteBastardo.addAll(bastardo.getSquadra().getCarteVinte());
+            squadraAlleati = new Squadra("Alleati", Tema.getBlu());
+
+            ArrayList<Carta> carteBastardo = new ArrayList<>(bastardo.getSquadra().getCarteVinte());
             squadraBastarda.getGiocatori().add(bastardo);
             bastardo.setSquadra(squadraBastarda);
             squadraBastarda.setCarteVinte(carteBastardo);
@@ -38,8 +38,7 @@ public class PartitaBastarda extends PartitaMP {
 
             ArrayList<Carta> carteAlleati = new ArrayList<>();
             
-            
-            Giocatore giocatori[] = new Giocatore[2];
+            Giocatore[] giocatori = new Giocatore[2];
             int i = 0;
             for (Entita g : getTuttiGiocatori()){
                 if (g != bastardo){
@@ -51,18 +50,18 @@ public class PartitaBastarda extends PartitaMP {
             carteAlleati.addAll(giocatori[1].getSquadra().getCarteVinte());
             
             for (Giocatore g: giocatori) {
-                g.setSquadra(squaraAlleati);
+                g.setSquadra(squadraAlleati);
                 g.refreshFrameTitle("Briscolata - " + g.getNome().split(" - ")[0] + " - Team Alleati");
             }
             
             
-            squaraAlleati.getGiocatori().add(giocatori[0]);
-            squaraAlleati.getGiocatori().add(giocatori[1]);
-            squaraAlleati.setCarteVinte(carteAlleati);
+            squadraAlleati.getGiocatori().add(giocatori[0]);
+            squadraAlleati.getGiocatori().add(giocatori[1]);
+            squadraAlleati.setCarteVinte(carteAlleati);
             
             getSquadre().clear();
             getSquadre().add(squadraBastarda);
-            getSquadre().add(squaraAlleati);
+            getSquadre().add(squadraAlleati);
             
         }
         
