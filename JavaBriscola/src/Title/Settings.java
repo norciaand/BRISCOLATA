@@ -34,7 +34,7 @@ public class Settings extends JFrame {
                 piacentine.setSelected(true);
                 break;
             case 2:
-                siciliane.setSelected(true);
+                bergamasche.setSelected(true);
                 break;
         }
         
@@ -85,7 +85,7 @@ public class Settings extends JFrame {
         darkRadio = new javax.swing.JRadioButton();
         jLabel15 = new javax.swing.JLabel();
         napoletane = new javax.swing.JRadioButton();
-        siciliane = new javax.swing.JRadioButton();
+        bergamasche = new javax.swing.JRadioButton();
         piacentine = new javax.swing.JRadioButton();
         import_settings = new javax.swing.JPanel();
         importButton = new javax.swing.JButton();
@@ -225,8 +225,8 @@ public class Settings extends JFrame {
         buttonGroup1.add(napoletane);
         napoletane.setText("Napoletane");
 
-        buttonGroup1.add(siciliane);
-        siciliane.setText("Siciliane");
+        buttonGroup1.add(bergamasche);
+        bergamasche.setText("Bergamasche");
 
         buttonGroup1.add(piacentine);
         piacentine.setText("Piacentine");
@@ -257,7 +257,7 @@ public class Settings extends JFrame {
                                     .addComponent(jLabel15)))
                             .addGroup(uiLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(siciliane, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(bergamasche, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         uiLayout.setVerticalGroup(
@@ -276,7 +276,7 @@ public class Settings extends JFrame {
                     .addComponent(ItRadio)
                     .addComponent(piacentine))
                 .addGap(5, 5, 5)
-                .addComponent(siciliane)
+                .addComponent(bergamasche)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -528,7 +528,7 @@ public class Settings extends JFrame {
     private javax.swing.JTextField p4Field;
     private javax.swing.JRadioButton piacentine;
     private javax.swing.JButton saveButton;
-    private javax.swing.JRadioButton siciliane;
+    private javax.swing.JRadioButton bergamasche;
     private javax.swing.JSlider slider;
     private javax.swing.ButtonGroup themeGroup;
     private javax.swing.JPanel ui;

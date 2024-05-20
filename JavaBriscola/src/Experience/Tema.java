@@ -37,7 +37,7 @@ public class Tema {
                 tipoCarta = "/piacentine/";
                 break;
             case 2:
-                tipoCarta = "/siciliane/";
+                tipoCarta = "/bergamasche/";
                 break;
         }
     }
