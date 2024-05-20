@@ -408,7 +408,7 @@ public class Settings extends JFrame {
         
         dispose();
         parent.dispose();
-        MainClass.main();
+        MainClass.main(null);
     }
 
     private void importButtonActionPerformed(java.awt.event.ActionEvent evt)  {
@@ -465,7 +465,7 @@ public class Settings extends JFrame {
         }
         else
             JOptionPane.showMessageDialog(this  , "File selezionato non valido" , "ERRORE" , JOptionPane.ERROR_MESSAGE);
-        MainClass.main();
+        MainClass.main(null);
     }
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {

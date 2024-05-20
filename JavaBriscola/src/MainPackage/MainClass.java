@@ -10,7 +10,7 @@ import java.io.*;
 
 public class MainClass {
     
-    public static void main(String... args) {
+    public static void main(String[] args) {
         
         BufferedReader bufferedReader;
         int lingua = 0, tema = 1, difficolta = 0, regione = 0;

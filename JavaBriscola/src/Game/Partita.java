@@ -259,7 +259,7 @@ public abstract class Partita implements Runnable {
             }
         }
         
-        MainClass.main();
+        MainClass.main(null);
     }
     
     public Mazzo getMazzo() {
