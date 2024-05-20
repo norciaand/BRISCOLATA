@@ -21,7 +21,6 @@ public class PartitaBastarda extends PartitaMP {
     public void controlloBastarda(Carta carta, Giocatore giocatore) {
         
         if (bastardo == null && carta.getSeme() == getSemeBriscola()) {
-
             System.out.println("BECCATO IL BASTARDO");
             bastardo = giocatore;
             squadraBastarda = new Squadra("Bastardo", Tema.getRosso());
@@ -36,30 +35,29 @@ public class PartitaBastarda extends PartitaMP {
 
             ArrayList<Carta> carteAlleati = new ArrayList<>();
             
-            Giocatore[] giocatori = new Giocatore[2];
+            Giocatore[] giocatoriAlleati = new Giocatore[2];
             int i = 0;
             for (Entita g : getTuttiGiocatori()){
                 if (g != bastardo){
-                    giocatori[i] = (Giocatore) g;
+                    giocatoriAlleati[i] = (Giocatore) g;
                     i++;
                 }
             }
-            carteAlleati.addAll(giocatori[0].getSquadra().getCarteVinte());
-            carteAlleati.addAll(giocatori[1].getSquadra().getCarteVinte());
+            carteAlleati.addAll(giocatoriAlleati[0].getSquadra().getCarteVinte());
+            carteAlleati.addAll(giocatoriAlleati[1].getSquadra().getCarteVinte());
             
-            for (Giocatore g: giocatori) {
+            for (Giocatore g: giocatoriAlleati) {
                 g.setSquadra(squaraAlleati);
                 g.refreshFrameTitle("Briscolata - " + g.getNome().split(" - ")[0] + " - " + Lingua.getStringhe(31));
             }
             
-            squaraAlleati.getGiocatori().add(giocatori[0]);
-            squaraAlleati.getGiocatori().add(giocatori[1]);
+            squaraAlleati.getGiocatori().add(giocatoriAlleati[0]);
+            squaraAlleati.getGiocatori().add(giocatoriAlleati[1]);
             squaraAlleati.setCarteVinte(carteAlleati);
             
             getSquadre().clear();
             getSquadre().add(squadraBastarda);
             getSquadre().add(squaraAlleati);
-            
         }
         
     }    
