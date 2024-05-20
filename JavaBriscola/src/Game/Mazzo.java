@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Mazzo {
-    private final ArrayList<Carta> deck = new ArrayList<>();
+    private final ArrayList<Carta> deck;
 
     public ArrayList<Carta> getDeck() {
         return deck;
@@ -21,6 +21,7 @@ public class Mazzo {
     
     
     public Mazzo() {
+        deck = new ArrayList<>();
         riempi();
     }
 

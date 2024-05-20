@@ -46,7 +46,5 @@ public class Chat {
             g2.drawString(contenuto.get(i).testo(),xEnd -  fm.stringWidth(contenuto.get(i).testo()),yStart + 20*i);
 
         }
-        
     }
-
 }
