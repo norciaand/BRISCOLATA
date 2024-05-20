@@ -204,6 +204,7 @@ public class TitleMenu extends JFrame {
     }
 
     private void crButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        new Credits(this);
     }
 
     private void opButtonActionPerformed(java.awt.event.ActionEvent evt) {
